@@ -337,7 +337,7 @@ public class SunJceCertificateProvider implements CertificateProvider {
 		GeneralNames gnames = new GeneralNames();
 		gnames.add(new GeneralName(new URIName(applicationUri)));
 
-		// Add DNS name from ApplicationUri
+		// Add DNS name from applicationUri
 		boolean hasDNSName = false;
 		String uriHostName = null;
 		try {
@@ -351,7 +351,7 @@ public class SunJceCertificateProvider implements CertificateProvider {
 			}
 		} catch (Exception e) {
 			logger.warn(
-					"Cannot initialize DNS Name to Certificate from ApplicationUri{}",
+					"Cannot initialize DNS Name to Certificate from applicationUri{}",
 					applicationUri);
 		}
 		// Add other DNS Names

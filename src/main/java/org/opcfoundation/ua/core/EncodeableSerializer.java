@@ -741,23 +741,23 @@ public class EncodeableSerializer extends SerializerComposition {
     			}
     			public void putEncodeable(IEncodeable encodeable, IEncoder encoder) throws EncodingException {
     				ApplicationDescription obj = (ApplicationDescription) encodeable;
-    				encoder.putString("ApplicationUri",  (obj==null)?null:obj.getApplicationUri() );
-    				encoder.putString("ProductUri",  (obj==null)?null:obj.getProductUri() );
-    				encoder.putLocalizedText("ApplicationName",  (obj==null)?null:obj.getApplicationName() );
-    				encoder.putEnumeration("ApplicationType",  (obj==null)?null:obj.getApplicationType() );
-    				encoder.putString("GatewayServerUri",  (obj==null)?null:obj.getGatewayServerUri() );
-    				encoder.putString("DiscoveryProfileUri",  (obj==null)?null:obj.getDiscoveryProfileUri() );
-    				encoder.putStringArray("DiscoveryUrls", (obj==null)?null:obj.getDiscoveryUrls() );
+    				encoder.putString("applicationUri",  (obj==null)?null:obj.getApplicationUri() );
+    				encoder.putString("productUri",  (obj==null)?null:obj.getProductUri() );
+    				encoder.putLocalizedText("applicationName",  (obj==null)?null:obj.getApplicationName() );
+    				encoder.putEnumeration("applicationType",  (obj==null)?null:obj.getApplicationType() );
+    				encoder.putString("gatewayServerUri",  (obj==null)?null:obj.getGatewayServerUri() );
+    				encoder.putString("discoveryProfileUri",  (obj==null)?null:obj.getDiscoveryProfileUri() );
+    				encoder.putStringArray("discoveryUrls", (obj==null)?null:obj.getDiscoveryUrls() );
     			}
     			public IEncodeable getEncodeable(IDecoder decoder) throws DecodingException {
     				ApplicationDescription result = new ApplicationDescription();
-    				result.setApplicationUri( decoder.getString("ApplicationUri") );
-    				result.setProductUri( decoder.getString("ProductUri") );
-    				result.setApplicationName( decoder.getLocalizedText("ApplicationName") );
-    				result.setApplicationType( decoder.getEnumeration("ApplicationType", ApplicationType.class) );
-    				result.setGatewayServerUri( decoder.getString("GatewayServerUri") );
-    				result.setDiscoveryProfileUri( decoder.getString("DiscoveryProfileUri") );
-    				result.setDiscoveryUrls( decoder.getStringArray("DiscoveryUrls") );
+    				result.setApplicationUri( decoder.getString("applicationUri") );
+    				result.setProductUri( decoder.getString("productUri") );
+    				result.setApplicationName( decoder.getLocalizedText("applicationName") );
+    				result.setApplicationType( decoder.getEnumeration("applicationType", ApplicationType.class) );
+    				result.setGatewayServerUri( decoder.getString("gatewayServerUri") );
+    				result.setDiscoveryProfileUri( decoder.getString("discoveryProfileUri") );
+    				result.setDiscoveryUrls( decoder.getStringArray("discoveryUrls") );
     				return result;
     			}
     		});
@@ -1110,22 +1110,22 @@ public class EncodeableSerializer extends SerializerComposition {
     			public void putEncodeable(IEncodeable encodeable, IEncoder encoder) throws EncodingException {
     				RegisteredServer obj = (RegisteredServer) encodeable;
     				encoder.putString("ServerUri",  (obj==null)?null:obj.getServerUri() );
-    				encoder.putString("ProductUri",  (obj==null)?null:obj.getProductUri() );
+    				encoder.putString("productUri",  (obj==null)?null:obj.getProductUri() );
     				encoder.putLocalizedTextArray("ServerNames", (obj==null)?null:obj.getServerNames() );
     				encoder.putEnumeration("ServerType",  (obj==null)?null:obj.getServerType() );
-    				encoder.putString("GatewayServerUri",  (obj==null)?null:obj.getGatewayServerUri() );
-    				encoder.putStringArray("DiscoveryUrls", (obj==null)?null:obj.getDiscoveryUrls() );
+    				encoder.putString("gatewayServerUri",  (obj==null)?null:obj.getGatewayServerUri() );
+    				encoder.putStringArray("discoveryUrls", (obj==null)?null:obj.getDiscoveryUrls() );
     				encoder.putString("SemaphoreFilePath",  (obj==null)?null:obj.getSemaphoreFilePath() );
     				encoder.putBoolean("IsOnline",  (obj==null)?null:obj.getIsOnline() );
     			}
     			public IEncodeable getEncodeable(IDecoder decoder) throws DecodingException {
     				RegisteredServer result = new RegisteredServer();
     				result.setServerUri( decoder.getString("ServerUri") );
-    				result.setProductUri( decoder.getString("ProductUri") );
+    				result.setProductUri( decoder.getString("productUri") );
     				result.setServerNames( decoder.getLocalizedTextArray("ServerNames") );
     				result.setServerType( decoder.getEnumeration("ServerType", ApplicationType.class) );
-    				result.setGatewayServerUri( decoder.getString("GatewayServerUri") );
-    				result.setDiscoveryUrls( decoder.getStringArray("DiscoveryUrls") );
+    				result.setGatewayServerUri( decoder.getString("gatewayServerUri") );
+    				result.setDiscoveryUrls( decoder.getStringArray("discoveryUrls") );
     				result.setSemaphoreFilePath( decoder.getString("SemaphoreFilePath") );
     				result.setIsOnline( decoder.getBoolean("IsOnline") );
     				return result;
@@ -5271,7 +5271,7 @@ public class EncodeableSerializer extends SerializerComposition {
     			}
     			public void putEncodeable(IEncodeable encodeable, IEncoder encoder) throws EncodingException {
     				BuildInfo obj = (BuildInfo) encodeable;
-    				encoder.putString("ProductUri",  (obj==null)?null:obj.getProductUri() );
+    				encoder.putString("productUri",  (obj==null)?null:obj.getProductUri() );
     				encoder.putString("ManufacturerName",  (obj==null)?null:obj.getManufacturerName() );
     				encoder.putString("ProductName",  (obj==null)?null:obj.getProductName() );
     				encoder.putString("SoftwareVersion",  (obj==null)?null:obj.getSoftwareVersion() );
@@ -5280,7 +5280,7 @@ public class EncodeableSerializer extends SerializerComposition {
     			}
     			public IEncodeable getEncodeable(IDecoder decoder) throws DecodingException {
     				BuildInfo result = new BuildInfo();
-    				result.setProductUri( decoder.getString("ProductUri") );
+    				result.setProductUri( decoder.getString("productUri") );
     				result.setManufacturerName( decoder.getString("ManufacturerName") );
     				result.setProductName( decoder.getString("ProductName") );
     				result.setSoftwareVersion( decoder.getString("SoftwareVersion") );

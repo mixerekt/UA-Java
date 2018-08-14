@@ -178,7 +178,7 @@ public class BouncyCastleUtils {
 	 * @param to
 	 *            validity end time
 	 * @param applicationUri
-	 *            the OPC UA ApplicationUri of the application - added to
+	 *            the OPC UA applicationUri of the application - added to
 	 *            SubjectAlternativeName
 	 * @param hostNames
 	 *            the additional host names to ass to SubjectAlternativeName
@@ -250,7 +250,7 @@ public class BouncyCastleUtils {
 		names.add(new GeneralName(GeneralName.uniformResourceIdentifier,
 				applicationUri));
 
-		// Add DNS name from ApplicationUri
+		// Add DNS name from applicationUri
 		boolean hasDNSName = false;
 		String uriHostName = null;
 		try {
@@ -265,7 +265,7 @@ public class BouncyCastleUtils {
 				}
 			}
 		} catch (Exception e) {
-			logger.warn("Cannot initialize DNS Name to Certificate from ApplicationUri {}", applicationUri);
+			logger.warn("Cannot initialize DNS Name to Certificate from applicationUri {}", applicationUri);
 		}
 
 		// Add other DNS Names

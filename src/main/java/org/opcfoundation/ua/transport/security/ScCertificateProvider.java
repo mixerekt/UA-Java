@@ -125,7 +125,7 @@ public class ScCertificateProvider implements CertificateProvider {
 		names.add(new GeneralName(GeneralName.uniformResourceIdentifier,
 				applicationUri));
 
-		// Add DNS name from ApplicationUri
+		// Add DNS name from applicationUri
 		boolean hasDNSName = false;
 		String uriHostName = null;
 		try {
@@ -141,7 +141,7 @@ public class ScCertificateProvider implements CertificateProvider {
 			}
 		} catch (Exception e) {
 			logger.warn(
-					"Cannot initialize DNS Name to Certificate from ApplicationUri{}",
+					"Cannot initialize DNS Name to Certificate from applicationUri{}",
 					applicationUri);
 		}
 

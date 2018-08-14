@@ -257,7 +257,7 @@ public class SunJceUtils {
 	 * @param serialNumber
 	 *            a unique serial number for the certificate
 	 * @param applicationUri
-	 *            the OPC UA ApplicationUri of the application - added to
+	 *            the OPC UA applicationUri of the application - added to
 	 *            SubjectAlternativeName
 	 * @param hostNames
 	 *            the additional host names to ass to SubjectAlternativeName
@@ -367,7 +367,7 @@ public class SunJceUtils {
 		GeneralNames gnames = new GeneralNames();
 		gnames.add(new GeneralName(new URIName(applicationUri)));
 
-		// Add DNS name from ApplicationUri
+		// Add DNS name from applicationUri
 		boolean hasDNSName = false;
 		String uriHostName = null;
 		try {
@@ -380,7 +380,7 @@ public class SunJceUtils {
 					hasDNSName = true;
 			}
 		} catch (Exception e) {
-			logger.warn("Cannot initialize DNS Name to Certificate from ApplicationUri{}", applicationUri);
+			logger.warn("Cannot initialize DNS Name to Certificate from applicationUri{}", applicationUri);
 		}
 		// Add other DNS Names
 		GeneralNames ipAddressNames = new GeneralNames();

@@ -732,9 +732,9 @@ public class CertificateUtils {
 	 *            running: used to initialize the Subject field of the
 	 *            certificate. The client applications may validate this field
 	 *            of the server certificate, so it should match the hostName
-	 *            used in the ApplicationUri of the application.
+	 *            used in the applicationUri of the application.
 	 * @param applicationUri
-	 *            - The ApplicationUri corresponding to the respective field of
+	 *            - The applicationUri corresponding to the respective field of
 	 *            the ApplicationDescription of the application for which the
 	 *            certificate is created
 	 * @param days
