@@ -21,6 +21,7 @@ import java.util.Locale;
 import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import lombok.extern.slf4j.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.opcfoundation.ua.builtintypes.LocalizedText;
@@ -49,8 +50,8 @@ import org.opcfoundation.ua.utils.StackUtils;
  * @see Client OPC UA Client Application
  * @see Server OPC UA Server Application
  */
+@Slf4j
 public class Application {
-	private final static Logger logger = LoggerFactory.getLogger(Application.class);		
 
 	/** Application description */
 	ApplicationDescription applicationDescription = new ApplicationDescription();
@@ -246,13 +247,13 @@ public class Application {
 	 */
 	public KeyPair getApplicationInstanceCertificate(byte[] thumb) 
 	{
-		logger.debug("getApplicationInstanceCertificate: expected={}", CryptoUtil.toHex(thumb));
+		log.debug("getApplicationInstanceCertificate: expected={}", CryptoUtil.toHex(thumb));
 		if (thumb != null) {
 			int i = 0;
 			for (KeyPair cert : applicationInstanceCertificates) {
 				byte[] encodedThumbprint = cert.getCertificate()
 						.getEncodedThumbprint();
-				logger.debug("getApplicationInstanceCertificate: cert[{}]={}", i++, CryptoUtil.toHex(encodedThumbprint));
+				log.debug("getApplicationInstanceCertificate: cert[{}]={}", i++, CryptoUtil.toHex(encodedThumbprint));
 				if (Arrays.equals(encodedThumbprint, thumb))
 					return cert;
 			}
