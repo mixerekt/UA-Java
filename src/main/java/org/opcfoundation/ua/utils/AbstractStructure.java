@@ -1,9 +1,7 @@
 package org.opcfoundation.ua.utils;
 
 import lombok.extern.slf4j.*;
-import org.opcfoundation.ua.builtintypes.Structure;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.opcfoundation.ua.builtintypes.*;
 
 /**
  * A base class for Structure implementations. Main use case for extending this class
@@ -13,8 +11,6 @@ import org.slf4j.LoggerFactory;
  */
 @Slf4j
 public abstract class AbstractStructure implements Structure {
-
-//    private static final Logger logger = LoggerFactory.getLogger(AbstractStructure.class);
 
     @Override
     public AbstractStructure clone() {
