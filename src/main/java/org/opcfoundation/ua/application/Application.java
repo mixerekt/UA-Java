@@ -71,10 +71,12 @@ public class Application {
     /**
      * Https Server
      */
+    @Getter
     private HttpsServer httpsServer;
     /**
      * OpcTcp Server
      */
+    @Getter
     private OpcTcpServer opctcpServer;
 
     @Getter
