@@ -116,7 +116,7 @@ public class Client {
 	 * @return a {@link org.opcfoundation.ua.core.ApplicationDescription} object.
 	 */
 	public ApplicationDescription createApplicationDescription() {
-		ApplicationDescription result = application.applicationDescription.clone();
+		ApplicationDescription result = application.getApplicationDescription().clone();
 		result.setApplicationType( ApplicationType.Client );
 		return result;
 	}	
