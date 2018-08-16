@@ -102,7 +102,7 @@ public class Application {
     public synchronized EndpointServer getOrCreateEndpointServer(String scheme) throws ServiceResultException {
         if (UriUtil.SCHEME_OPCTCP.equals(scheme)) {
             return getOrCreateOpcTcpServer();
-        } else if (scheme.equals(UriUtil.SCHEME_HTTP) || scheme.equals(UriUtil.SCHEME_HTTPS)) {
+        } else if (UriUtil.SCHEME_HTTP.equals(scheme) || UriUtil.SCHEME_HTTPS.equals(scheme)) {
             return getOrCreateHttpsServer();
         } else throw new ServiceResultException(StatusCodes.Bad_UnexpectedError, "Cannot find EndpointServer for scheme " + scheme);
     }
