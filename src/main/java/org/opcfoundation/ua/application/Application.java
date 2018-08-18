@@ -102,6 +102,7 @@ public class Application {
      * @throws org.opcfoundation.ua.common.ServiceResultException if any.
      */
     public synchronized EndpointServer getOrCreateEndpointServer(String scheme) throws ServiceResultException {
+
         if (UriUtil.SCHEME_OPCTCP.equals(scheme)) {
             return getOrCreateOpcTcpServer();
         } else if (UriUtil.SCHEME_HTTP.equals(scheme) || UriUtil.SCHEME_HTTPS.equals(scheme)) {
@@ -115,7 +116,8 @@ public class Application {
      * @return a {@link org.opcfoundation.ua.transport.tcp.nio.OpcTcpServer} object.
      * @throws org.opcfoundation.ua.common.ServiceResultException if any.
      */
-    public synchronized OpcTcpServer getOrCreateOpcTcpServer() throws ServiceResultException {
+    private synchronized OpcTcpServer getOrCreateOpcTcpServer() throws ServiceResultException {
+
         if (opctcpServer == null) {
             opctcpServer = new OpcTcpServer(this);
         }
@@ -128,7 +130,8 @@ public class Application {
      * @return a {@link org.opcfoundation.ua.transport.https.HttpsServer} object.
      * @throws org.opcfoundation.ua.common.ServiceResultException if any.
      */
-    public synchronized HttpsServer getOrCreateHttpsServer() throws ServiceResultException {
+    private synchronized HttpsServer getOrCreateHttpsServer() throws ServiceResultException {
+
         if (httpsServer == null) {
             httpsServer = new HttpsServer(this);
         }
@@ -141,6 +144,7 @@ public class Application {
      * @return an array of {@link org.opcfoundation.ua.core.SignedSoftwareCertificate} objects.
      */
     public SignedSoftwareCertificate[] getSoftwareCertificates() {
+
         return softwareCertificates.toArray(new SignedSoftwareCertificate[0]);
     }
 
@@ -150,7 +154,8 @@ public class Application {
      * @param cert a {@link org.opcfoundation.ua.core.SignedSoftwareCertificate} object.
      */
     public void addSoftwareCertificate(SignedSoftwareCertificate cert) {
-        if (cert == null) throw new IllegalArgumentException("null arg");
+        Objects.requireNonNull(cert);
+
         softwareCertificates.add(cert);
     }
 
@@ -160,6 +165,7 @@ public class Application {
      * @return an array of {@link org.opcfoundation.ua.transport.security.KeyPair} objects.
      */
     public KeyPair[] getApplicationInstanceCertificates() {
+
         return applicationInstanceCertificates.toArray(new KeyPair[0]);
     }
 
@@ -169,7 +175,8 @@ public class Application {
      * @param cert a {@link org.opcfoundation.ua.transport.security.KeyPair} object.
      */
     public void addApplicationInstanceCertificate(KeyPair cert) {
-        if (cert == null) throw new IllegalArgumentException("null arg");
+        Objects.requireNonNull(cert);
+
         applicationInstanceCertificates.add(cert);
     }
 
@@ -179,6 +186,7 @@ public class Application {
      * @param applicationInstanceCertificate a {@link org.opcfoundation.ua.transport.security.KeyPair} object.
      */
     public void removeApplicationInstanceCertificate(KeyPair applicationInstanceCertificate) {
+
         applicationInstanceCertificates.remove(applicationInstanceCertificate);
     }
 
@@ -189,6 +197,7 @@ public class Application {
      * @return a {@link org.opcfoundation.ua.transport.security.KeyPair} object.
      */
     public KeyPair getApplicationInstanceCertificate(byte[] thumb) {
+
         log.debug("getApplicationInstanceCertificate: expected={}", CryptoUtil.toHex(thumb));
         if (thumb != null) {
             int i = 0;
@@ -209,6 +218,7 @@ public class Application {
      * @return a {@link org.opcfoundation.ua.transport.security.KeyPair} object.
      */
     public KeyPair getApplicationInstanceCertificate() {
+
         final int index = applicationInstanceCertificates.size() - 1;
         if (index < 0)
             return null;
@@ -221,6 +231,7 @@ public class Application {
      * @return a {@link java.lang.String} object.
      */
     public String getApplicationUri() {
+
         return applicationDescription.getApplicationUri();
     }
 
@@ -230,6 +241,7 @@ public class Application {
      * @param applicationUri a {@link java.lang.String} object.
      */
     public void setApplicationUri(String applicationUri) {
+
         applicationDescription.setApplicationUri(applicationUri);
     }
 
@@ -239,6 +251,7 @@ public class Application {
      * @param applicationName a {@link org.opcfoundation.ua.builtintypes.LocalizedText} object.
      */
     public void setApplicationName(LocalizedText applicationName) {
+
         applicationDescription.setApplicationName(applicationName);
     }
 
@@ -248,6 +261,7 @@ public class Application {
      * @return a {@link java.lang.String} object.
      */
     public String getProductUri() {
+
         return applicationDescription.getProductUri();
     }
 
@@ -266,8 +280,8 @@ public class Application {
      * @param locale a {@link java.util.Locale} object.
      */
     public void addLocale(Locale locale) {
-        if (locale == null)
-            throw new IllegalArgumentException("null arg");
+        Objects.requireNonNull(locale);
+
         locales.add(locale);
     }
 
@@ -277,6 +291,7 @@ public class Application {
      * @param locale a {@link java.util.Locale} object.
      */
     public void removeLocale(Locale locale) {
+
         locales.remove(locale);
     }
 
@@ -286,6 +301,7 @@ public class Application {
      * @return an array of {@link java.util.Locale} objects.
      */
     public Locale[] getLocales() {
+
         return locales.toArray(new Locale[0]);
     }
 
@@ -295,10 +311,11 @@ public class Application {
      * @return an array of {@link java.lang.String} objects.
      */
     public String[] getLocaleIds() {
+
         ArrayList<String> result = new ArrayList<>(locales.size());
         for (Locale l : locales)
             result.add(LocalizedText.toLocaleId(l));
-        return result.toArray(new String[result.size()]);
+        return result.toArray(new String[0]);
     }
 
     /**
