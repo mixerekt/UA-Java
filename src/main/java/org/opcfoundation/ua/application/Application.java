@@ -324,6 +324,7 @@ public class Application {
      * <p>close.</p>
      */
     public void close() {
+
         if (httpsServer != null) {
             httpsServer.close();
             httpsServer = null;
