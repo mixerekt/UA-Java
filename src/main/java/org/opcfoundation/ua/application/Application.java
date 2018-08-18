@@ -272,6 +272,7 @@ public class Application {
      * @param productUri a {@link java.lang.String} object.
      */
     public void setProductUri(String productUri) {
+
         applicationDescription.setProductUri(productUri);
     }
 
