@@ -5,7 +5,6 @@ import org.junit.*;
 import org.opcfoundation.ua.builtintypes.*;
 import org.opcfoundation.ua.core.*;
 import org.opcfoundation.ua.transport.security.*;
-import org.opcfoundation.ua.unittests.*;
 
 import static org.junit.Assert.*;
 
@@ -51,5 +50,36 @@ public class ApplicationTest {
         KeyPair[] actual = target.getApplicationInstanceCertificates();
 
         assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    @SneakyThrows
+    public void getApplicationInstanceCertificateFinded() {
+
+        Application target = new Application();
+
+        ClassLoader classLoader = getClass().getClassLoader();
+        Cert myClientCertificate = Cert.load( classLoader.getResource("org/opcfoundation/ua/unittests/ClientCert.der") );
+        PrivKey myClientPrivateKey = PrivKey.loadFromKeyStore( classLoader.getResource( "org/opcfoundation/ua/unittests/ClientCert.pfx"), "Opc.Sample.Ua.Client");
+        KeyPair expected = new KeyPair(myClientCertificate, myClientPrivateKey);
+
+        target.addApplicationInstanceCertificate(expected);
+        target.addApplicationInstanceCertificate(expected);
+
+        byte[] criteria = expected.getCertificate().getEncodedThumbprint();
+        KeyPair actual = target.getApplicationInstanceCertificate(criteria);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    @SneakyThrows
+    public void getApplicationInstanceCertificateReturnNull() {
+
+        Application target = new Application();
+
+        KeyPair actual = target.getApplicationInstanceCertificate(null);
+
+        assertNull(actual);
     }
 }

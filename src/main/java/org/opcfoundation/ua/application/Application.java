@@ -200,18 +200,16 @@ public class Application {
      */
     public KeyPair getApplicationInstanceCertificate(byte[] thumb) {
 
-        log.debug("getApplicationInstanceCertificate: expected={}", CryptoUtil.toHex(thumb));
-        if (thumb != null) {
-            int i = 0;
-            for (KeyPair cert : applicationInstanceCertificates) {
-                byte[] encodedThumbprint = cert.getCertificate()
-                        .getEncodedThumbprint();
-                log.debug("getApplicationInstanceCertificate: cert[{}]={}", i++, CryptoUtil.toHex(encodedThumbprint));
-                if (Arrays.equals(encodedThumbprint, thumb))
-                    return cert;
-            }
+        if (thumb == null) {
+            return null;
         }
-        return null;
+
+        log.debug("getApplicationInstanceCertificate: expected={}", CryptoUtil.toHex(thumb));
+
+        return applicationInstanceCertificates.stream()
+                .filter(cert -> Arrays.equals(cert.getCertificate().getEncodedThumbprint(), thumb))
+                .findFirst()
+                .orElse(null);
     }
 
     /**
@@ -221,10 +219,11 @@ public class Application {
      */
     public KeyPair getApplicationInstanceCertificate() {
 
-        final int index = applicationInstanceCertificates.size() - 1;
-        if (index < 0)
+        if (applicationInstanceCertificates.isEmpty()) {
             return null;
-        return applicationInstanceCertificates.get(index);
+        }
+
+        return applicationInstanceCertificates.get(applicationInstanceCertificates.size() - 1);
     }
 
     /**
@@ -314,10 +313,9 @@ public class Application {
      */
     public String[] getLocaleIds() {
 
-        ArrayList<String> result = new ArrayList<>(locales.size());
-        for (Locale l : locales)
-            result.add(LocalizedText.toLocaleId(l));
-        return result.toArray(new String[0]);
+        return locales.stream()
+                .map(LocalizedText::toLocaleId)
+                .toArray(String[]::new);
     }
 
     /**
