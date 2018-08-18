@@ -141,7 +141,7 @@ public class Application {
      * @return an array of {@link org.opcfoundation.ua.core.SignedSoftwareCertificate} objects.
      */
     public SignedSoftwareCertificate[] getSoftwareCertificates() {
-        return softwareCertificates.toArray(new SignedSoftwareCertificate[softwareCertificates.size()]);
+        return softwareCertificates.toArray(new SignedSoftwareCertificate[0]);
     }
 
     /**
@@ -160,7 +160,7 @@ public class Application {
      * @return an array of {@link org.opcfoundation.ua.transport.security.KeyPair} objects.
      */
     public KeyPair[] getApplicationInstanceCertificates() {
-        return applicationInstanceCertificates.toArray(new KeyPair[applicationInstanceCertificates.size()]);
+        return applicationInstanceCertificates.toArray(new KeyPair[0]);
     }
 
     /**
@@ -295,7 +295,7 @@ public class Application {
      * @return an array of {@link java.lang.String} objects.
      */
     public String[] getLocaleIds() {
-        ArrayList<String> result = new ArrayList<String>(locales.size());
+        ArrayList<String> result = new ArrayList<>(locales.size());
         for (Locale l : locales)
             result.add(LocalizedText.toLocaleId(l));
         return result.toArray(new String[result.size()]);
