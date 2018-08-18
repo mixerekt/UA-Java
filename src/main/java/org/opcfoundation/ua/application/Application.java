@@ -107,7 +107,9 @@ public class Application {
             return getOrCreateOpcTcpServer();
         } else if (UriUtil.SCHEME_HTTP.equals(scheme) || UriUtil.SCHEME_HTTPS.equals(scheme)) {
             return getOrCreateHttpsServer();
-        } else throw new ServiceResultException(StatusCodes.Bad_UnexpectedError, "Cannot find EndpointServer for scheme " + scheme);
+        } else {
+            throw new ServiceResultException(StatusCodes.Bad_UnexpectedError, "Cannot find EndpointServer for scheme " + scheme);
+        }
     }
 
     /**
