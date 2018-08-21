@@ -29,16 +29,9 @@
 
 package org.opcfoundation.ua.core;
 
-import org.opcfoundation.ua.builtintypes.Structure;
-import org.opcfoundation.ua.builtintypes.ExpandedNodeId;
-import org.opcfoundation.ua.builtintypes.NodeId;
-import org.opcfoundation.ua.core.Identifiers;
-import org.opcfoundation.ua.core.UserTokenPolicy;
-import org.opcfoundation.ua.transport.security.SecurityPolicy;
-import org.opcfoundation.ua.utils.ObjectUtils;
-import org.opcfoundation.ua.core.UserTokenType;
-import org.opcfoundation.ua.utils.AbstractStructure;
-
+import org.opcfoundation.ua.builtintypes.*;
+import org.opcfoundation.ua.transport.security.*;
+import org.opcfoundation.ua.utils.*;
 
 
 public class UserTokenPolicy extends AbstractStructure implements Structure, Cloneable {

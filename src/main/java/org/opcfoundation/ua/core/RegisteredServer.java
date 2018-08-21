@@ -29,15 +29,10 @@
 
 package org.opcfoundation.ua.core;
 
-import org.opcfoundation.ua.builtintypes.Structure;
-import org.opcfoundation.ua.builtintypes.ExpandedNodeId;
-import org.opcfoundation.ua.core.Identifiers;
-import org.opcfoundation.ua.utils.ObjectUtils;
-import java.util.Arrays;
-import org.opcfoundation.ua.builtintypes.LocalizedText;
-import org.opcfoundation.ua.core.ApplicationType;
-import org.opcfoundation.ua.utils.AbstractStructure;
+import org.opcfoundation.ua.builtintypes.*;
+import org.opcfoundation.ua.utils.*;
 
+import java.util.*;
 
 
 public class RegisteredServer extends AbstractStructure {

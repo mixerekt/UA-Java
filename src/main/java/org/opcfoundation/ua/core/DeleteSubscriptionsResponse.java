@@ -29,15 +29,10 @@
 
 package org.opcfoundation.ua.core;
 
-import org.opcfoundation.ua.builtintypes.ServiceResponse;
-import org.opcfoundation.ua.builtintypes.ExpandedNodeId;
-import org.opcfoundation.ua.core.Identifiers;
-import org.opcfoundation.ua.utils.ObjectUtils;
-import java.util.Arrays;
-import org.opcfoundation.ua.builtintypes.DiagnosticInfo;
-import org.opcfoundation.ua.builtintypes.StatusCode;
-import org.opcfoundation.ua.core.ResponseHeader;
-import org.opcfoundation.ua.utils.AbstractStructure;
+import org.opcfoundation.ua.builtintypes.*;
+import org.opcfoundation.ua.utils.*;
+
+import java.util.*;
 
 
 public class DeleteSubscriptionsResponse extends AbstractStructure implements ServiceResponse {

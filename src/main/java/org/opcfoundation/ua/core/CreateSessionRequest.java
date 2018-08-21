@@ -29,15 +29,8 @@
 
 package org.opcfoundation.ua.core;
 
-import org.opcfoundation.ua.builtintypes.ServiceRequest;
-import org.opcfoundation.ua.builtintypes.ExpandedNodeId;
-import org.opcfoundation.ua.core.Identifiers;
-import org.opcfoundation.ua.utils.ObjectUtils;
-import org.opcfoundation.ua.builtintypes.ByteString;
-import org.opcfoundation.ua.builtintypes.UnsignedInteger;
-import org.opcfoundation.ua.core.ApplicationDescription;
-import org.opcfoundation.ua.core.RequestHeader;
-import org.opcfoundation.ua.utils.AbstractStructure;
+import org.opcfoundation.ua.builtintypes.*;
+import org.opcfoundation.ua.utils.*;
 
 
 public class CreateSessionRequest extends AbstractStructure implements ServiceRequest {

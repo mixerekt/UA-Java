@@ -29,88 +29,47 @@
 
 package org.opcfoundation.ua.core;
 
-import org.opcfoundation.ua.builtintypes.Structure;
-import org.opcfoundation.ua.builtintypes.ExpandedNodeId;
-import org.opcfoundation.ua.core.Identifiers;
-import org.opcfoundation.ua.utils.ObjectUtils;
-import org.opcfoundation.ua.utils.AbstractStructure;
+import lombok.*;
+import org.opcfoundation.ua.builtintypes.*;
+import org.opcfoundation.ua.utils.*;
 
+import java.util.*;
 
-
-public class UserIdentityToken extends AbstractStructure {
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@Data
+public class UserIdentityToken implements Structure {
 	
 	public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.UserIdentityToken);
 	public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.UserIdentityToken_Encoding_DefaultBinary);
 	public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.UserIdentityToken_Encoding_DefaultXml);
 	
-    protected String PolicyId;
-    
-    public UserIdentityToken() {}
-    
-    public UserIdentityToken(String PolicyId)
-    {
-        this.PolicyId = PolicyId;
-    }
-    
-    public String getPolicyId()
-    {
-        return PolicyId;
-    }
-    
-    public void setPolicyId(String PolicyId)
-    {
-        this.PolicyId = PolicyId;
-    }
-    
-    /**
-      * Deep clone
-      *
-      * @return cloned UserIdentityToken
-      */
-    public UserIdentityToken clone()
-    {
-        UserIdentityToken result = (UserIdentityToken) super.clone();
-        result.PolicyId = PolicyId;
-        return result;
-    }
-    
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        UserIdentityToken other = (UserIdentityToken) obj;
-        if (PolicyId==null) {
-            if (other.PolicyId != null) return false;
-        } else if (!PolicyId.equals(other.PolicyId)) return false;
-        return true;
-    }
-    
-    @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((PolicyId == null) ? 0 : PolicyId.hashCode());
-        return result;
-    }
-    
+    protected String policyId;
 
+    @SneakyThrows
+    public static UserIdentityToken newInstanceFrom(UserIdentityToken source) {
+        Objects.requireNonNull(source);
 
+        return (UserIdentityToken) source.clone();
+    }
+
+    @Override
 	public ExpandedNodeId getTypeId() {
 		return ID;
 	}
 
+	@Override
 	public ExpandedNodeId getXmlEncodeId() {
 		return XML;
 	}
 
+	@Override
 	public ExpandedNodeId getBinaryEncodeId() {
 		return BINARY;
 	}
-	
+
+	@Override
 	public String toString() {
 		return "UserIdentityToken: "+ObjectUtils.printFieldsDeep(this);
 	}

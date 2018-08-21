@@ -29,19 +29,10 @@
 
 package org.opcfoundation.ua.core;
 
-import org.opcfoundation.ua.builtintypes.ServiceResponse;
-import org.opcfoundation.ua.builtintypes.ExpandedNodeId;
-import org.opcfoundation.ua.core.Identifiers;
-import org.opcfoundation.ua.utils.ObjectUtils;
-import java.util.Arrays;
-import org.opcfoundation.ua.builtintypes.ByteString;
-import org.opcfoundation.ua.builtintypes.NodeId;
-import org.opcfoundation.ua.builtintypes.UnsignedInteger;
-import org.opcfoundation.ua.core.EndpointDescription;
-import org.opcfoundation.ua.core.ResponseHeader;
-import org.opcfoundation.ua.core.SignatureData;
-import org.opcfoundation.ua.core.SignedSoftwareCertificate;
-import org.opcfoundation.ua.utils.AbstractStructure;
+import org.opcfoundation.ua.builtintypes.*;
+import org.opcfoundation.ua.utils.*;
+
+import java.util.*;
 
 
 public class CreateSessionResponse extends AbstractStructure implements ServiceResponse {

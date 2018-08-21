@@ -29,16 +29,8 @@
 
 package org.opcfoundation.ua.core;
 
-import org.opcfoundation.ua.builtintypes.ServiceRequest;
-import org.opcfoundation.ua.builtintypes.ExpandedNodeId;
-import org.opcfoundation.ua.core.Identifiers;
-import org.opcfoundation.ua.utils.ObjectUtils;
-import org.opcfoundation.ua.builtintypes.ByteString;
-import org.opcfoundation.ua.builtintypes.UnsignedInteger;
-import org.opcfoundation.ua.core.MessageSecurityMode;
-import org.opcfoundation.ua.core.RequestHeader;
-import org.opcfoundation.ua.core.SecurityTokenRequestType;
-import org.opcfoundation.ua.utils.AbstractStructure;
+import org.opcfoundation.ua.builtintypes.*;
+import org.opcfoundation.ua.utils.*;
 
 
 public class OpenSecureChannelRequest extends AbstractStructure implements ServiceRequest {

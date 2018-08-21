@@ -12,7 +12,7 @@
 
 package org.opcfoundation.ua.builtintypes;
 
-import org.opcfoundation.ua.encoding.IEncodeable;
+import org.opcfoundation.ua.encoding.*;
 
 /**
  * Super interface for all complex type serializable objects
@@ -39,14 +39,4 @@ public interface Structure extends IEncodeable, Cloneable {
 	 * @return a {@link org.opcfoundation.ua.builtintypes.ExpandedNodeId} object.
 	 */
 	ExpandedNodeId getBinaryEncodeId();
-	
-	/**
-	 * As every Structure is Cloneable, this method provides convinience method for
-	 * calling .clone for an unknown Structure. Classes implementing Structure should change the signature
-	 * to return the type of the implementing class.
-	 * 
-	 * @return a deep clone of this Structure
-	 */
-	Structure clone();
-	
 }

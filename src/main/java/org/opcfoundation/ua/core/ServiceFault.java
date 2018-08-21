@@ -29,25 +29,11 @@
 
 package org.opcfoundation.ua.core;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.List;
+import org.opcfoundation.ua.builtintypes.*;
+import org.opcfoundation.ua.common.*;
 
-import org.opcfoundation.ua.builtintypes.DateTime;
-import org.opcfoundation.ua.builtintypes.DiagnosticInfo;
-import org.opcfoundation.ua.builtintypes.StatusCode;
-import org.opcfoundation.ua.builtintypes.Structure;
-import org.opcfoundation.ua.builtintypes.ExpandedNodeId;
-import org.opcfoundation.ua.builtintypes.NodeId;
-import org.opcfoundation.ua.builtintypes.UnsignedInteger;
-import org.opcfoundation.ua.common.ServiceResultException;
-import org.opcfoundation.ua.core.Identifiers;
-import org.opcfoundation.ua.core.ServiceFault;
-import org.opcfoundation.ua.core.StatusCodes;
-import org.opcfoundation.ua.core.ResponseHeader;
-import org.opcfoundation.ua.utils.AbstractStructure;
-
+import java.io.*;
+import java.util.*;
 
 
 public class ServiceFault extends AbstractStructure implements Structure, Cloneable {

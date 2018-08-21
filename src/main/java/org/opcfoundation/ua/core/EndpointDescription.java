@@ -29,24 +29,12 @@
 
 package org.opcfoundation.ua.core;
 
-import org.opcfoundation.ua.builtintypes.Structure;
-import org.opcfoundation.ua.builtintypes.ExpandedNodeId;
-import org.opcfoundation.ua.builtintypes.NodeId;
-import org.opcfoundation.ua.common.ServiceResultException;
-import org.opcfoundation.ua.core.Identifiers;
-import org.opcfoundation.ua.core.UserTokenPolicy;
-import org.opcfoundation.ua.transport.security.SecurityPolicy;
-import org.opcfoundation.ua.utils.ObjectUtils;
-import org.opcfoundation.ua.utils.EndpointUtil;
+import org.opcfoundation.ua.builtintypes.*;
+import org.opcfoundation.ua.common.*;
+import org.opcfoundation.ua.transport.security.*;
+import org.opcfoundation.ua.utils.*;
 
-import java.util.Arrays;
-
-import org.opcfoundation.ua.builtintypes.ByteString;
-import org.opcfoundation.ua.builtintypes.UnsignedByte;
-import org.opcfoundation.ua.core.ApplicationDescription;
-import org.opcfoundation.ua.core.MessageSecurityMode;
-import org.opcfoundation.ua.core.UserTokenPolicy;
-import org.opcfoundation.ua.utils.AbstractStructure;
+import java.util.*;
 
 
 /**
