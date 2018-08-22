@@ -2,7 +2,7 @@
  * Copyright (c) 2005-2015 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
- * 
+ *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -11,7 +11,7 @@
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
@@ -29,104 +29,50 @@
 
 package org.opcfoundation.ua.core;
 
+import lombok.*;
 import org.opcfoundation.ua.builtintypes.*;
 import org.opcfoundation.ua.utils.*;
 
+import java.util.*;
 
-public class SubscriptionAcknowledgement extends AbstractStructure {
-	
-	public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.SubscriptionAcknowledgement);
-	public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.SubscriptionAcknowledgement_Encoding_DefaultBinary);
-	public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.SubscriptionAcknowledgement_Encoding_DefaultXml);
-	
-    protected UnsignedInteger SubscriptionId;
-    protected UnsignedInteger SequenceNumber;
-    
-    public SubscriptionAcknowledgement() {}
-    
-    public SubscriptionAcknowledgement(UnsignedInteger SubscriptionId, UnsignedInteger SequenceNumber)
-    {
-        this.SubscriptionId = SubscriptionId;
-        this.SequenceNumber = SequenceNumber;
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@Data
+public class SubscriptionAcknowledgement implements Structure {
+
+    public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.SubscriptionAcknowledgement);
+    public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.SubscriptionAcknowledgement_Encoding_DefaultBinary);
+    public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.SubscriptionAcknowledgement_Encoding_DefaultXml);
+
+    protected UnsignedInteger subscriptionId;
+    protected UnsignedInteger sequenceNumber;
+
+    @SneakyThrows
+    public static SubscriptionAcknowledgement newInstanceFrom(SubscriptionAcknowledgement source) {
+        Objects.requireNonNull(source);
+
+        return (SubscriptionAcknowledgement) source.clone();
     }
-    
-    public UnsignedInteger getSubscriptionId()
-    {
-        return SubscriptionId;
-    }
-    
-    public void setSubscriptionId(UnsignedInteger SubscriptionId)
-    {
-        this.SubscriptionId = SubscriptionId;
-    }
-    
-    public UnsignedInteger getSequenceNumber()
-    {
-        return SequenceNumber;
-    }
-    
-    public void setSequenceNumber(UnsignedInteger SequenceNumber)
-    {
-        this.SequenceNumber = SequenceNumber;
-    }
-    
-    /**
-      * Deep clone
-      *
-      * @return cloned SubscriptionAcknowledgement
-      */
-    public SubscriptionAcknowledgement clone()
-    {
-        SubscriptionAcknowledgement result = (SubscriptionAcknowledgement) super.clone();
-        result.SubscriptionId = SubscriptionId;
-        result.SequenceNumber = SequenceNumber;
-        return result;
-    }
-    
+
     @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        SubscriptionAcknowledgement other = (SubscriptionAcknowledgement) obj;
-        if (SubscriptionId==null) {
-            if (other.SubscriptionId != null) return false;
-        } else if (!SubscriptionId.equals(other.SubscriptionId)) return false;
-        if (SequenceNumber==null) {
-            if (other.SequenceNumber != null) return false;
-        } else if (!SequenceNumber.equals(other.SequenceNumber)) return false;
-        return true;
+    public ExpandedNodeId getTypeId() {
+        return ID;
     }
-    
+
     @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((SubscriptionId == null) ? 0 : SubscriptionId.hashCode());
-        result = prime * result
-                + ((SequenceNumber == null) ? 0 : SequenceNumber.hashCode());
-        return result;
+    public ExpandedNodeId getXmlEncodeId() {
+        return XML;
     }
-    
 
+    @Override
+    public ExpandedNodeId getBinaryEncodeId() {
+        return BINARY;
+    }
 
-	public ExpandedNodeId getTypeId() {
-		return ID;
-	}
-
-	public ExpandedNodeId getXmlEncodeId() {
-		return XML;
-	}
-
-	public ExpandedNodeId getBinaryEncodeId() {
-		return BINARY;
-	}
-	
-	public String toString() {
-		return "SubscriptionAcknowledgement: "+ObjectUtils.printFieldsDeep(this);
-	}
+    @Override
+    public String toString() {
+        return "SubscriptionAcknowledgement: " + ObjectUtils.printFieldsDeep(this);
+    }
 
 }
