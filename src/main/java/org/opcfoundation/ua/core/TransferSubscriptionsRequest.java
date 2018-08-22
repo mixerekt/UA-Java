@@ -2,7 +2,7 @@
  * Copyright (c) 2005-2015 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
- * 
+ *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -11,7 +11,7 @@
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
@@ -29,124 +29,51 @@
 
 package org.opcfoundation.ua.core;
 
+import lombok.*;
 import org.opcfoundation.ua.builtintypes.*;
 import org.opcfoundation.ua.utils.*;
 
 import java.util.*;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@Data
+public class TransferSubscriptionsRequest implements ServiceRequest {
 
-public class TransferSubscriptionsRequest extends AbstractStructure implements ServiceRequest {
+    public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.TransferSubscriptionsRequest);
+    public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.TransferSubscriptionsRequest_Encoding_DefaultBinary);
+    public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.TransferSubscriptionsRequest_Encoding_DefaultXml);
 
-	public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.TransferSubscriptionsRequest);
-	public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.TransferSubscriptionsRequest_Encoding_DefaultBinary);
-	public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.TransferSubscriptionsRequest_Encoding_DefaultXml);
-	
-    protected RequestHeader RequestHeader;
-    protected UnsignedInteger[] SubscriptionIds;
-    protected Boolean SendInitialValues;
-    
-    public TransferSubscriptionsRequest() {}
-    
-    public TransferSubscriptionsRequest(RequestHeader RequestHeader, UnsignedInteger[] SubscriptionIds, Boolean SendInitialValues)
-    {
-        this.RequestHeader = RequestHeader;
-        this.SubscriptionIds = SubscriptionIds;
-        this.SendInitialValues = SendInitialValues;
+    protected RequestHeader requestHeader;
+    protected UnsignedInteger[] subscriptionIds;
+    protected Boolean sendInitialValues;
+
+    @SneakyThrows
+    public static TransferSubscriptionsRequest newInstanceFrom(TransferSubscriptionsRequest source) {
+        Objects.requireNonNull(source);
+
+        return (TransferSubscriptionsRequest) source.clone();
     }
-    
-    public RequestHeader getRequestHeader()
-    {
-        return RequestHeader;
-    }
-    
-    public void setRequestHeader(RequestHeader RequestHeader)
-    {
-        this.RequestHeader = RequestHeader;
-    }
-    
-    public UnsignedInteger[] getSubscriptionIds()
-    {
-        return SubscriptionIds;
-    }
-    
-    public void setSubscriptionIds(UnsignedInteger[] SubscriptionIds)
-    {
-        this.SubscriptionIds = SubscriptionIds;
-    }
-    
-    public Boolean getSendInitialValues()
-    {
-        return SendInitialValues;
-    }
-    
-    public void setSendInitialValues(Boolean SendInitialValues)
-    {
-        this.SendInitialValues = SendInitialValues;
-    }
-    
-    /**
-      * Deep clone
-      *
-      * @return cloned TransferSubscriptionsRequest
-      */
-    public TransferSubscriptionsRequest clone()
-    {
-        TransferSubscriptionsRequest result = (TransferSubscriptionsRequest) super.clone();
-        result.RequestHeader = RequestHeader==null ? null : RequestHeader.clone();
-        result.SubscriptionIds = SubscriptionIds==null ? null : SubscriptionIds.clone();
-        result.SendInitialValues = SendInitialValues;
-        return result;
-    }
-    
+
     @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        TransferSubscriptionsRequest other = (TransferSubscriptionsRequest) obj;
-        if (RequestHeader==null) {
-            if (other.RequestHeader != null) return false;
-        } else if (!RequestHeader.equals(other.RequestHeader)) return false;
-        if (SubscriptionIds==null) {
-            if (other.SubscriptionIds != null) return false;
-        } else if (!Arrays.equals(SubscriptionIds, other.SubscriptionIds)) return false;
-        if (SendInitialValues==null) {
-            if (other.SendInitialValues != null) return false;
-        } else if (!SendInitialValues.equals(other.SendInitialValues)) return false;
-        return true;
+    public ExpandedNodeId getTypeId() {
+        return ID;
     }
-    
+
     @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((RequestHeader == null) ? 0 : RequestHeader.hashCode());
-        result = prime * result
-                + ((SubscriptionIds == null) ? 0 : Arrays.hashCode(SubscriptionIds));
-        result = prime * result
-                + ((SendInitialValues == null) ? 0 : SendInitialValues.hashCode());
-        return result;
+    public ExpandedNodeId getXmlEncodeId() {
+        return XML;
     }
-    
- 
 
-	public ExpandedNodeId getTypeId() {
-		return ID;
-	}
+    @Override
+    public ExpandedNodeId getBinaryEncodeId() {
+        return BINARY;
+    }
 
-	public ExpandedNodeId getXmlEncodeId() {
-		return XML;
-	}
-	
-	public ExpandedNodeId getBinaryEncodeId() {
-		return BINARY;
-	}
-	
-	public String toString() {
-		return ObjectUtils.printFieldsDeep(this);
-	}
-	
+    @Override
+    public String toString() {
+        return ObjectUtils.printFieldsDeep(this);
+    }
+
 }

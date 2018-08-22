@@ -2,7 +2,7 @@
  * Copyright (c) 2005-2015 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
- * 
+ *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -11,7 +11,7 @@
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
@@ -29,124 +29,51 @@
 
 package org.opcfoundation.ua.core;
 
+import lombok.*;
 import org.opcfoundation.ua.builtintypes.*;
 import org.opcfoundation.ua.utils.*;
 
 import java.util.*;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@Data
+public class RegisterServer2Response implements ServiceResponse {
 
-public class RegisterServer2Response extends AbstractStructure implements ServiceResponse {
+    public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.RegisterServer2Response);
+    public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.RegisterServer2Response_Encoding_DefaultBinary);
+    public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.RegisterServer2Response_Encoding_DefaultXml);
 
-	public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.RegisterServer2Response);
-	public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.RegisterServer2Response_Encoding_DefaultBinary);
-	public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.RegisterServer2Response_Encoding_DefaultXml);
-	
-    protected ResponseHeader ResponseHeader;
-    protected StatusCode[] ConfigurationResults;
-    protected DiagnosticInfo[] DiagnosticInfos;
-    
-    public RegisterServer2Response() {}
-    
-    public RegisterServer2Response(ResponseHeader ResponseHeader, StatusCode[] ConfigurationResults, DiagnosticInfo[] DiagnosticInfos)
-    {
-        this.ResponseHeader = ResponseHeader;
-        this.ConfigurationResults = ConfigurationResults;
-        this.DiagnosticInfos = DiagnosticInfos;
+    protected ResponseHeader responseHeader;
+    protected StatusCode[] configurationResults;
+    protected DiagnosticInfo[] diagnosticInfos;
+
+    @SneakyThrows
+    public static RegisterServer2Response newInstanceFrom(RegisterServer2Response source) {
+        Objects.requireNonNull(source);
+
+        return (RegisterServer2Response) source.clone();
     }
-    
-    public ResponseHeader getResponseHeader()
-    {
-        return ResponseHeader;
-    }
-    
-    public void setResponseHeader(ResponseHeader ResponseHeader)
-    {
-        this.ResponseHeader = ResponseHeader;
-    }
-    
-    public StatusCode[] getConfigurationResults()
-    {
-        return ConfigurationResults;
-    }
-    
-    public void setConfigurationResults(StatusCode[] ConfigurationResults)
-    {
-        this.ConfigurationResults = ConfigurationResults;
-    }
-    
-    public DiagnosticInfo[] getDiagnosticInfos()
-    {
-        return DiagnosticInfos;
-    }
-    
-    public void setDiagnosticInfos(DiagnosticInfo[] DiagnosticInfos)
-    {
-        this.DiagnosticInfos = DiagnosticInfos;
-    }
-    
-    /**
-      * Deep clone
-      *
-      * @return cloned RegisterServer2Response
-      */
-    public RegisterServer2Response clone()
-    {
-        RegisterServer2Response result = (RegisterServer2Response) super.clone();
-        result.ResponseHeader = ResponseHeader==null ? null : ResponseHeader.clone();
-        result.ConfigurationResults = ConfigurationResults==null ? null : ConfigurationResults.clone();
-        result.DiagnosticInfos = DiagnosticInfos==null ? null : DiagnosticInfos.clone();
-        return result;
-    }
-    
+
     @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        RegisterServer2Response other = (RegisterServer2Response) obj;
-        if (ResponseHeader==null) {
-            if (other.ResponseHeader != null) return false;
-        } else if (!ResponseHeader.equals(other.ResponseHeader)) return false;
-        if (ConfigurationResults==null) {
-            if (other.ConfigurationResults != null) return false;
-        } else if (!Arrays.equals(ConfigurationResults, other.ConfigurationResults)) return false;
-        if (DiagnosticInfos==null) {
-            if (other.DiagnosticInfos != null) return false;
-        } else if (!Arrays.equals(DiagnosticInfos, other.DiagnosticInfos)) return false;
-        return true;
+    public ExpandedNodeId getTypeId() {
+        return ID;
     }
-    
+
     @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((ResponseHeader == null) ? 0 : ResponseHeader.hashCode());
-        result = prime * result
-                + ((ConfigurationResults == null) ? 0 : Arrays.hashCode(ConfigurationResults));
-        result = prime * result
-                + ((DiagnosticInfos == null) ? 0 : Arrays.hashCode(DiagnosticInfos));
-        return result;
+    public ExpandedNodeId getXmlEncodeId() {
+        return XML;
     }
-    
 
+    @Override
+    public ExpandedNodeId getBinaryEncodeId() {
+        return BINARY;
+    }
 
-	public ExpandedNodeId getTypeId() {
-		return ID;
-	}
+    @Override
+    public String toString() {
+        return ObjectUtils.printFieldsDeep(this);
+    }
 
-	public ExpandedNodeId getXmlEncodeId() {
-		return XML;
-	}
-
-	public ExpandedNodeId getBinaryEncodeId() {
-		return BINARY;
-	}
-
-	public String toString() {
-		return ObjectUtils.printFieldsDeep(this);
-	}
-	
 }

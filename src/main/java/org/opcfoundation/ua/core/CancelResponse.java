@@ -2,7 +2,7 @@
  * Copyright (c) 2005-2015 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
- * 
+ *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -11,7 +11,7 @@
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
@@ -29,104 +29,46 @@
 
 package org.opcfoundation.ua.core;
 
+import lombok.*;
 import org.opcfoundation.ua.builtintypes.*;
 import org.opcfoundation.ua.utils.*;
 
+import java.util.*;
 
-public class CancelResponse extends AbstractStructure implements ServiceResponse {
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@Data
+public class CancelResponse implements ServiceResponse {
 
-	public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.CancelResponse);
-	public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.CancelResponse_Encoding_DefaultBinary);
-	public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.CancelResponse_Encoding_DefaultXml);
-	
-    protected ResponseHeader ResponseHeader;
-    protected UnsignedInteger CancelCount;
-    
-    public CancelResponse() {}
-    
-    public CancelResponse(ResponseHeader ResponseHeader, UnsignedInteger CancelCount)
-    {
-        this.ResponseHeader = ResponseHeader;
-        this.CancelCount = CancelCount;
-    }
-    
-    public ResponseHeader getResponseHeader()
-    {
-        return ResponseHeader;
-    }
-    
-    public void setResponseHeader(ResponseHeader ResponseHeader)
-    {
-        this.ResponseHeader = ResponseHeader;
-    }
-    
-    public UnsignedInteger getCancelCount()
-    {
-        return CancelCount;
-    }
-    
-    public void setCancelCount(UnsignedInteger CancelCount)
-    {
-        this.CancelCount = CancelCount;
-    }
-    
-    /**
-      * Deep clone
-      *
-      * @return cloned CancelResponse
-      */
-    public CancelResponse clone()
-    {
-        CancelResponse result = (CancelResponse) super.clone();
-        result.ResponseHeader = ResponseHeader==null ? null : ResponseHeader.clone();
-        result.CancelCount = CancelCount;
-        return result;
-    }
-    
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        CancelResponse other = (CancelResponse) obj;
-        if (ResponseHeader==null) {
-            if (other.ResponseHeader != null) return false;
-        } else if (!ResponseHeader.equals(other.ResponseHeader)) return false;
-        if (CancelCount==null) {
-            if (other.CancelCount != null) return false;
-        } else if (!CancelCount.equals(other.CancelCount)) return false;
-        return true;
-    }
-    
-    @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((ResponseHeader == null) ? 0 : ResponseHeader.hashCode());
-        result = prime * result
-                + ((CancelCount == null) ? 0 : CancelCount.hashCode());
-        return result;
-    }
-    
+    public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.CancelResponse);
+    public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.CancelResponse_Encoding_DefaultBinary);
+    public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.CancelResponse_Encoding_DefaultXml);
 
+    protected ResponseHeader responseHeader;
+    protected UnsignedInteger cancelCount;
 
-	public ExpandedNodeId getTypeId() {
-		return ID;
-	}
+    @SneakyThrows
+    public static CancelResponse newInstanceFrom(CancelResponse source) {
+        Objects.requireNonNull(source);
 
-	public ExpandedNodeId getXmlEncodeId() {
-		return XML;
-	}
+        return (CancelResponse) source.clone();
+    }
 
-	public ExpandedNodeId getBinaryEncodeId() {
-		return BINARY;
-	}
+    public ExpandedNodeId getTypeId() {
+        return ID;
+    }
 
-	public String toString() {
-		return ObjectUtils.printFieldsDeep(this);
-	}
-	
+    public ExpandedNodeId getXmlEncodeId() {
+        return XML;
+    }
+
+    public ExpandedNodeId getBinaryEncodeId() {
+        return BINARY;
+    }
+
+    public String toString() {
+        return ObjectUtils.printFieldsDeep(this);
+    }
+
 }

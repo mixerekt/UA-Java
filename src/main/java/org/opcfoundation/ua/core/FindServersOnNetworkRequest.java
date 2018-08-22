@@ -2,7 +2,7 @@
  * Copyright (c) 2005-2015 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
- * 
+ *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -11,7 +11,7 @@
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
@@ -29,142 +29,52 @@
 
 package org.opcfoundation.ua.core;
 
+import lombok.*;
 import org.opcfoundation.ua.builtintypes.*;
 import org.opcfoundation.ua.utils.*;
 
 import java.util.*;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@Data
+public class FindServersOnNetworkRequest implements ServiceRequest {
 
-public class FindServersOnNetworkRequest extends AbstractStructure implements ServiceRequest {
+    public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.FindServersOnNetworkRequest);
+    public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.FindServersOnNetworkRequest_Encoding_DefaultBinary);
+    public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.FindServersOnNetworkRequest_Encoding_DefaultXml);
 
-	public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.FindServersOnNetworkRequest);
-	public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.FindServersOnNetworkRequest_Encoding_DefaultBinary);
-	public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.FindServersOnNetworkRequest_Encoding_DefaultXml);
-	
-    protected RequestHeader RequestHeader;
-    protected UnsignedInteger StartingRecordId;
-    protected UnsignedInteger MaxRecordsToReturn;
-    protected String[] ServerCapabilityFilter;
-    
-    public FindServersOnNetworkRequest() {}
-    
-    public FindServersOnNetworkRequest(RequestHeader RequestHeader, UnsignedInteger StartingRecordId, UnsignedInteger MaxRecordsToReturn, String[] ServerCapabilityFilter)
-    {
-        this.RequestHeader = RequestHeader;
-        this.StartingRecordId = StartingRecordId;
-        this.MaxRecordsToReturn = MaxRecordsToReturn;
-        this.ServerCapabilityFilter = ServerCapabilityFilter;
+    protected RequestHeader requestHeader;
+    protected UnsignedInteger startingRecordId;
+    protected UnsignedInteger maxRecordsToReturn;
+    protected String[] serverCapabilityFilter;
+
+    @SneakyThrows
+    public static FindServersOnNetworkRequest newInstanceFrom(FindServersOnNetworkRequest source) {
+        Objects.requireNonNull(source);
+
+        return (FindServersOnNetworkRequest) source.clone();
     }
-    
-    public RequestHeader getRequestHeader()
-    {
-        return RequestHeader;
-    }
-    
-    public void setRequestHeader(RequestHeader RequestHeader)
-    {
-        this.RequestHeader = RequestHeader;
-    }
-    
-    public UnsignedInteger getStartingRecordId()
-    {
-        return StartingRecordId;
-    }
-    
-    public void setStartingRecordId(UnsignedInteger StartingRecordId)
-    {
-        this.StartingRecordId = StartingRecordId;
-    }
-    
-    public UnsignedInteger getMaxRecordsToReturn()
-    {
-        return MaxRecordsToReturn;
-    }
-    
-    public void setMaxRecordsToReturn(UnsignedInteger MaxRecordsToReturn)
-    {
-        this.MaxRecordsToReturn = MaxRecordsToReturn;
-    }
-    
-    public String[] getServerCapabilityFilter()
-    {
-        return ServerCapabilityFilter;
-    }
-    
-    public void setServerCapabilityFilter(String[] ServerCapabilityFilter)
-    {
-        this.ServerCapabilityFilter = ServerCapabilityFilter;
-    }
-    
-    /**
-      * Deep clone
-      *
-      * @return cloned FindServersOnNetworkRequest
-      */
-    public FindServersOnNetworkRequest clone()
-    {
-        FindServersOnNetworkRequest result = (FindServersOnNetworkRequest) super.clone();
-        result.RequestHeader = RequestHeader==null ? null : RequestHeader.clone();
-        result.StartingRecordId = StartingRecordId;
-        result.MaxRecordsToReturn = MaxRecordsToReturn;
-        result.ServerCapabilityFilter = ServerCapabilityFilter==null ? null : ServerCapabilityFilter.clone();
-        return result;
-    }
-    
+
     @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        FindServersOnNetworkRequest other = (FindServersOnNetworkRequest) obj;
-        if (RequestHeader==null) {
-            if (other.RequestHeader != null) return false;
-        } else if (!RequestHeader.equals(other.RequestHeader)) return false;
-        if (StartingRecordId==null) {
-            if (other.StartingRecordId != null) return false;
-        } else if (!StartingRecordId.equals(other.StartingRecordId)) return false;
-        if (MaxRecordsToReturn==null) {
-            if (other.MaxRecordsToReturn != null) return false;
-        } else if (!MaxRecordsToReturn.equals(other.MaxRecordsToReturn)) return false;
-        if (ServerCapabilityFilter==null) {
-            if (other.ServerCapabilityFilter != null) return false;
-        } else if (!Arrays.equals(ServerCapabilityFilter, other.ServerCapabilityFilter)) return false;
-        return true;
+    public ExpandedNodeId getTypeId() {
+        return ID;
     }
-    
+
     @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((RequestHeader == null) ? 0 : RequestHeader.hashCode());
-        result = prime * result
-                + ((StartingRecordId == null) ? 0 : StartingRecordId.hashCode());
-        result = prime * result
-                + ((MaxRecordsToReturn == null) ? 0 : MaxRecordsToReturn.hashCode());
-        result = prime * result
-                + ((ServerCapabilityFilter == null) ? 0 : Arrays.hashCode(ServerCapabilityFilter));
-        return result;
+    public ExpandedNodeId getXmlEncodeId() {
+        return XML;
     }
-    
- 
 
-	public ExpandedNodeId getTypeId() {
-		return ID;
-	}
+    @Override
+    public ExpandedNodeId getBinaryEncodeId() {
+        return BINARY;
+    }
 
-	public ExpandedNodeId getXmlEncodeId() {
-		return XML;
-	}
-	
-	public ExpandedNodeId getBinaryEncodeId() {
-		return BINARY;
-	}
-	
-	public String toString() {
-		return ObjectUtils.printFieldsDeep(this);
-	}
-	
+    @Override
+    public String toString() {
+        return ObjectUtils.printFieldsDeep(this);
+    }
+
 }

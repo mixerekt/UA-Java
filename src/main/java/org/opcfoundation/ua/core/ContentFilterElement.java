@@ -2,7 +2,7 @@
  * Copyright (c) 2005-2015 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
- * 
+ *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -11,7 +11,7 @@
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
@@ -29,106 +29,50 @@
 
 package org.opcfoundation.ua.core;
 
+import lombok.*;
 import org.opcfoundation.ua.builtintypes.*;
 import org.opcfoundation.ua.utils.*;
 
 import java.util.*;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@Data
+public class ContentFilterElement implements Structure {
 
-public class ContentFilterElement extends AbstractStructure {
-	
-	public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.ContentFilterElement);
-	public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.ContentFilterElement_Encoding_DefaultBinary);
-	public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.ContentFilterElement_Encoding_DefaultXml);
-	
-    protected FilterOperator FilterOperator;
-    protected ExtensionObject[] FilterOperands;
-    
-    public ContentFilterElement() {}
-    
-    public ContentFilterElement(FilterOperator FilterOperator, ExtensionObject[] FilterOperands)
-    {
-        this.FilterOperator = FilterOperator;
-        this.FilterOperands = FilterOperands;
+    public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.ContentFilterElement);
+    public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.ContentFilterElement_Encoding_DefaultBinary);
+    public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.ContentFilterElement_Encoding_DefaultXml);
+
+    protected FilterOperator filterOperator;
+    protected ExtensionObject[] filterOperands;
+
+    @SneakyThrows
+    public static ContentFilterElement newInstanceFrom(ContentFilterElement source) {
+        Objects.requireNonNull(source);
+
+        return (ContentFilterElement) source.clone();
     }
-    
-    public FilterOperator getFilterOperator()
-    {
-        return FilterOperator;
-    }
-    
-    public void setFilterOperator(FilterOperator FilterOperator)
-    {
-        this.FilterOperator = FilterOperator;
-    }
-    
-    public ExtensionObject[] getFilterOperands()
-    {
-        return FilterOperands;
-    }
-    
-    public void setFilterOperands(ExtensionObject[] FilterOperands)
-    {
-        this.FilterOperands = FilterOperands;
-    }
-    
-    /**
-      * Deep clone
-      *
-      * @return cloned ContentFilterElement
-      */
-    public ContentFilterElement clone()
-    {
-        ContentFilterElement result = (ContentFilterElement) super.clone();
-        result.FilterOperator = FilterOperator;
-        result.FilterOperands = FilterOperands==null ? null : FilterOperands.clone();
-        return result;
-    }
-    
+
     @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        ContentFilterElement other = (ContentFilterElement) obj;
-        if (FilterOperator==null) {
-            if (other.FilterOperator != null) return false;
-        } else if (!FilterOperator.equals(other.FilterOperator)) return false;
-        if (FilterOperands==null) {
-            if (other.FilterOperands != null) return false;
-        } else if (!Arrays.equals(FilterOperands, other.FilterOperands)) return false;
-        return true;
+    public ExpandedNodeId getTypeId() {
+        return ID;
     }
-    
+
     @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((FilterOperator == null) ? 0 : FilterOperator.hashCode());
-        result = prime * result
-                + ((FilterOperands == null) ? 0 : Arrays.hashCode(FilterOperands));
-        return result;
+    public ExpandedNodeId getXmlEncodeId() {
+        return XML;
     }
-    
 
+    @Override
+    public ExpandedNodeId getBinaryEncodeId() {
+        return BINARY;
+    }
 
-	public ExpandedNodeId getTypeId() {
-		return ID;
-	}
-
-	public ExpandedNodeId getXmlEncodeId() {
-		return XML;
-	}
-
-	public ExpandedNodeId getBinaryEncodeId() {
-		return BINARY;
-	}
-	
-	public String toString() {
-		return "ContentFilterElement: "+ObjectUtils.printFieldsDeep(this);
-	}
+    @Override
+    public String toString() {
+        return "ContentFilterElement: " + ObjectUtils.printFieldsDeep(this);
+    }
 
 }

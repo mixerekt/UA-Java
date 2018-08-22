@@ -29,63 +29,43 @@
 
 package org.opcfoundation.ua.core;
 
+import lombok.*;
 import org.opcfoundation.ua.builtintypes.*;
 import org.opcfoundation.ua.utils.*;
 
+import java.util.*;
 
-public class DiscoveryConfiguration extends AbstractStructure {
+@EqualsAndHashCode
+@Data
+public class DiscoveryConfiguration implements Structure {
 	
 	public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.DiscoveryConfiguration);
 	public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.DiscoveryConfiguration_Encoding_DefaultBinary);
 	public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.DiscoveryConfiguration_Encoding_DefaultXml);
-	
-    
-    public DiscoveryConfiguration() {}
-    
-    
-    /**
-      * Deep clone
-      *
-      * @return cloned DiscoveryConfiguration
-      */
-    public DiscoveryConfiguration clone()
-    {
-        DiscoveryConfiguration result = (DiscoveryConfiguration) super.clone();
-        return result;
-    }
-    
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        DiscoveryConfiguration other = (DiscoveryConfiguration) obj;
-        return true;
-    }
-    
-    @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-        return result;
-    }
-    
 
+    @SneakyThrows
+    public static DiscoveryConfiguration newInstanceFrom(DiscoveryConfiguration source) {
+        Objects.requireNonNull(source);
 
+        return (DiscoveryConfiguration) source.clone();
+    }
+
+    @Override
 	public ExpandedNodeId getTypeId() {
 		return ID;
 	}
 
+	@Override
 	public ExpandedNodeId getXmlEncodeId() {
 		return XML;
 	}
 
+	@Override
 	public ExpandedNodeId getBinaryEncodeId() {
 		return BINARY;
 	}
-	
+
+	@Override
 	public String toString() {
 		return "DiscoveryConfiguration: "+ObjectUtils.printFieldsDeep(this);
 	}

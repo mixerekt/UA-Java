@@ -2,7 +2,7 @@
  * Copyright (c) 2005-2015 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
- * 
+ *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -11,7 +11,7 @@
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
@@ -29,160 +29,53 @@
 
 package org.opcfoundation.ua.core;
 
+import lombok.*;
 import org.opcfoundation.ua.builtintypes.*;
 import org.opcfoundation.ua.utils.*;
 
 import java.util.*;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@Data
+public class SetTriggeringResponse implements ServiceResponse {
 
-public class SetTriggeringResponse extends AbstractStructure implements ServiceResponse {
+    public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.SetTriggeringResponse);
+    public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.SetTriggeringResponse_Encoding_DefaultBinary);
+    public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.SetTriggeringResponse_Encoding_DefaultXml);
 
-	public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.SetTriggeringResponse);
-	public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.SetTriggeringResponse_Encoding_DefaultBinary);
-	public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.SetTriggeringResponse_Encoding_DefaultXml);
-	
-    protected ResponseHeader ResponseHeader;
-    protected StatusCode[] AddResults;
-    protected DiagnosticInfo[] AddDiagnosticInfos;
-    protected StatusCode[] RemoveResults;
-    protected DiagnosticInfo[] RemoveDiagnosticInfos;
-    
-    public SetTriggeringResponse() {}
-    
-    public SetTriggeringResponse(ResponseHeader ResponseHeader, StatusCode[] AddResults, DiagnosticInfo[] AddDiagnosticInfos, StatusCode[] RemoveResults, DiagnosticInfo[] RemoveDiagnosticInfos)
-    {
-        this.ResponseHeader = ResponseHeader;
-        this.AddResults = AddResults;
-        this.AddDiagnosticInfos = AddDiagnosticInfos;
-        this.RemoveResults = RemoveResults;
-        this.RemoveDiagnosticInfos = RemoveDiagnosticInfos;
+    protected ResponseHeader responseHeader;
+    protected StatusCode[] addResults;
+    protected DiagnosticInfo[] addDiagnosticInfos;
+    protected StatusCode[] removeResults;
+    protected DiagnosticInfo[] removeDiagnosticInfos;
+
+    @SneakyThrows
+    public static SetTriggeringResponse newInstanceFrom(SetTriggeringResponse source) {
+        Objects.requireNonNull(source);
+
+        return (SetTriggeringResponse) source.clone();
     }
-    
-    public ResponseHeader getResponseHeader()
-    {
-        return ResponseHeader;
-    }
-    
-    public void setResponseHeader(ResponseHeader ResponseHeader)
-    {
-        this.ResponseHeader = ResponseHeader;
-    }
-    
-    public StatusCode[] getAddResults()
-    {
-        return AddResults;
-    }
-    
-    public void setAddResults(StatusCode[] AddResults)
-    {
-        this.AddResults = AddResults;
-    }
-    
-    public DiagnosticInfo[] getAddDiagnosticInfos()
-    {
-        return AddDiagnosticInfos;
-    }
-    
-    public void setAddDiagnosticInfos(DiagnosticInfo[] AddDiagnosticInfos)
-    {
-        this.AddDiagnosticInfos = AddDiagnosticInfos;
-    }
-    
-    public StatusCode[] getRemoveResults()
-    {
-        return RemoveResults;
-    }
-    
-    public void setRemoveResults(StatusCode[] RemoveResults)
-    {
-        this.RemoveResults = RemoveResults;
-    }
-    
-    public DiagnosticInfo[] getRemoveDiagnosticInfos()
-    {
-        return RemoveDiagnosticInfos;
-    }
-    
-    public void setRemoveDiagnosticInfos(DiagnosticInfo[] RemoveDiagnosticInfos)
-    {
-        this.RemoveDiagnosticInfos = RemoveDiagnosticInfos;
-    }
-    
-    /**
-      * Deep clone
-      *
-      * @return cloned SetTriggeringResponse
-      */
-    public SetTriggeringResponse clone()
-    {
-        SetTriggeringResponse result = (SetTriggeringResponse) super.clone();
-        result.ResponseHeader = ResponseHeader==null ? null : ResponseHeader.clone();
-        result.AddResults = AddResults==null ? null : AddResults.clone();
-        result.AddDiagnosticInfos = AddDiagnosticInfos==null ? null : AddDiagnosticInfos.clone();
-        result.RemoveResults = RemoveResults==null ? null : RemoveResults.clone();
-        result.RemoveDiagnosticInfos = RemoveDiagnosticInfos==null ? null : RemoveDiagnosticInfos.clone();
-        return result;
-    }
-    
+
     @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        SetTriggeringResponse other = (SetTriggeringResponse) obj;
-        if (ResponseHeader==null) {
-            if (other.ResponseHeader != null) return false;
-        } else if (!ResponseHeader.equals(other.ResponseHeader)) return false;
-        if (AddResults==null) {
-            if (other.AddResults != null) return false;
-        } else if (!Arrays.equals(AddResults, other.AddResults)) return false;
-        if (AddDiagnosticInfos==null) {
-            if (other.AddDiagnosticInfos != null) return false;
-        } else if (!Arrays.equals(AddDiagnosticInfos, other.AddDiagnosticInfos)) return false;
-        if (RemoveResults==null) {
-            if (other.RemoveResults != null) return false;
-        } else if (!Arrays.equals(RemoveResults, other.RemoveResults)) return false;
-        if (RemoveDiagnosticInfos==null) {
-            if (other.RemoveDiagnosticInfos != null) return false;
-        } else if (!Arrays.equals(RemoveDiagnosticInfos, other.RemoveDiagnosticInfos)) return false;
-        return true;
+    public ExpandedNodeId getTypeId() {
+        return ID;
     }
-    
+
     @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((ResponseHeader == null) ? 0 : ResponseHeader.hashCode());
-        result = prime * result
-                + ((AddResults == null) ? 0 : Arrays.hashCode(AddResults));
-        result = prime * result
-                + ((AddDiagnosticInfos == null) ? 0 : Arrays.hashCode(AddDiagnosticInfos));
-        result = prime * result
-                + ((RemoveResults == null) ? 0 : Arrays.hashCode(RemoveResults));
-        result = prime * result
-                + ((RemoveDiagnosticInfos == null) ? 0 : Arrays.hashCode(RemoveDiagnosticInfos));
-        return result;
+    public ExpandedNodeId getXmlEncodeId() {
+        return XML;
     }
-    
 
+    @Override
+    public ExpandedNodeId getBinaryEncodeId() {
+        return BINARY;
+    }
 
-	public ExpandedNodeId getTypeId() {
-		return ID;
-	}
+    @Override
+    public String toString() {
+        return ObjectUtils.printFieldsDeep(this);
+    }
 
-	public ExpandedNodeId getXmlEncodeId() {
-		return XML;
-	}
-
-	public ExpandedNodeId getBinaryEncodeId() {
-		return BINARY;
-	}
-
-	public String toString() {
-		return ObjectUtils.printFieldsDeep(this);
-	}
-	
 }

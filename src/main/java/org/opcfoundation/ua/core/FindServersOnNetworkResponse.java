@@ -2,7 +2,7 @@
  * Copyright (c) 2005-2015 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
- * 
+ *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -11,7 +11,7 @@
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
@@ -29,128 +29,51 @@
 
 package org.opcfoundation.ua.core;
 
+import lombok.*;
 import org.opcfoundation.ua.builtintypes.*;
 import org.opcfoundation.ua.utils.*;
 
 import java.util.*;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@Data
+public class FindServersOnNetworkResponse implements ServiceResponse {
 
-public class FindServersOnNetworkResponse extends AbstractStructure implements ServiceResponse {
+    public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.FindServersOnNetworkResponse);
+    public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.FindServersOnNetworkResponse_Encoding_DefaultBinary);
+    public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.FindServersOnNetworkResponse_Encoding_DefaultXml);
 
-	public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.FindServersOnNetworkResponse);
-	public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.FindServersOnNetworkResponse_Encoding_DefaultBinary);
-	public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.FindServersOnNetworkResponse_Encoding_DefaultXml);
-	
-    protected ResponseHeader ResponseHeader;
-    protected DateTime LastCounterResetTime;
-    protected ServerOnNetwork[] Servers;
-    
-    public FindServersOnNetworkResponse() {}
-    
-    public FindServersOnNetworkResponse(ResponseHeader ResponseHeader, DateTime LastCounterResetTime, ServerOnNetwork[] Servers)
-    {
-        this.ResponseHeader = ResponseHeader;
-        this.LastCounterResetTime = LastCounterResetTime;
-        this.Servers = Servers;
+    protected ResponseHeader responseHeader;
+    protected DateTime lastCounterResetTime;
+    protected ServerOnNetwork[] servers;
+
+    @SneakyThrows
+    public static FindServersOnNetworkResponse newInstanceFrom(FindServersOnNetworkResponse source) {
+        Objects.requireNonNull(source);
+
+        return (FindServersOnNetworkResponse) source.clone();
     }
-    
-    public ResponseHeader getResponseHeader()
-    {
-        return ResponseHeader;
-    }
-    
-    public void setResponseHeader(ResponseHeader ResponseHeader)
-    {
-        this.ResponseHeader = ResponseHeader;
-    }
-    
-    public DateTime getLastCounterResetTime()
-    {
-        return LastCounterResetTime;
-    }
-    
-    public void setLastCounterResetTime(DateTime LastCounterResetTime)
-    {
-        this.LastCounterResetTime = LastCounterResetTime;
-    }
-    
-    public ServerOnNetwork[] getServers()
-    {
-        return Servers;
-    }
-    
-    public void setServers(ServerOnNetwork[] Servers)
-    {
-        this.Servers = Servers;
-    }
-    
-    /**
-      * Deep clone
-      *
-      * @return cloned FindServersOnNetworkResponse
-      */
-    public FindServersOnNetworkResponse clone()
-    {
-        FindServersOnNetworkResponse result = (FindServersOnNetworkResponse) super.clone();
-        result.ResponseHeader = ResponseHeader==null ? null : ResponseHeader.clone();
-        result.LastCounterResetTime = LastCounterResetTime;
-        if (Servers!=null) {
-            result.Servers = new ServerOnNetwork[Servers.length];
-            for (int i=0; i<Servers.length; i++)
-                result.Servers[i] = Servers[i].clone();
-        }
-        return result;
-    }
-    
+
     @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        FindServersOnNetworkResponse other = (FindServersOnNetworkResponse) obj;
-        if (ResponseHeader==null) {
-            if (other.ResponseHeader != null) return false;
-        } else if (!ResponseHeader.equals(other.ResponseHeader)) return false;
-        if (LastCounterResetTime==null) {
-            if (other.LastCounterResetTime != null) return false;
-        } else if (!LastCounterResetTime.equals(other.LastCounterResetTime)) return false;
-        if (Servers==null) {
-            if (other.Servers != null) return false;
-        } else if (!Arrays.equals(Servers, other.Servers)) return false;
-        return true;
+    public ExpandedNodeId getTypeId() {
+        return ID;
     }
-    
+
     @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((ResponseHeader == null) ? 0 : ResponseHeader.hashCode());
-        result = prime * result
-                + ((LastCounterResetTime == null) ? 0 : LastCounterResetTime.hashCode());
-        result = prime * result
-                + ((Servers == null) ? 0 : Arrays.hashCode(Servers));
-        return result;
+    public ExpandedNodeId getXmlEncodeId() {
+        return XML;
     }
-    
 
+    @Override
+    public ExpandedNodeId getBinaryEncodeId() {
+        return BINARY;
+    }
 
-	public ExpandedNodeId getTypeId() {
-		return ID;
-	}
+    @Override
+    public String toString() {
+        return ObjectUtils.printFieldsDeep(this);
+    }
 
-	public ExpandedNodeId getXmlEncodeId() {
-		return XML;
-	}
-
-	public ExpandedNodeId getBinaryEncodeId() {
-		return BINARY;
-	}
-
-	public String toString() {
-		return ObjectUtils.printFieldsDeep(this);
-	}
-	
 }

@@ -29,122 +29,49 @@
 
 package org.opcfoundation.ua.core;
 
+import lombok.*;
 import org.opcfoundation.ua.builtintypes.*;
 import org.opcfoundation.ua.utils.*;
 
 import java.util.*;
 
-
-public class NotificationMessage extends AbstractStructure {
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@Data
+public class NotificationMessage implements Structure {
 	
 	public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.NotificationMessage);
 	public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.NotificationMessage_Encoding_DefaultBinary);
 	public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.NotificationMessage_Encoding_DefaultXml);
 	
-    protected UnsignedInteger SequenceNumber;
-    protected DateTime PublishTime;
-    protected ExtensionObject[] NotificationData;
-    
-    public NotificationMessage() {}
-    
-    public NotificationMessage(UnsignedInteger SequenceNumber, DateTime PublishTime, ExtensionObject[] NotificationData)
-    {
-        this.SequenceNumber = SequenceNumber;
-        this.PublishTime = PublishTime;
-        this.NotificationData = NotificationData;
-    }
-    
-    public UnsignedInteger getSequenceNumber()
-    {
-        return SequenceNumber;
-    }
-    
-    public void setSequenceNumber(UnsignedInteger SequenceNumber)
-    {
-        this.SequenceNumber = SequenceNumber;
-    }
-    
-    public DateTime getPublishTime()
-    {
-        return PublishTime;
-    }
-    
-    public void setPublishTime(DateTime PublishTime)
-    {
-        this.PublishTime = PublishTime;
-    }
-    
-    public ExtensionObject[] getNotificationData()
-    {
-        return NotificationData;
-    }
-    
-    public void setNotificationData(ExtensionObject[] NotificationData)
-    {
-        this.NotificationData = NotificationData;
-    }
-    
-    /**
-      * Deep clone
-      *
-      * @return cloned NotificationMessage
-      */
-    public NotificationMessage clone()
-    {
-        NotificationMessage result = (NotificationMessage) super.clone();
-        result.SequenceNumber = SequenceNumber;
-        result.PublishTime = PublishTime;
-        result.NotificationData = NotificationData==null ? null : NotificationData.clone();
-        return result;
-    }
-    
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        NotificationMessage other = (NotificationMessage) obj;
-        if (SequenceNumber==null) {
-            if (other.SequenceNumber != null) return false;
-        } else if (!SequenceNumber.equals(other.SequenceNumber)) return false;
-        if (PublishTime==null) {
-            if (other.PublishTime != null) return false;
-        } else if (!PublishTime.equals(other.PublishTime)) return false;
-        if (NotificationData==null) {
-            if (other.NotificationData != null) return false;
-        } else if (!Arrays.equals(NotificationData, other.NotificationData)) return false;
-        return true;
-    }
-    
-    @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((SequenceNumber == null) ? 0 : SequenceNumber.hashCode());
-        result = prime * result
-                + ((PublishTime == null) ? 0 : PublishTime.hashCode());
-        result = prime * result
-                + ((NotificationData == null) ? 0 : Arrays.hashCode(NotificationData));
-        return result;
-    }
-    
+    protected UnsignedInteger sequenceNumber;
+    protected DateTime publishTime;
+    protected ExtensionObject[] notificationData;
 
+    @SneakyThrows
+    public static NotificationMessage newInstanceFrom(NotificationMessage source) {
+        Objects.requireNonNull(source);
 
+        return (NotificationMessage) source.clone();
+    }
+
+    @Override
 	public ExpandedNodeId getTypeId() {
 		return ID;
 	}
 
+	@Override
 	public ExpandedNodeId getXmlEncodeId() {
 		return XML;
 	}
 
+	@Override
 	public ExpandedNodeId getBinaryEncodeId() {
 		return BINARY;
 	}
-	
+
+	@Override
 	public String toString() {
 		return "NotificationMessage: "+ObjectUtils.printFieldsDeep(this);
 	}

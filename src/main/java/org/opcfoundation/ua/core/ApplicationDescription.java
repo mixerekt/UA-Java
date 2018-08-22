@@ -31,14 +31,15 @@ package org.opcfoundation.ua.core;
 
 import lombok.*;
 import org.opcfoundation.ua.builtintypes.*;
-import org.opcfoundation.ua.utils.*;
+
+import java.util.*;
 
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @Data
-public class ApplicationDescription extends AbstractStructure {
+public class ApplicationDescription implements Structure {
 
     public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.ApplicationDescription);
     public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.ApplicationDescription_Encoding_DefaultBinary);
@@ -52,21 +53,26 @@ public class ApplicationDescription extends AbstractStructure {
     protected String discoveryProfileUri;
     protected String[] discoveryUrls;
 
+    @SneakyThrows
+    public static ApplicationDescription newInstanceFrom(ApplicationDescription source) {
+        Objects.requireNonNull(source);
+
+        return (ApplicationDescription) source.clone();
+    }
+
+    @Override
     public ExpandedNodeId getTypeId() {
         return ID;
     }
 
+    @Override
     public ExpandedNodeId getXmlEncodeId() {
         return XML;
     }
 
+    @Override
     public ExpandedNodeId getBinaryEncodeId() {
         return BINARY;
-    }
-
-    @Override
-    public ApplicationDescription clone() {
-        return (ApplicationDescription) super.clone();
     }
 }
 

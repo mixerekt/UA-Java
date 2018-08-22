@@ -2,7 +2,7 @@
  * Copyright (c) 2005-2015 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
- * 
+ *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -11,7 +11,7 @@
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
@@ -29,110 +29,50 @@
 
 package org.opcfoundation.ua.core;
 
+import lombok.*;
 import org.opcfoundation.ua.builtintypes.*;
 import org.opcfoundation.ua.utils.*;
 
 import java.util.*;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@Data
+public class CallRequest implements ServiceRequest {
 
-public class CallRequest extends AbstractStructure implements ServiceRequest {
+    public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.CallRequest);
+    public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.CallRequest_Encoding_DefaultBinary);
+    public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.CallRequest_Encoding_DefaultXml);
 
-	public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.CallRequest);
-	public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.CallRequest_Encoding_DefaultBinary);
-	public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.CallRequest_Encoding_DefaultXml);
-	
-    protected RequestHeader RequestHeader;
-    protected CallMethodRequest[] MethodsToCall;
-    
-    public CallRequest() {}
-    
-    public CallRequest(RequestHeader RequestHeader, CallMethodRequest[] MethodsToCall)
-    {
-        this.RequestHeader = RequestHeader;
-        this.MethodsToCall = MethodsToCall;
+    protected RequestHeader requestHeader;
+    protected CallMethodRequest[] methodsToCall;
+
+    @SneakyThrows
+    public static CallRequest newInstanceFrom(CallRequest source) {
+        Objects.requireNonNull(source);
+
+        return (CallRequest) source.clone();
     }
-    
-    public RequestHeader getRequestHeader()
-    {
-        return RequestHeader;
-    }
-    
-    public void setRequestHeader(RequestHeader RequestHeader)
-    {
-        this.RequestHeader = RequestHeader;
-    }
-    
-    public CallMethodRequest[] getMethodsToCall()
-    {
-        return MethodsToCall;
-    }
-    
-    public void setMethodsToCall(CallMethodRequest[] MethodsToCall)
-    {
-        this.MethodsToCall = MethodsToCall;
-    }
-    
-    /**
-      * Deep clone
-      *
-      * @return cloned CallRequest
-      */
-    public CallRequest clone()
-    {
-        CallRequest result = (CallRequest) super.clone();
-        result.RequestHeader = RequestHeader==null ? null : RequestHeader.clone();
-        if (MethodsToCall!=null) {
-            result.MethodsToCall = new CallMethodRequest[MethodsToCall.length];
-            for (int i=0; i<MethodsToCall.length; i++)
-                result.MethodsToCall[i] = MethodsToCall[i].clone();
-        }
-        return result;
-    }
-    
+
     @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        CallRequest other = (CallRequest) obj;
-        if (RequestHeader==null) {
-            if (other.RequestHeader != null) return false;
-        } else if (!RequestHeader.equals(other.RequestHeader)) return false;
-        if (MethodsToCall==null) {
-            if (other.MethodsToCall != null) return false;
-        } else if (!Arrays.equals(MethodsToCall, other.MethodsToCall)) return false;
-        return true;
+    public ExpandedNodeId getTypeId() {
+        return ID;
     }
-    
+
     @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((RequestHeader == null) ? 0 : RequestHeader.hashCode());
-        result = prime * result
-                + ((MethodsToCall == null) ? 0 : Arrays.hashCode(MethodsToCall));
-        return result;
+    public ExpandedNodeId getXmlEncodeId() {
+        return XML;
     }
-    
- 
 
-	public ExpandedNodeId getTypeId() {
-		return ID;
-	}
+    @Override
+    public ExpandedNodeId getBinaryEncodeId() {
+        return BINARY;
+    }
 
-	public ExpandedNodeId getXmlEncodeId() {
-		return XML;
-	}
-	
-	public ExpandedNodeId getBinaryEncodeId() {
-		return BINARY;
-	}
-	
-	public String toString() {
-		return ObjectUtils.printFieldsDeep(this);
-	}
-	
+    @Override
+    public String toString() {
+        return ObjectUtils.printFieldsDeep(this);
+    }
+
 }

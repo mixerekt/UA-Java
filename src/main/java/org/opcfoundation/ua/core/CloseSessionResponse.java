@@ -29,84 +29,47 @@
 
 package org.opcfoundation.ua.core;
 
+import lombok.*;
 import org.opcfoundation.ua.builtintypes.*;
 import org.opcfoundation.ua.utils.*;
 
+import java.util.*;
 
-public class CloseSessionResponse extends AbstractStructure implements ServiceResponse {
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@Data
+public class CloseSessionResponse implements ServiceResponse {
 
 	public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.CloseSessionResponse);
 	public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.CloseSessionResponse_Encoding_DefaultBinary);
 	public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.CloseSessionResponse_Encoding_DefaultXml);
 	
-    protected ResponseHeader ResponseHeader;
-    
-    public CloseSessionResponse() {}
-    
-    public CloseSessionResponse(ResponseHeader ResponseHeader)
-    {
-        this.ResponseHeader = ResponseHeader;
-    }
-    
-    public ResponseHeader getResponseHeader()
-    {
-        return ResponseHeader;
-    }
-    
-    public void setResponseHeader(ResponseHeader ResponseHeader)
-    {
-        this.ResponseHeader = ResponseHeader;
-    }
-    
-    /**
-      * Deep clone
-      *
-      * @return cloned CloseSessionResponse
-      */
-    public CloseSessionResponse clone()
-    {
-        CloseSessionResponse result = (CloseSessionResponse) super.clone();
-        result.ResponseHeader = ResponseHeader==null ? null : ResponseHeader.clone();
-        return result;
-    }
-    
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        CloseSessionResponse other = (CloseSessionResponse) obj;
-        if (ResponseHeader==null) {
-            if (other.ResponseHeader != null) return false;
-        } else if (!ResponseHeader.equals(other.ResponseHeader)) return false;
-        return true;
-    }
-    
-    @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((ResponseHeader == null) ? 0 : ResponseHeader.hashCode());
-        return result;
-    }
-    
+    protected ResponseHeader responseHeader;
 
+    @SneakyThrows
+    public static CloseSessionResponse newInstanceFrom(CloseSessionResponse source) {
+        Objects.requireNonNull(source);
 
+        return (CloseSessionResponse) source.clone();
+    }
+
+    @Override
 	public ExpandedNodeId getTypeId() {
 		return ID;
 	}
 
+	@Override
 	public ExpandedNodeId getXmlEncodeId() {
 		return XML;
 	}
 
+	@Override
 	public ExpandedNodeId getBinaryEncodeId() {
 		return BINARY;
 	}
 
+	@Override
 	public String toString() {
 		return ObjectUtils.printFieldsDeep(this);
 	}

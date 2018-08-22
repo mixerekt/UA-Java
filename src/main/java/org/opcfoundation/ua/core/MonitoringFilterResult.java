@@ -29,63 +29,43 @@
 
 package org.opcfoundation.ua.core;
 
+import lombok.*;
 import org.opcfoundation.ua.builtintypes.*;
 import org.opcfoundation.ua.utils.*;
 
+import java.util.*;
 
-public class MonitoringFilterResult extends AbstractStructure {
+
+public class MonitoringFilterResult implements Structure {
 	
 	public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.MonitoringFilterResult);
 	public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.MonitoringFilterResult_Encoding_DefaultBinary);
 	public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.MonitoringFilterResult_Encoding_DefaultXml);
-	
-    
-    public MonitoringFilterResult() {}
-    
-    
-    /**
-      * Deep clone
-      *
-      * @return cloned MonitoringFilterResult
-      */
-    public MonitoringFilterResult clone()
-    {
-        MonitoringFilterResult result = (MonitoringFilterResult) super.clone();
-        return result;
-    }
-    
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        MonitoringFilterResult other = (MonitoringFilterResult) obj;
-        return true;
-    }
-    
-    @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-        return result;
-    }
-    
 
 
+    @SneakyThrows
+    public static MonitoringFilterResult newInstanceFrom(MonitoringFilterResult source) {
+        Objects.requireNonNull(source);
+
+        return (MonitoringFilterResult) source.clone();
+    }
+
+    @Override
 	public ExpandedNodeId getTypeId() {
 		return ID;
 	}
 
+	@Override
 	public ExpandedNodeId getXmlEncodeId() {
 		return XML;
 	}
 
+	@Override
 	public ExpandedNodeId getBinaryEncodeId() {
 		return BINARY;
 	}
-	
+
+	@Override
 	public String toString() {
 		return "MonitoringFilterResult: "+ObjectUtils.printFieldsDeep(this);
 	}

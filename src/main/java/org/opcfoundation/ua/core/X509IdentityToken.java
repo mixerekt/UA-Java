@@ -2,7 +2,7 @@
  * Copyright (c) 2005-2015 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
- * 
+ *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -11,7 +11,7 @@
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
@@ -29,98 +29,53 @@
 
 package org.opcfoundation.ua.core;
 
-import org.opcfoundation.ua.builtintypes.Structure;
-import org.opcfoundation.ua.builtintypes.ExpandedNodeId;
-import org.opcfoundation.ua.core.Identifiers;
-import org.opcfoundation.ua.utils.ObjectUtils;
-import org.opcfoundation.ua.builtintypes.ByteString;
-import org.opcfoundation.ua.core.UserIdentityToken;
+import lombok.*;
+import org.opcfoundation.ua.builtintypes.*;
+import org.opcfoundation.ua.utils.*;
 
+import java.util.*;
 
-
+@NoArgsConstructor
+@EqualsAndHashCode
+@Data
 public class X509IdentityToken extends UserIdentityToken {
-	
-	public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.X509IdentityToken);
-	public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.X509IdentityToken_Encoding_DefaultBinary);
-	public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.X509IdentityToken_Encoding_DefaultXml);
-	
-    protected ByteString CertificateData;
-    
-    public X509IdentityToken() {}
-    
-    public X509IdentityToken(String PolicyId, ByteString CertificateData)
-    {
-        super(PolicyId);
-        this.CertificateData = CertificateData;
+
+    public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.X509IdentityToken);
+    public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.X509IdentityToken_Encoding_DefaultBinary);
+    public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.X509IdentityToken_Encoding_DefaultXml);
+
+    protected ByteString certificateData;
+
+    public X509IdentityToken(String policyId, ByteString certificateData) {
+        super(policyId);
+        this.certificateData = certificateData;
     }
-    
-    public ByteString getCertificateData()
-    {
-        return CertificateData;
+
+    @SneakyThrows
+    public static X509IdentityToken newInstanceFrom(X509IdentityToken source) {
+        Objects.requireNonNull(source);
+
+        return (X509IdentityToken) source.clone();
     }
-    
-    public void setCertificateData(ByteString CertificateData)
-    {
-        this.CertificateData = CertificateData;
-    }
-    
-    /**
-      * Deep clone
-      *
-      * @return cloned X509IdentityToken
-      */
-    public X509IdentityToken clone()
-    {
-        X509IdentityToken result = (X509IdentityToken) super.clone();
-        result.PolicyId = PolicyId;
-        result.CertificateData = CertificateData;
-        return result;
-    }
-    
+
     @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        X509IdentityToken other = (X509IdentityToken) obj;
-        if (PolicyId==null) {
-            if (other.PolicyId != null) return false;
-        } else if (!PolicyId.equals(other.PolicyId)) return false;
-        if (CertificateData==null) {
-            if (other.CertificateData != null) return false;
-        } else if (!CertificateData.equals(other.CertificateData)) return false;
-        return true;
+    public ExpandedNodeId getTypeId() {
+        return ID;
     }
-    
+
     @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((PolicyId == null) ? 0 : PolicyId.hashCode());
-        result = prime * result
-                + ((CertificateData == null) ? 0 : CertificateData.hashCode());
-        return result;
+    public ExpandedNodeId getXmlEncodeId() {
+        return XML;
     }
-    
 
+    @Override
+    public ExpandedNodeId getBinaryEncodeId() {
+        return BINARY;
+    }
 
-	public ExpandedNodeId getTypeId() {
-		return ID;
-	}
-
-	public ExpandedNodeId getXmlEncodeId() {
-		return XML;
-	}
-
-	public ExpandedNodeId getBinaryEncodeId() {
-		return BINARY;
-	}
-	
-	public String toString() {
-		return "X509IdentityToken: "+ObjectUtils.printFieldsDeep(this);
-	}
+    @Override
+    public String toString() {
+        return "X509IdentityToken: " + ObjectUtils.printFieldsDeep(this);
+    }
 
 }

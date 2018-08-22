@@ -2,7 +2,7 @@
  * Copyright (c) 2005-2015 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
- * 
+ *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -11,7 +11,7 @@
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
@@ -29,122 +29,51 @@
 
 package org.opcfoundation.ua.core;
 
+import lombok.*;
 import org.opcfoundation.ua.builtintypes.*;
 import org.opcfoundation.ua.utils.*;
 
+import java.util.*;
 
-public class MonitoredItemCreateRequest extends AbstractStructure {
-	
-	public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.MonitoredItemCreateRequest);
-	public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.MonitoredItemCreateRequest_Encoding_DefaultBinary);
-	public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.MonitoredItemCreateRequest_Encoding_DefaultXml);
-	
-    protected ReadValueId ItemToMonitor;
-    protected MonitoringMode MonitoringMode;
-    protected MonitoringParameters RequestedParameters;
-    
-    public MonitoredItemCreateRequest() {}
-    
-    public MonitoredItemCreateRequest(ReadValueId ItemToMonitor, MonitoringMode MonitoringMode, MonitoringParameters RequestedParameters)
-    {
-        this.ItemToMonitor = ItemToMonitor;
-        this.MonitoringMode = MonitoringMode;
-        this.RequestedParameters = RequestedParameters;
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@Data
+public class MonitoredItemCreateRequest implements Structure {
+
+    public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.MonitoredItemCreateRequest);
+    public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.MonitoredItemCreateRequest_Encoding_DefaultBinary);
+    public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.MonitoredItemCreateRequest_Encoding_DefaultXml);
+
+    protected ReadValueId itemToMonitor;
+    protected MonitoringMode monitoringMode;
+    protected MonitoringParameters requestedParameters;
+
+    @SneakyThrows
+    public static MonitoredItemCreateRequest newInstanceFrom(MonitoredItemCreateRequest source) {
+        Objects.requireNonNull(source);
+
+        return (MonitoredItemCreateRequest) source.clone();
     }
-    
-    public ReadValueId getItemToMonitor()
-    {
-        return ItemToMonitor;
-    }
-    
-    public void setItemToMonitor(ReadValueId ItemToMonitor)
-    {
-        this.ItemToMonitor = ItemToMonitor;
-    }
-    
-    public MonitoringMode getMonitoringMode()
-    {
-        return MonitoringMode;
-    }
-    
-    public void setMonitoringMode(MonitoringMode MonitoringMode)
-    {
-        this.MonitoringMode = MonitoringMode;
-    }
-    
-    public MonitoringParameters getRequestedParameters()
-    {
-        return RequestedParameters;
-    }
-    
-    public void setRequestedParameters(MonitoringParameters RequestedParameters)
-    {
-        this.RequestedParameters = RequestedParameters;
-    }
-    
-    /**
-      * Deep clone
-      *
-      * @return cloned MonitoredItemCreateRequest
-      */
-    public MonitoredItemCreateRequest clone()
-    {
-        MonitoredItemCreateRequest result = (MonitoredItemCreateRequest) super.clone();
-        result.ItemToMonitor = ItemToMonitor==null ? null : ItemToMonitor.clone();
-        result.MonitoringMode = MonitoringMode;
-        result.RequestedParameters = RequestedParameters==null ? null : RequestedParameters.clone();
-        return result;
-    }
-    
+
     @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        MonitoredItemCreateRequest other = (MonitoredItemCreateRequest) obj;
-        if (ItemToMonitor==null) {
-            if (other.ItemToMonitor != null) return false;
-        } else if (!ItemToMonitor.equals(other.ItemToMonitor)) return false;
-        if (MonitoringMode==null) {
-            if (other.MonitoringMode != null) return false;
-        } else if (!MonitoringMode.equals(other.MonitoringMode)) return false;
-        if (RequestedParameters==null) {
-            if (other.RequestedParameters != null) return false;
-        } else if (!RequestedParameters.equals(other.RequestedParameters)) return false;
-        return true;
+    public ExpandedNodeId getTypeId() {
+        return ID;
     }
-    
+
     @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((ItemToMonitor == null) ? 0 : ItemToMonitor.hashCode());
-        result = prime * result
-                + ((MonitoringMode == null) ? 0 : MonitoringMode.hashCode());
-        result = prime * result
-                + ((RequestedParameters == null) ? 0 : RequestedParameters.hashCode());
-        return result;
+    public ExpandedNodeId getXmlEncodeId() {
+        return XML;
     }
-    
 
+    @Override
+    public ExpandedNodeId getBinaryEncodeId() {
+        return BINARY;
+    }
 
-	public ExpandedNodeId getTypeId() {
-		return ID;
-	}
-
-	public ExpandedNodeId getXmlEncodeId() {
-		return XML;
-	}
-
-	public ExpandedNodeId getBinaryEncodeId() {
-		return BINARY;
-	}
-	
-	public String toString() {
-		return "MonitoredItemCreateRequest: "+ObjectUtils.printFieldsDeep(this);
-	}
+    @Override
+    public String toString() {
+        return "MonitoredItemCreateRequest: " + ObjectUtils.printFieldsDeep(this);
+    }
 
 }

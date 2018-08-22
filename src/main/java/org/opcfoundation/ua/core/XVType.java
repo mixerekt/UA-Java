@@ -2,7 +2,7 @@
  * Copyright (c) 2005-2015 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
- * 
+ *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -11,7 +11,7 @@
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
@@ -29,104 +29,50 @@
 
 package org.opcfoundation.ua.core;
 
+import lombok.*;
 import org.opcfoundation.ua.builtintypes.*;
 import org.opcfoundation.ua.utils.*;
 
+import java.util.*;
 
-public class XVType extends AbstractStructure {
-	
-	public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.XVType);
-	public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.XVType_Encoding_DefaultBinary);
-	public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.XVType_Encoding_DefaultXml);
-	
-    protected Double X;
-    protected Float Value;
-    
-    public XVType() {}
-    
-    public XVType(Double X, Float Value)
-    {
-        this.X = X;
-        this.Value = Value;
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@Data
+public class XVType implements Structure {
+
+    public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.XVType);
+    public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.XVType_Encoding_DefaultBinary);
+    public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.XVType_Encoding_DefaultXml);
+
+    protected Double x;
+    protected Float value;
+
+    @SneakyThrows
+    public static XVType newInstanceFrom(XVType source) {
+        Objects.requireNonNull(source);
+
+        return (XVType) source.clone();
     }
-    
-    public Double getX()
-    {
-        return X;
-    }
-    
-    public void setX(Double X)
-    {
-        this.X = X;
-    }
-    
-    public Float getValue()
-    {
-        return Value;
-    }
-    
-    public void setValue(Float Value)
-    {
-        this.Value = Value;
-    }
-    
-    /**
-      * Deep clone
-      *
-      * @return cloned XVType
-      */
-    public XVType clone()
-    {
-        XVType result = (XVType) super.clone();
-        result.X = X;
-        result.Value = Value;
-        return result;
-    }
-    
+
     @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        XVType other = (XVType) obj;
-        if (X==null) {
-            if (other.X != null) return false;
-        } else if (!X.equals(other.X)) return false;
-        if (Value==null) {
-            if (other.Value != null) return false;
-        } else if (!Value.equals(other.Value)) return false;
-        return true;
+    public ExpandedNodeId getTypeId() {
+        return ID;
     }
-    
+
     @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((X == null) ? 0 : X.hashCode());
-        result = prime * result
-                + ((Value == null) ? 0 : Value.hashCode());
-        return result;
+    public ExpandedNodeId getXmlEncodeId() {
+        return XML;
     }
-    
 
+    @Override
+    public ExpandedNodeId getBinaryEncodeId() {
+        return BINARY;
+    }
 
-	public ExpandedNodeId getTypeId() {
-		return ID;
-	}
-
-	public ExpandedNodeId getXmlEncodeId() {
-		return XML;
-	}
-
-	public ExpandedNodeId getBinaryEncodeId() {
-		return BINARY;
-	}
-	
-	public String toString() {
-		return "XVType: "+ObjectUtils.printFieldsDeep(this);
-	}
+    @Override
+    public String toString() {
+        return "XVType: " + ObjectUtils.printFieldsDeep(this);
+    }
 
 }

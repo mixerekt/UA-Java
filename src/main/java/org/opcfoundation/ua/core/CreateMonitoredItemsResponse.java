@@ -29,126 +29,49 @@
 
 package org.opcfoundation.ua.core;
 
+import lombok.*;
 import org.opcfoundation.ua.builtintypes.*;
 import org.opcfoundation.ua.utils.*;
 
 import java.util.*;
 
-
-public class CreateMonitoredItemsResponse extends AbstractStructure implements ServiceResponse {
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@Data
+public class CreateMonitoredItemsResponse implements ServiceResponse {
 
 	public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.CreateMonitoredItemsResponse);
 	public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.CreateMonitoredItemsResponse_Encoding_DefaultBinary);
 	public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.CreateMonitoredItemsResponse_Encoding_DefaultXml);
 	
-    protected ResponseHeader ResponseHeader;
-    protected MonitoredItemCreateResult[] Results;
-    protected DiagnosticInfo[] DiagnosticInfos;
-    
-    public CreateMonitoredItemsResponse() {}
-    
-    public CreateMonitoredItemsResponse(ResponseHeader ResponseHeader, MonitoredItemCreateResult[] Results, DiagnosticInfo[] DiagnosticInfos)
-    {
-        this.ResponseHeader = ResponseHeader;
-        this.Results = Results;
-        this.DiagnosticInfos = DiagnosticInfos;
-    }
-    
-    public ResponseHeader getResponseHeader()
-    {
-        return ResponseHeader;
-    }
-    
-    public void setResponseHeader(ResponseHeader ResponseHeader)
-    {
-        this.ResponseHeader = ResponseHeader;
-    }
-    
-    public MonitoredItemCreateResult[] getResults()
-    {
-        return Results;
-    }
-    
-    public void setResults(MonitoredItemCreateResult[] Results)
-    {
-        this.Results = Results;
-    }
-    
-    public DiagnosticInfo[] getDiagnosticInfos()
-    {
-        return DiagnosticInfos;
-    }
-    
-    public void setDiagnosticInfos(DiagnosticInfo[] DiagnosticInfos)
-    {
-        this.DiagnosticInfos = DiagnosticInfos;
-    }
-    
-    /**
-      * Deep clone
-      *
-      * @return cloned CreateMonitoredItemsResponse
-      */
-    public CreateMonitoredItemsResponse clone()
-    {
-        CreateMonitoredItemsResponse result = (CreateMonitoredItemsResponse) super.clone();
-        result.ResponseHeader = ResponseHeader==null ? null : ResponseHeader.clone();
-        if (Results!=null) {
-            result.Results = new MonitoredItemCreateResult[Results.length];
-            for (int i=0; i<Results.length; i++)
-                result.Results[i] = Results[i].clone();
-        }
-        result.DiagnosticInfos = DiagnosticInfos==null ? null : DiagnosticInfos.clone();
-        return result;
-    }
-    
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        CreateMonitoredItemsResponse other = (CreateMonitoredItemsResponse) obj;
-        if (ResponseHeader==null) {
-            if (other.ResponseHeader != null) return false;
-        } else if (!ResponseHeader.equals(other.ResponseHeader)) return false;
-        if (Results==null) {
-            if (other.Results != null) return false;
-        } else if (!Arrays.equals(Results, other.Results)) return false;
-        if (DiagnosticInfos==null) {
-            if (other.DiagnosticInfos != null) return false;
-        } else if (!Arrays.equals(DiagnosticInfos, other.DiagnosticInfos)) return false;
-        return true;
-    }
-    
-    @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((ResponseHeader == null) ? 0 : ResponseHeader.hashCode());
-        result = prime * result
-                + ((Results == null) ? 0 : Arrays.hashCode(Results));
-        result = prime * result
-                + ((DiagnosticInfos == null) ? 0 : Arrays.hashCode(DiagnosticInfos));
-        return result;
-    }
-    
+    protected ResponseHeader responseHeader;
+    protected MonitoredItemCreateResult[] results;
+    protected DiagnosticInfo[] diagnosticInfos;
 
+    @SneakyThrows
+    public static CreateMonitoredItemsResponse newInstanceFrom(CreateMonitoredItemsResponse source) {
+        Objects.requireNonNull(source);
 
+        return (CreateMonitoredItemsResponse) source.clone();
+    }
+
+    @Override
 	public ExpandedNodeId getTypeId() {
 		return ID;
 	}
 
+	@Override
 	public ExpandedNodeId getXmlEncodeId() {
 		return XML;
 	}
 
+	@Override
 	public ExpandedNodeId getBinaryEncodeId() {
 		return BINARY;
 	}
 
+	@Override
 	public String toString() {
 		return ObjectUtils.printFieldsDeep(this);
 	}

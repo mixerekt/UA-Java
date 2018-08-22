@@ -29,86 +29,47 @@
 
 package org.opcfoundation.ua.core;
 
+import lombok.*;
 import org.opcfoundation.ua.builtintypes.*;
 import org.opcfoundation.ua.utils.*;
 
 import java.util.*;
 
-
-public class HistoryEventFieldList extends AbstractStructure {
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@Data
+public class HistoryEventFieldList implements Structure {
 	
 	public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.HistoryEventFieldList);
 	public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.HistoryEventFieldList_Encoding_DefaultBinary);
 	public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.HistoryEventFieldList_Encoding_DefaultXml);
 	
-    protected Variant[] EventFields;
-    
-    public HistoryEventFieldList() {}
-    
-    public HistoryEventFieldList(Variant[] EventFields)
-    {
-        this.EventFields = EventFields;
-    }
-    
-    public Variant[] getEventFields()
-    {
-        return EventFields;
-    }
-    
-    public void setEventFields(Variant[] EventFields)
-    {
-        this.EventFields = EventFields;
-    }
-    
-    /**
-      * Deep clone
-      *
-      * @return cloned HistoryEventFieldList
-      */
-    public HistoryEventFieldList clone()
-    {
-        HistoryEventFieldList result = (HistoryEventFieldList) super.clone();
-        result.EventFields = EventFields==null ? null : EventFields.clone();
-        return result;
-    }
-    
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        HistoryEventFieldList other = (HistoryEventFieldList) obj;
-        if (EventFields==null) {
-            if (other.EventFields != null) return false;
-        } else if (!Arrays.equals(EventFields, other.EventFields)) return false;
-        return true;
-    }
-    
-    @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((EventFields == null) ? 0 : Arrays.hashCode(EventFields));
-        return result;
-    }
-    
+    protected Variant[] eventFields;
 
+    @SneakyThrows
+    public static HistoryEventFieldList newInstanceFrom(HistoryEventFieldList source) {
+        Objects.requireNonNull(source);
 
+        return (HistoryEventFieldList) source.clone();
+    }
+
+    @Override
 	public ExpandedNodeId getTypeId() {
 		return ID;
 	}
 
+	@Override
 	public ExpandedNodeId getXmlEncodeId() {
 		return XML;
 	}
 
+	@Override
 	public ExpandedNodeId getBinaryEncodeId() {
 		return BINARY;
 	}
-	
+
+	@Override
 	public String toString() {
 		return "HistoryEventFieldList: "+ObjectUtils.printFieldsDeep(this);
 	}

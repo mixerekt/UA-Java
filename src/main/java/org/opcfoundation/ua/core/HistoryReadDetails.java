@@ -29,63 +29,44 @@
 
 package org.opcfoundation.ua.core;
 
+import lombok.*;
 import org.opcfoundation.ua.builtintypes.*;
 import org.opcfoundation.ua.utils.*;
 
+import java.util.*;
 
-public class HistoryReadDetails extends AbstractStructure {
+@EqualsAndHashCode
+@Data
+public class HistoryReadDetails implements Structure {
 	
 	public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.HistoryReadDetails);
 	public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.HistoryReadDetails_Encoding_DefaultBinary);
 	public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.HistoryReadDetails_Encoding_DefaultXml);
-	
-    
-    public HistoryReadDetails() {}
-    
-    
-    /**
-      * Deep clone
-      *
-      * @return cloned HistoryReadDetails
-      */
-    public HistoryReadDetails clone()
-    {
-        HistoryReadDetails result = (HistoryReadDetails) super.clone();
-        return result;
-    }
-    
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        HistoryReadDetails other = (HistoryReadDetails) obj;
-        return true;
-    }
-    
-    @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-        return result;
-    }
-    
 
 
+    @SneakyThrows
+    public static HistoryReadDetails newInstanceFrom(HistoryReadDetails source) {
+        Objects.requireNonNull(source);
+
+        return (HistoryReadDetails) source.clone();
+    }
+
+    @Override
 	public ExpandedNodeId getTypeId() {
 		return ID;
 	}
 
+	@Override
 	public ExpandedNodeId getXmlEncodeId() {
 		return XML;
 	}
 
+	@Override
 	public ExpandedNodeId getBinaryEncodeId() {
 		return BINARY;
 	}
-	
+
+	@Override
 	public String toString() {
 		return "HistoryReadDetails: "+ObjectUtils.printFieldsDeep(this);
 	}

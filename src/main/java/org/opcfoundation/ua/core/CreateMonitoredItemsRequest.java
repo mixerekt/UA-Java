@@ -2,7 +2,7 @@
  * Copyright (c) 2005-2015 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
- * 
+ *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -11,7 +11,7 @@
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
@@ -29,146 +29,52 @@
 
 package org.opcfoundation.ua.core;
 
+import lombok.*;
 import org.opcfoundation.ua.builtintypes.*;
 import org.opcfoundation.ua.utils.*;
 
 import java.util.*;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@Data
+public class CreateMonitoredItemsRequest implements ServiceRequest {
 
-public class CreateMonitoredItemsRequest extends AbstractStructure implements ServiceRequest {
+    public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.CreateMonitoredItemsRequest);
+    public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.CreateMonitoredItemsRequest_Encoding_DefaultBinary);
+    public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.CreateMonitoredItemsRequest_Encoding_DefaultXml);
 
-	public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.CreateMonitoredItemsRequest);
-	public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.CreateMonitoredItemsRequest_Encoding_DefaultBinary);
-	public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.CreateMonitoredItemsRequest_Encoding_DefaultXml);
-	
-    protected RequestHeader RequestHeader;
-    protected UnsignedInteger SubscriptionId;
-    protected TimestampsToReturn TimestampsToReturn;
-    protected MonitoredItemCreateRequest[] ItemsToCreate;
-    
-    public CreateMonitoredItemsRequest() {}
-    
-    public CreateMonitoredItemsRequest(RequestHeader RequestHeader, UnsignedInteger SubscriptionId, TimestampsToReturn TimestampsToReturn, MonitoredItemCreateRequest[] ItemsToCreate)
-    {
-        this.RequestHeader = RequestHeader;
-        this.SubscriptionId = SubscriptionId;
-        this.TimestampsToReturn = TimestampsToReturn;
-        this.ItemsToCreate = ItemsToCreate;
+    protected RequestHeader requestHeader;
+    protected UnsignedInteger subscriptionId;
+    protected TimestampsToReturn timestampsToReturn;
+    protected MonitoredItemCreateRequest[] itemsToCreate;
+
+    @SneakyThrows
+    public static CreateMonitoredItemsRequest newInstanceFrom(CreateMonitoredItemsRequest source) {
+        Objects.requireNonNull(source);
+
+        return (CreateMonitoredItemsRequest) source.clone();
     }
-    
-    public RequestHeader getRequestHeader()
-    {
-        return RequestHeader;
-    }
-    
-    public void setRequestHeader(RequestHeader RequestHeader)
-    {
-        this.RequestHeader = RequestHeader;
-    }
-    
-    public UnsignedInteger getSubscriptionId()
-    {
-        return SubscriptionId;
-    }
-    
-    public void setSubscriptionId(UnsignedInteger SubscriptionId)
-    {
-        this.SubscriptionId = SubscriptionId;
-    }
-    
-    public TimestampsToReturn getTimestampsToReturn()
-    {
-        return TimestampsToReturn;
-    }
-    
-    public void setTimestampsToReturn(TimestampsToReturn TimestampsToReturn)
-    {
-        this.TimestampsToReturn = TimestampsToReturn;
-    }
-    
-    public MonitoredItemCreateRequest[] getItemsToCreate()
-    {
-        return ItemsToCreate;
-    }
-    
-    public void setItemsToCreate(MonitoredItemCreateRequest[] ItemsToCreate)
-    {
-        this.ItemsToCreate = ItemsToCreate;
-    }
-    
-    /**
-      * Deep clone
-      *
-      * @return cloned CreateMonitoredItemsRequest
-      */
-    public CreateMonitoredItemsRequest clone()
-    {
-        CreateMonitoredItemsRequest result = (CreateMonitoredItemsRequest) super.clone();
-        result.RequestHeader = RequestHeader==null ? null : RequestHeader.clone();
-        result.SubscriptionId = SubscriptionId;
-        result.TimestampsToReturn = TimestampsToReturn;
-        if (ItemsToCreate!=null) {
-            result.ItemsToCreate = new MonitoredItemCreateRequest[ItemsToCreate.length];
-            for (int i=0; i<ItemsToCreate.length; i++)
-                result.ItemsToCreate[i] = ItemsToCreate[i].clone();
-        }
-        return result;
-    }
-    
+
     @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        CreateMonitoredItemsRequest other = (CreateMonitoredItemsRequest) obj;
-        if (RequestHeader==null) {
-            if (other.RequestHeader != null) return false;
-        } else if (!RequestHeader.equals(other.RequestHeader)) return false;
-        if (SubscriptionId==null) {
-            if (other.SubscriptionId != null) return false;
-        } else if (!SubscriptionId.equals(other.SubscriptionId)) return false;
-        if (TimestampsToReturn==null) {
-            if (other.TimestampsToReturn != null) return false;
-        } else if (!TimestampsToReturn.equals(other.TimestampsToReturn)) return false;
-        if (ItemsToCreate==null) {
-            if (other.ItemsToCreate != null) return false;
-        } else if (!Arrays.equals(ItemsToCreate, other.ItemsToCreate)) return false;
-        return true;
+    public ExpandedNodeId getTypeId() {
+        return ID;
     }
-    
+
     @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((RequestHeader == null) ? 0 : RequestHeader.hashCode());
-        result = prime * result
-                + ((SubscriptionId == null) ? 0 : SubscriptionId.hashCode());
-        result = prime * result
-                + ((TimestampsToReturn == null) ? 0 : TimestampsToReturn.hashCode());
-        result = prime * result
-                + ((ItemsToCreate == null) ? 0 : Arrays.hashCode(ItemsToCreate));
-        return result;
+    public ExpandedNodeId getXmlEncodeId() {
+        return XML;
     }
-    
- 
 
-	public ExpandedNodeId getTypeId() {
-		return ID;
-	}
+    @Override
+    public ExpandedNodeId getBinaryEncodeId() {
+        return BINARY;
+    }
 
-	public ExpandedNodeId getXmlEncodeId() {
-		return XML;
-	}
-	
-	public ExpandedNodeId getBinaryEncodeId() {
-		return BINARY;
-	}
-	
-	public String toString() {
-		return ObjectUtils.printFieldsDeep(this);
-	}
-	
+    @Override
+    public String toString() {
+        return ObjectUtils.printFieldsDeep(this);
+    }
+
 }

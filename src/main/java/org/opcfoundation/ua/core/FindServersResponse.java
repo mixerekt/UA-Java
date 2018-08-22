@@ -29,108 +29,48 @@
 
 package org.opcfoundation.ua.core;
 
+import lombok.*;
 import org.opcfoundation.ua.builtintypes.*;
 import org.opcfoundation.ua.utils.*;
 
 import java.util.*;
 
-
-public class FindServersResponse extends AbstractStructure implements ServiceResponse {
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@Data
+public class FindServersResponse implements ServiceResponse {
 
 	public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.FindServersResponse);
 	public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.FindServersResponse_Encoding_DefaultBinary);
 	public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.FindServersResponse_Encoding_DefaultXml);
 	
-    protected ResponseHeader ResponseHeader;
-    protected ApplicationDescription[] Servers;
-    
-    public FindServersResponse() {}
-    
-    public FindServersResponse(ResponseHeader ResponseHeader, ApplicationDescription[] Servers)
-    {
-        this.ResponseHeader = ResponseHeader;
-        this.Servers = Servers;
-    }
-    
-    public ResponseHeader getResponseHeader()
-    {
-        return ResponseHeader;
-    }
-    
-    public void setResponseHeader(ResponseHeader ResponseHeader)
-    {
-        this.ResponseHeader = ResponseHeader;
-    }
-    
-    public ApplicationDescription[] getServers()
-    {
-        return Servers;
-    }
-    
-    public void setServers(ApplicationDescription[] Servers)
-    {
-        this.Servers = Servers;
-    }
-    
-    /**
-      * Deep clone
-      *
-      * @return cloned FindServersResponse
-      */
-    public FindServersResponse clone()
-    {
-        FindServersResponse result = (FindServersResponse) super.clone();
-        result.ResponseHeader = ResponseHeader==null ? null : ResponseHeader.clone();
-        if (Servers!=null) {
-            result.Servers = new ApplicationDescription[Servers.length];
-            for (int i=0; i<Servers.length; i++)
-                result.Servers[i] = Servers[i].clone();
-        }
-        return result;
-    }
-    
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        FindServersResponse other = (FindServersResponse) obj;
-        if (ResponseHeader==null) {
-            if (other.ResponseHeader != null) return false;
-        } else if (!ResponseHeader.equals(other.ResponseHeader)) return false;
-        if (Servers==null) {
-            if (other.Servers != null) return false;
-        } else if (!Arrays.equals(Servers, other.Servers)) return false;
-        return true;
-    }
-    
-    @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((ResponseHeader == null) ? 0 : ResponseHeader.hashCode());
-        result = prime * result
-                + ((Servers == null) ? 0 : Arrays.hashCode(Servers));
-        return result;
-    }
-    
+    protected ResponseHeader responseHeader;
+    protected ApplicationDescription[] servers;
 
+    @SneakyThrows
+    public static FindServersResponse newInstanceFrom(FindServersResponse source) {
+        Objects.requireNonNull(source);
 
+        return (FindServersResponse) source.clone();
+    }
+
+    @Override
 	public ExpandedNodeId getTypeId() {
 		return ID;
 	}
 
+	@Override
 	public ExpandedNodeId getXmlEncodeId() {
 		return XML;
 	}
 
+	@Override
 	public ExpandedNodeId getBinaryEncodeId() {
 		return BINARY;
 	}
 
+	@Override
 	public String toString() {
 		return ObjectUtils.printFieldsDeep(this);
 	}

@@ -2,7 +2,7 @@
  * Copyright (c) 2005-2015 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
- * 
+ *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -11,7 +11,7 @@
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
@@ -29,110 +29,50 @@
 
 package org.opcfoundation.ua.core;
 
+import lombok.*;
 import org.opcfoundation.ua.builtintypes.*;
 import org.opcfoundation.ua.utils.*;
 
 import java.util.*;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@Data
+public class BrowsePathResult implements Structure {
 
-public class BrowsePathResult extends AbstractStructure {
-	
-	public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.BrowsePathResult);
-	public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.BrowsePathResult_Encoding_DefaultBinary);
-	public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.BrowsePathResult_Encoding_DefaultXml);
-	
-    protected StatusCode StatusCode;
-    protected BrowsePathTarget[] Targets;
-    
-    public BrowsePathResult() {}
-    
-    public BrowsePathResult(StatusCode StatusCode, BrowsePathTarget[] Targets)
-    {
-        this.StatusCode = StatusCode;
-        this.Targets = Targets;
+    public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.BrowsePathResult);
+    public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.BrowsePathResult_Encoding_DefaultBinary);
+    public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.BrowsePathResult_Encoding_DefaultXml);
+
+    protected StatusCode statusCode;
+    protected BrowsePathTarget[] targets;
+
+    @SneakyThrows
+    public static BrowsePathResult newInstanceFrom(BrowsePathResult source) {
+        Objects.requireNonNull(source);
+
+        return (BrowsePathResult) source.clone();
     }
-    
-    public StatusCode getStatusCode()
-    {
-        return StatusCode;
-    }
-    
-    public void setStatusCode(StatusCode StatusCode)
-    {
-        this.StatusCode = StatusCode;
-    }
-    
-    public BrowsePathTarget[] getTargets()
-    {
-        return Targets;
-    }
-    
-    public void setTargets(BrowsePathTarget[] Targets)
-    {
-        this.Targets = Targets;
-    }
-    
-    /**
-      * Deep clone
-      *
-      * @return cloned BrowsePathResult
-      */
-    public BrowsePathResult clone()
-    {
-        BrowsePathResult result = (BrowsePathResult) super.clone();
-        result.StatusCode = StatusCode;
-        if (Targets!=null) {
-            result.Targets = new BrowsePathTarget[Targets.length];
-            for (int i=0; i<Targets.length; i++)
-                result.Targets[i] = Targets[i].clone();
-        }
-        return result;
-    }
-    
+
     @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        BrowsePathResult other = (BrowsePathResult) obj;
-        if (StatusCode==null) {
-            if (other.StatusCode != null) return false;
-        } else if (!StatusCode.equals(other.StatusCode)) return false;
-        if (Targets==null) {
-            if (other.Targets != null) return false;
-        } else if (!Arrays.equals(Targets, other.Targets)) return false;
-        return true;
+    public ExpandedNodeId getTypeId() {
+        return ID;
     }
-    
+
     @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((StatusCode == null) ? 0 : StatusCode.hashCode());
-        result = prime * result
-                + ((Targets == null) ? 0 : Arrays.hashCode(Targets));
-        return result;
+    public ExpandedNodeId getXmlEncodeId() {
+        return XML;
     }
-    
 
+    @Override
+    public ExpandedNodeId getBinaryEncodeId() {
+        return BINARY;
+    }
 
-	public ExpandedNodeId getTypeId() {
-		return ID;
-	}
-
-	public ExpandedNodeId getXmlEncodeId() {
-		return XML;
-	}
-
-	public ExpandedNodeId getBinaryEncodeId() {
-		return BINARY;
-	}
-	
-	public String toString() {
-		return "BrowsePathResult: "+ObjectUtils.printFieldsDeep(this);
-	}
+    @Override
+    public String toString() {
+        return "BrowsePathResult: " + ObjectUtils.printFieldsDeep(this);
+    }
 
 }
