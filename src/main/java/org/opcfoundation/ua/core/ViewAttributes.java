@@ -2,7 +2,7 @@
  * Copyright (c) 2005-2015 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
- * 
+ *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -11,7 +11,7 @@
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
@@ -29,142 +29,60 @@
 
 package org.opcfoundation.ua.core;
 
-import org.opcfoundation.ua.builtintypes.Structure;
-import org.opcfoundation.ua.builtintypes.ExpandedNodeId;
-import org.opcfoundation.ua.core.Identifiers;
-import org.opcfoundation.ua.utils.ObjectUtils;
-import org.opcfoundation.ua.builtintypes.LocalizedText;
-import org.opcfoundation.ua.builtintypes.UnsignedByte;
-import org.opcfoundation.ua.builtintypes.UnsignedInteger;
-import org.opcfoundation.ua.core.NodeAttributes;
+import lombok.*;
+import org.opcfoundation.ua.builtintypes.*;
+import org.opcfoundation.ua.utils.*;
 
+import java.util.*;
 
-
+@NoArgsConstructor
+@EqualsAndHashCode
+@Data
 public class ViewAttributes extends NodeAttributes {
-	
-	public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.ViewAttributes);
-	public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.ViewAttributes_Encoding_DefaultBinary);
-	public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.ViewAttributes_Encoding_DefaultXml);
-	
-    protected Boolean ContainsNoLoops;
-    protected UnsignedByte EventNotifier;
-    
-    public ViewAttributes() {}
-    
-    public ViewAttributes(UnsignedInteger SpecifiedAttributes, LocalizedText DisplayName, LocalizedText Description, UnsignedInteger WriteMask, UnsignedInteger UserWriteMask, Boolean ContainsNoLoops, UnsignedByte EventNotifier)
-    {
-        super(SpecifiedAttributes, DisplayName, Description, WriteMask, UserWriteMask);
-        this.ContainsNoLoops = ContainsNoLoops;
-        this.EventNotifier = EventNotifier;
+
+    public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.ViewAttributes);
+    public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.ViewAttributes_Encoding_DefaultBinary);
+    public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.ViewAttributes_Encoding_DefaultXml);
+
+    protected Boolean containsNoLoops;
+    protected UnsignedByte eventNotifier;
+
+    public ViewAttributes(UnsignedInteger specifiedAttributes,
+                          LocalizedText displayName,
+                          LocalizedText description,
+                          UnsignedInteger writeMask,
+                          UnsignedInteger userWriteMask,
+                          Boolean containsNoLoops, UnsignedByte eventNotifier) {
+        super(specifiedAttributes, displayName, description, writeMask, userWriteMask);
+        this.containsNoLoops = containsNoLoops;
+        this.eventNotifier = eventNotifier;
     }
-    
-    public Boolean getContainsNoLoops()
-    {
-        return ContainsNoLoops;
+
+    @SneakyThrows
+    public static ViewAttributes newInstanceFrom(ViewAttributes source) {
+        Objects.requireNonNull(source);
+
+        return (ViewAttributes) source.clone();
     }
-    
-    public void setContainsNoLoops(Boolean ContainsNoLoops)
-    {
-        this.ContainsNoLoops = ContainsNoLoops;
-    }
-    
-    public UnsignedByte getEventNotifier()
-    {
-        return EventNotifier;
-    }
-    
-    public void setEventNotifier(UnsignedByte EventNotifier)
-    {
-        this.EventNotifier = EventNotifier;
-    }
-    
-    /**
-      * Deep clone
-      *
-      * @return cloned ViewAttributes
-      */
-    public ViewAttributes clone()
-    {
-        ViewAttributes result = (ViewAttributes) super.clone();
-        result.SpecifiedAttributes = SpecifiedAttributes;
-        result.DisplayName = DisplayName;
-        result.Description = Description;
-        result.WriteMask = WriteMask;
-        result.UserWriteMask = UserWriteMask;
-        result.ContainsNoLoops = ContainsNoLoops;
-        result.EventNotifier = EventNotifier;
-        return result;
-    }
-    
+
     @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        ViewAttributes other = (ViewAttributes) obj;
-        if (SpecifiedAttributes==null) {
-            if (other.SpecifiedAttributes != null) return false;
-        } else if (!SpecifiedAttributes.equals(other.SpecifiedAttributes)) return false;
-        if (DisplayName==null) {
-            if (other.DisplayName != null) return false;
-        } else if (!DisplayName.equals(other.DisplayName)) return false;
-        if (Description==null) {
-            if (other.Description != null) return false;
-        } else if (!Description.equals(other.Description)) return false;
-        if (WriteMask==null) {
-            if (other.WriteMask != null) return false;
-        } else if (!WriteMask.equals(other.WriteMask)) return false;
-        if (UserWriteMask==null) {
-            if (other.UserWriteMask != null) return false;
-        } else if (!UserWriteMask.equals(other.UserWriteMask)) return false;
-        if (ContainsNoLoops==null) {
-            if (other.ContainsNoLoops != null) return false;
-        } else if (!ContainsNoLoops.equals(other.ContainsNoLoops)) return false;
-        if (EventNotifier==null) {
-            if (other.EventNotifier != null) return false;
-        } else if (!EventNotifier.equals(other.EventNotifier)) return false;
-        return true;
+    public ExpandedNodeId getTypeId() {
+        return ID;
     }
-    
+
     @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((SpecifiedAttributes == null) ? 0 : SpecifiedAttributes.hashCode());
-        result = prime * result
-                + ((DisplayName == null) ? 0 : DisplayName.hashCode());
-        result = prime * result
-                + ((Description == null) ? 0 : Description.hashCode());
-        result = prime * result
-                + ((WriteMask == null) ? 0 : WriteMask.hashCode());
-        result = prime * result
-                + ((UserWriteMask == null) ? 0 : UserWriteMask.hashCode());
-        result = prime * result
-                + ((ContainsNoLoops == null) ? 0 : ContainsNoLoops.hashCode());
-        result = prime * result
-                + ((EventNotifier == null) ? 0 : EventNotifier.hashCode());
-        return result;
+    public ExpandedNodeId getXmlEncodeId() {
+        return XML;
     }
-    
 
+    @Override
+    public ExpandedNodeId getBinaryEncodeId() {
+        return BINARY;
+    }
 
-	public ExpandedNodeId getTypeId() {
-		return ID;
-	}
-
-	public ExpandedNodeId getXmlEncodeId() {
-		return XML;
-	}
-
-	public ExpandedNodeId getBinaryEncodeId() {
-		return BINARY;
-	}
-	
-	public String toString() {
-		return "ViewAttributes: "+ObjectUtils.printFieldsDeep(this);
-	}
+    @Override
+    public String toString() {
+        return "ViewAttributes: " + ObjectUtils.printFieldsDeep(this);
+    }
 
 }

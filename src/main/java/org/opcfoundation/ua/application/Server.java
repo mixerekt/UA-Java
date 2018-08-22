@@ -128,7 +128,7 @@ public class Server {
      * @return a {@link org.opcfoundation.ua.core.ApplicationDescription} object.
      */
     public ApplicationDescription createApplicationDescription() {
-        ApplicationDescription result = application.getApplicationDescription().clone();
+        ApplicationDescription result = ApplicationDescription.newInstanceFrom(application.getApplicationDescription());
         result.setApplicationType(ApplicationType.Server);
         return result;
     }

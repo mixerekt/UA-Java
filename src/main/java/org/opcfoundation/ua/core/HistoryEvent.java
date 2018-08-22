@@ -35,7 +35,10 @@ import org.opcfoundation.ua.utils.*;
 
 import java.util.*;
 
-
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@Data
 public class HistoryEvent implements Structure {
 
     public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.HistoryEvent);
