@@ -2,7 +2,7 @@
  * Copyright (c) 2005-2015 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
- * 
+ *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -11,7 +11,7 @@
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
@@ -29,109 +29,50 @@
 
 package org.opcfoundation.ua.core;
 
-import org.opcfoundation.ua.builtintypes.Structure;
-import org.opcfoundation.ua.builtintypes.ExpandedNodeId;
-import org.opcfoundation.ua.core.Identifiers;
-import org.opcfoundation.ua.utils.ObjectUtils;
-import org.opcfoundation.ua.builtintypes.ByteString;
-import org.opcfoundation.ua.utils.AbstractStructure;
+import lombok.*;
+import org.opcfoundation.ua.builtintypes.*;
+import org.opcfoundation.ua.utils.*;
 
+import java.util.*;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@Data
+public class SignedSoftwareCertificate implements Structure {
 
-public class SignedSoftwareCertificate extends AbstractStructure {
-	
-	public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.SignedSoftwareCertificate);
-	public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.SignedSoftwareCertificate_Encoding_DefaultBinary);
-	public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.SignedSoftwareCertificate_Encoding_DefaultXml);
-	
-    protected ByteString CertificateData;
-    protected ByteString Signature;
-    
-    public SignedSoftwareCertificate() {}
-    
-    public SignedSoftwareCertificate(ByteString CertificateData, ByteString Signature)
-    {
-        this.CertificateData = CertificateData;
-        this.Signature = Signature;
+    public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.SignedSoftwareCertificate);
+    public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.SignedSoftwareCertificate_Encoding_DefaultBinary);
+    public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.SignedSoftwareCertificate_Encoding_DefaultXml);
+
+    protected ByteString certificateData;
+    protected ByteString signature;
+
+    @SneakyThrows
+    public static SignedSoftwareCertificate newInstanceFrom(SignedSoftwareCertificate source) {
+        Objects.requireNonNull(source);
+
+        return (SignedSoftwareCertificate) source.clone();
     }
-    
-    public ByteString getCertificateData()
-    {
-        return CertificateData;
-    }
-    
-    public void setCertificateData(ByteString CertificateData)
-    {
-        this.CertificateData = CertificateData;
-    }
-    
-    public ByteString getSignature()
-    {
-        return Signature;
-    }
-    
-    public void setSignature(ByteString Signature)
-    {
-        this.Signature = Signature;
-    }
-    
-    /**
-      * Deep clone
-      *
-      * @return cloned SignedSoftwareCertificate
-      */
-    public SignedSoftwareCertificate clone()
-    {
-        SignedSoftwareCertificate result = (SignedSoftwareCertificate) super.clone();
-        result.CertificateData = CertificateData;
-        result.Signature = Signature;
-        return result;
-    }
-    
+
     @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        SignedSoftwareCertificate other = (SignedSoftwareCertificate) obj;
-        if (CertificateData==null) {
-            if (other.CertificateData != null) return false;
-        } else if (!CertificateData.equals(other.CertificateData)) return false;
-        if (Signature==null) {
-            if (other.Signature != null) return false;
-        } else if (!Signature.equals(other.Signature)) return false;
-        return true;
+    public ExpandedNodeId getTypeId() {
+        return ID;
     }
-    
+
     @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((CertificateData == null) ? 0 : CertificateData.hashCode());
-        result = prime * result
-                + ((Signature == null) ? 0 : Signature.hashCode());
-        return result;
+    public ExpandedNodeId getXmlEncodeId() {
+        return XML;
     }
-    
 
+    @Override
+    public ExpandedNodeId getBinaryEncodeId() {
+        return BINARY;
+    }
 
-	public ExpandedNodeId getTypeId() {
-		return ID;
-	}
-
-	public ExpandedNodeId getXmlEncodeId() {
-		return XML;
-	}
-
-	public ExpandedNodeId getBinaryEncodeId() {
-		return BINARY;
-	}
-	
-	public String toString() {
-		return "SignedSoftwareCertificate: "+ObjectUtils.printFieldsDeep(this);
-	}
+    @Override
+    public String toString() {
+        return "SignedSoftwareCertificate: " + ObjectUtils.printFieldsDeep(this);
+    }
 
 }

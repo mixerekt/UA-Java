@@ -29,54 +29,26 @@
 
 package org.opcfoundation.ua.core;
 
-import org.opcfoundation.ua.builtintypes.Structure;
-import org.opcfoundation.ua.builtintypes.ExpandedNodeId;
-import org.opcfoundation.ua.core.Identifiers;
-import org.opcfoundation.ua.utils.ObjectUtils;
-import org.opcfoundation.ua.utils.AbstractStructure;
+import lombok.*;
+import org.opcfoundation.ua.builtintypes.*;
+import org.opcfoundation.ua.utils.*;
 
+import java.util.*;
 
-
-public class NotificationData extends AbstractStructure {
+@EqualsAndHashCode
+@Data
+public class NotificationData implements Structure {
 	
 	public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.NotificationData);
 	public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.NotificationData_Encoding_DefaultBinary);
 	public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.NotificationData_Encoding_DefaultXml);
-	
-    
-    public NotificationData() {}
-    
-    
-    /**
-      * Deep clone
-      *
-      * @return cloned NotificationData
-      */
-    public NotificationData clone()
-    {
-        NotificationData result = (NotificationData) super.clone();
-        return result;
-    }
-    
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        NotificationData other = (NotificationData) obj;
-        return true;
-    }
-    
-    @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-        return result;
-    }
-    
 
+    @SneakyThrows
+    public static NotificationData newInstanceFrom(NotificationData source) {
+        Objects.requireNonNull(source);
+
+        return (NotificationData) source.clone();
+    }
 
 	public ExpandedNodeId getTypeId() {
 		return ID;

@@ -29,108 +29,49 @@
 
 package org.opcfoundation.ua.core;
 
-import org.opcfoundation.ua.builtintypes.Structure;
-import org.opcfoundation.ua.builtintypes.ExpandedNodeId;
-import org.opcfoundation.ua.core.Identifiers;
-import org.opcfoundation.ua.utils.ObjectUtils;
-import java.util.Arrays;
-import org.opcfoundation.ua.builtintypes.DateTime;
-import org.opcfoundation.ua.core.HistoryReadDetails;
+import lombok.*;
+import org.opcfoundation.ua.builtintypes.*;
+import org.opcfoundation.ua.utils.*;
+
+import java.util.*;
 
 
-
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@Data
 public class ReadAtTimeDetails extends HistoryReadDetails {
 	
 	public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.ReadAtTimeDetails);
 	public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.ReadAtTimeDetails_Encoding_DefaultBinary);
 	public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.ReadAtTimeDetails_Encoding_DefaultXml);
 	
-    protected DateTime[] ReqTimes;
-    protected Boolean UseSimpleBounds;
-    
-    public ReadAtTimeDetails() {}
-    
-    public ReadAtTimeDetails(DateTime[] ReqTimes, Boolean UseSimpleBounds)
-    {
-        this.ReqTimes = ReqTimes;
-        this.UseSimpleBounds = UseSimpleBounds;
-    }
-    
-    public DateTime[] getReqTimes()
-    {
-        return ReqTimes;
-    }
-    
-    public void setReqTimes(DateTime[] ReqTimes)
-    {
-        this.ReqTimes = ReqTimes;
-    }
-    
-    public Boolean getUseSimpleBounds()
-    {
-        return UseSimpleBounds;
-    }
-    
-    public void setUseSimpleBounds(Boolean UseSimpleBounds)
-    {
-        this.UseSimpleBounds = UseSimpleBounds;
-    }
-    
-    /**
-      * Deep clone
-      *
-      * @return cloned ReadAtTimeDetails
-      */
-    public ReadAtTimeDetails clone()
-    {
-        ReadAtTimeDetails result = (ReadAtTimeDetails) super.clone();
-        result.ReqTimes = ReqTimes==null ? null : ReqTimes.clone();
-        result.UseSimpleBounds = UseSimpleBounds;
-        return result;
-    }
-    
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        ReadAtTimeDetails other = (ReadAtTimeDetails) obj;
-        if (ReqTimes==null) {
-            if (other.ReqTimes != null) return false;
-        } else if (!Arrays.equals(ReqTimes, other.ReqTimes)) return false;
-        if (UseSimpleBounds==null) {
-            if (other.UseSimpleBounds != null) return false;
-        } else if (!UseSimpleBounds.equals(other.UseSimpleBounds)) return false;
-        return true;
-    }
-    
-    @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((ReqTimes == null) ? 0 : Arrays.hashCode(ReqTimes));
-        result = prime * result
-                + ((UseSimpleBounds == null) ? 0 : UseSimpleBounds.hashCode());
-        return result;
-    }
-    
+    protected DateTime[] reqTimes;
+    protected Boolean useSimpleBounds;
 
+    @SneakyThrows
+    public static ReadAtTimeDetails newInstanceFrom(ReadAtTimeDetails source) {
+        Objects.requireNonNull(source);
 
+        return (ReadAtTimeDetails) source.clone();
+    }
+
+    @Override
 	public ExpandedNodeId getTypeId() {
 		return ID;
 	}
 
+	@Override
 	public ExpandedNodeId getXmlEncodeId() {
 		return XML;
 	}
 
+	@Override
 	public ExpandedNodeId getBinaryEncodeId() {
 		return BINARY;
 	}
-	
+
+	@Override
 	public String toString() {
 		return "ReadAtTimeDetails: "+ObjectUtils.printFieldsDeep(this);
 	}

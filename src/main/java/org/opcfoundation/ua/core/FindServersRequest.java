@@ -2,7 +2,7 @@
  * Copyright (c) 2005-2015 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
- * 
+ *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -11,7 +11,7 @@
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
@@ -29,145 +29,52 @@
 
 package org.opcfoundation.ua.core;
 
-import org.opcfoundation.ua.builtintypes.ServiceRequest;
-import org.opcfoundation.ua.builtintypes.ExpandedNodeId;
-import org.opcfoundation.ua.core.Identifiers;
-import org.opcfoundation.ua.utils.ObjectUtils;
-import java.util.Arrays;
-import org.opcfoundation.ua.core.RequestHeader;
-import org.opcfoundation.ua.utils.AbstractStructure;
+import lombok.*;
+import org.opcfoundation.ua.builtintypes.*;
+import org.opcfoundation.ua.utils.*;
 
+import java.util.*;
 
-public class FindServersRequest extends AbstractStructure implements ServiceRequest {
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@Data
+public class FindServersRequest implements ServiceRequest {
 
-	public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.FindServersRequest);
-	public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.FindServersRequest_Encoding_DefaultBinary);
-	public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.FindServersRequest_Encoding_DefaultXml);
-	
-    protected RequestHeader RequestHeader;
-    protected String EndpointUrl;
-    protected String[] LocaleIds;
-    protected String[] ServerUris;
-    
-    public FindServersRequest() {}
-    
-    public FindServersRequest(RequestHeader RequestHeader, String EndpointUrl, String[] LocaleIds, String[] ServerUris)
-    {
-        this.RequestHeader = RequestHeader;
-        this.EndpointUrl = EndpointUrl;
-        this.LocaleIds = LocaleIds;
-        this.ServerUris = ServerUris;
+    public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.FindServersRequest);
+    public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.FindServersRequest_Encoding_DefaultBinary);
+    public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.FindServersRequest_Encoding_DefaultXml);
+
+    protected RequestHeader requestHeader;
+    protected String endpointUrl;
+    protected String[] localeIds;
+    protected String[] serverUris;
+
+    @SneakyThrows
+    public static FindServersRequest newInstanceFrom(FindServersRequest source) {
+        Objects.requireNonNull(source);
+
+        return (FindServersRequest) source.clone();
     }
-    
-    public RequestHeader getRequestHeader()
-    {
-        return RequestHeader;
-    }
-    
-    public void setRequestHeader(RequestHeader RequestHeader)
-    {
-        this.RequestHeader = RequestHeader;
-    }
-    
-    public String getEndpointUrl()
-    {
-        return EndpointUrl;
-    }
-    
-    public void setEndpointUrl(String EndpointUrl)
-    {
-        this.EndpointUrl = EndpointUrl;
-    }
-    
-    public String[] getLocaleIds()
-    {
-        return LocaleIds;
-    }
-    
-    public void setLocaleIds(String[] LocaleIds)
-    {
-        this.LocaleIds = LocaleIds;
-    }
-    
-    public String[] getServerUris()
-    {
-        return ServerUris;
-    }
-    
-    public void setServerUris(String[] ServerUris)
-    {
-        this.ServerUris = ServerUris;
-    }
-    
-    /**
-      * Deep clone
-      *
-      * @return cloned FindServersRequest
-      */
-    public FindServersRequest clone()
-    {
-        FindServersRequest result = (FindServersRequest) super.clone();
-        result.RequestHeader = RequestHeader==null ? null : RequestHeader.clone();
-        result.EndpointUrl = EndpointUrl;
-        result.LocaleIds = LocaleIds==null ? null : LocaleIds.clone();
-        result.ServerUris = ServerUris==null ? null : ServerUris.clone();
-        return result;
-    }
-    
+
     @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        FindServersRequest other = (FindServersRequest) obj;
-        if (RequestHeader==null) {
-            if (other.RequestHeader != null) return false;
-        } else if (!RequestHeader.equals(other.RequestHeader)) return false;
-        if (EndpointUrl==null) {
-            if (other.EndpointUrl != null) return false;
-        } else if (!EndpointUrl.equals(other.EndpointUrl)) return false;
-        if (LocaleIds==null) {
-            if (other.LocaleIds != null) return false;
-        } else if (!Arrays.equals(LocaleIds, other.LocaleIds)) return false;
-        if (ServerUris==null) {
-            if (other.ServerUris != null) return false;
-        } else if (!Arrays.equals(ServerUris, other.ServerUris)) return false;
-        return true;
+    public ExpandedNodeId getTypeId() {
+        return ID;
     }
-    
+
     @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((RequestHeader == null) ? 0 : RequestHeader.hashCode());
-        result = prime * result
-                + ((EndpointUrl == null) ? 0 : EndpointUrl.hashCode());
-        result = prime * result
-                + ((LocaleIds == null) ? 0 : Arrays.hashCode(LocaleIds));
-        result = prime * result
-                + ((ServerUris == null) ? 0 : Arrays.hashCode(ServerUris));
-        return result;
+    public ExpandedNodeId getXmlEncodeId() {
+        return XML;
     }
-    
- 
 
-	public ExpandedNodeId getTypeId() {
-		return ID;
-	}
+    @Override
+    public ExpandedNodeId getBinaryEncodeId() {
+        return BINARY;
+    }
 
-	public ExpandedNodeId getXmlEncodeId() {
-		return XML;
-	}
-	
-	public ExpandedNodeId getBinaryEncodeId() {
-		return BINARY;
-	}
-	
-	public String toString() {
-		return ObjectUtils.printFieldsDeep(this);
-	}
-	
+    @Override
+    public String toString() {
+        return ObjectUtils.printFieldsDeep(this);
+    }
+
 }

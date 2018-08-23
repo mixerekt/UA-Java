@@ -12,70 +12,24 @@
 
 package org.opcfoundation.ua.transport.tcp.io;
 
-import static org.opcfoundation.ua.core.StatusCodes.Bad_CommunicationError;
-import static org.opcfoundation.ua.core.StatusCodes.Bad_InternalError;
-import static org.opcfoundation.ua.core.StatusCodes.Bad_NotFound;
-import static org.opcfoundation.ua.core.StatusCodes.Bad_SecureChannelClosed;
-import static org.opcfoundation.ua.core.StatusCodes.Bad_SecureChannelTokenUnknown;
-import static org.opcfoundation.ua.core.StatusCodes.Bad_ServerUriInvalid;
-import static org.opcfoundation.ua.core.StatusCodes.Bad_TcpSecureChannelUnknown;
-import static org.opcfoundation.ua.core.StatusCodes.Bad_Timeout;
-import static org.opcfoundation.ua.core.StatusCodes.Bad_UnexpectedError;
+import org.opcfoundation.ua.builtintypes.*;
+import org.opcfoundation.ua.common.*;
+import org.opcfoundation.ua.core.*;
+import org.opcfoundation.ua.encoding.*;
+import org.opcfoundation.ua.encoding.binary.*;
+import org.opcfoundation.ua.transport.*;
+import org.opcfoundation.ua.transport.impl.*;
+import org.opcfoundation.ua.transport.security.*;
+import org.opcfoundation.ua.transport.tcp.io.IConnection.*;
+import org.opcfoundation.ua.utils.*;
+import org.slf4j.*;
 
-import java.net.InetSocketAddress;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Semaphore;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicReference;
+import java.net.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.*;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.opcfoundation.ua.builtintypes.ByteString;
-import org.opcfoundation.ua.builtintypes.ServiceRequest;
-import org.opcfoundation.ua.builtintypes.ServiceResponse;
-import org.opcfoundation.ua.builtintypes.StatusCode;
-import org.opcfoundation.ua.builtintypes.UnsignedInteger;
-import org.opcfoundation.ua.common.ServiceFaultException;
-import org.opcfoundation.ua.common.ServiceResultException;
-import org.opcfoundation.ua.core.ChannelSecurityToken;
-import org.opcfoundation.ua.core.CloseSecureChannelRequest;
-import org.opcfoundation.ua.core.EncodeableSerializer;
-import org.opcfoundation.ua.core.EndpointConfiguration;
-import org.opcfoundation.ua.core.EndpointDescription;
-import org.opcfoundation.ua.core.MessageSecurityMode;
-import org.opcfoundation.ua.core.OpenSecureChannelRequest;
-import org.opcfoundation.ua.core.OpenSecureChannelResponse;
-import org.opcfoundation.ua.core.ResponseHeader;
-import org.opcfoundation.ua.core.SecurityTokenRequestType;
-import org.opcfoundation.ua.core.ServiceFault;
-import org.opcfoundation.ua.core.StatusCodes;
-import org.opcfoundation.ua.encoding.EncoderContext;
-import org.opcfoundation.ua.encoding.EncodingException;
-import org.opcfoundation.ua.encoding.IEncodeable;
-import org.opcfoundation.ua.encoding.binary.IEncodeableSerializer;
-import org.opcfoundation.ua.transport.AsyncResult;
-import org.opcfoundation.ua.transport.IConnectionListener;
-import org.opcfoundation.ua.transport.SecureChannel;
-import org.opcfoundation.ua.transport.ServerConnection;
-import org.opcfoundation.ua.transport.TransportChannelSettings;
-import org.opcfoundation.ua.transport.UriUtil;
-import org.opcfoundation.ua.transport.impl.AsyncResultImpl;
-import org.opcfoundation.ua.transport.security.SecurityAlgorithm;
-import org.opcfoundation.ua.transport.security.SecurityPolicy;
-import org.opcfoundation.ua.transport.tcp.io.IConnection.IMessageListener;
-import org.opcfoundation.ua.utils.CryptoUtil;
-import org.opcfoundation.ua.utils.ObjectUtils;
-import org.opcfoundation.ua.utils.StackUtils;
-import org.opcfoundation.ua.utils.TimerUtil;
+import static org.opcfoundation.ua.core.StatusCodes.*;
 
 /**
  * Client's Secure Channel connection to an endpoint. <p>
@@ -259,7 +213,7 @@ public class SecureChannelTcp implements IMessageListener, IConnectionListener, 
 			throw new ServiceResultException(Bad_InternalError, "Cannot reconfigure already opened secure channel");
 		}
 		
-		this.settings = settings.clone();
+		this.settings = TransportChannelSettings.newInstanceFrom(settings);
 		this.addr = addr;
 		this.ctx = ctx;
 		

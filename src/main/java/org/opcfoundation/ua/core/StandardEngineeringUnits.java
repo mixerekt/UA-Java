@@ -29,12 +29,9 @@
 
 package org.opcfoundation.ua.core;
 
-import org.opcfoundation.ua.core.EUInformation;
-import org.opcfoundation.ua.builtintypes.LocalizedText;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
-import java.util.ArrayList;
+import org.opcfoundation.ua.builtintypes.*;
+
+import java.util.*;
 
 
 
@@ -1781,7 +1778,7 @@ public class StandardEngineeringUnits {
 	public static List<EUInformation> getAll(){
 	  List<EUInformation> r = new ArrayList<EUInformation>();
 	  for(EUInformation eui : all){
-	    r.add(eui.clone());
+	    r.add(EUInformation.newInstanceFrom(eui));
 	  }
 	  return r;
 	}

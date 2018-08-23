@@ -29,109 +29,48 @@
 
 package org.opcfoundation.ua.core;
 
-import org.opcfoundation.ua.builtintypes.Structure;
-import org.opcfoundation.ua.builtintypes.ExpandedNodeId;
-import org.opcfoundation.ua.core.Identifiers;
-import org.opcfoundation.ua.utils.ObjectUtils;
-import java.util.Arrays;
-import org.opcfoundation.ua.builtintypes.StatusCode;
-import org.opcfoundation.ua.builtintypes.UnsignedInteger;
-import org.opcfoundation.ua.utils.AbstractStructure;
+import lombok.*;
+import org.opcfoundation.ua.builtintypes.*;
+import org.opcfoundation.ua.utils.*;
 
+import java.util.*;
 
-
-public class TransferResult extends AbstractStructure {
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@Data
+public class TransferResult implements Structure {
 	
 	public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.TransferResult);
 	public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.TransferResult_Encoding_DefaultBinary);
 	public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.TransferResult_Encoding_DefaultXml);
 	
-    protected StatusCode StatusCode;
-    protected UnsignedInteger[] AvailableSequenceNumbers;
-    
-    public TransferResult() {}
-    
-    public TransferResult(StatusCode StatusCode, UnsignedInteger[] AvailableSequenceNumbers)
-    {
-        this.StatusCode = StatusCode;
-        this.AvailableSequenceNumbers = AvailableSequenceNumbers;
-    }
-    
-    public StatusCode getStatusCode()
-    {
-        return StatusCode;
-    }
-    
-    public void setStatusCode(StatusCode StatusCode)
-    {
-        this.StatusCode = StatusCode;
-    }
-    
-    public UnsignedInteger[] getAvailableSequenceNumbers()
-    {
-        return AvailableSequenceNumbers;
-    }
-    
-    public void setAvailableSequenceNumbers(UnsignedInteger[] AvailableSequenceNumbers)
-    {
-        this.AvailableSequenceNumbers = AvailableSequenceNumbers;
-    }
-    
-    /**
-      * Deep clone
-      *
-      * @return cloned TransferResult
-      */
-    public TransferResult clone()
-    {
-        TransferResult result = (TransferResult) super.clone();
-        result.StatusCode = StatusCode;
-        result.AvailableSequenceNumbers = AvailableSequenceNumbers==null ? null : AvailableSequenceNumbers.clone();
-        return result;
-    }
-    
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        TransferResult other = (TransferResult) obj;
-        if (StatusCode==null) {
-            if (other.StatusCode != null) return false;
-        } else if (!StatusCode.equals(other.StatusCode)) return false;
-        if (AvailableSequenceNumbers==null) {
-            if (other.AvailableSequenceNumbers != null) return false;
-        } else if (!Arrays.equals(AvailableSequenceNumbers, other.AvailableSequenceNumbers)) return false;
-        return true;
-    }
-    
-    @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((StatusCode == null) ? 0 : StatusCode.hashCode());
-        result = prime * result
-                + ((AvailableSequenceNumbers == null) ? 0 : Arrays.hashCode(AvailableSequenceNumbers));
-        return result;
-    }
-    
+    protected StatusCode statusCode;
+    protected UnsignedInteger[] availableSequenceNumbers;
 
+    @SneakyThrows
+    public static TransferResult newInstanceFrom(TransferResult source) {
+        Objects.requireNonNull(source);
 
+        return (TransferResult) source.clone();
+    }
+
+    @Override
 	public ExpandedNodeId getTypeId() {
 		return ID;
 	}
 
+	@Override
 	public ExpandedNodeId getXmlEncodeId() {
 		return XML;
 	}
 
+	@Override
 	public ExpandedNodeId getBinaryEncodeId() {
 		return BINARY;
 	}
-	
+
+	@Override
 	public String toString() {
 		return "TransferResult: "+ObjectUtils.printFieldsDeep(this);
 	}
