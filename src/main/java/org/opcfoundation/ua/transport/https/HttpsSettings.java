@@ -188,13 +188,9 @@ public class HttpsSettings implements Cloneable {
         try {
             KeyManagerFactory kmfactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
             kmfactory.init(keystore, password.toCharArray());
-            KeyManager kms[] = kmfactory.getKeyManagers();
+            KeyManager[] kms = kmfactory.getKeyManagers();
             keyManager = kms.length == 0 ? null : (X509KeyManager) kms[0];
-        } catch (NoSuchAlgorithmException e) {
-            throw new ServiceResultException(e);
-        } catch (UnrecoverableKeyException e) {
-            throw new ServiceResultException(e);
-        } catch (KeyStoreException e) {
+        } catch (NoSuchAlgorithmException | UnrecoverableKeyException | KeyStoreException e) {
             throw new ServiceResultException(e);
         }
     }
@@ -217,7 +213,7 @@ public class HttpsSettings implements Cloneable {
      * @param username user name
      * @param password password
      */
-    public void setHttpsAuth(String username, String password) {
+    public void setHttpsAuthentication(String username, String password) {
 
         this.username = username;
         this.password = password;
