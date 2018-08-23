@@ -12,6 +12,7 @@
 package org.opcfoundation.ua.transport.https;
 
 import lombok.*;
+import lombok.extern.slf4j.*;
 import org.apache.http.conn.ssl.*;
 import org.apache.http.params.*;
 import org.opcfoundation.ua.common.*;
@@ -27,11 +28,12 @@ import java.security.cert.*;
 import java.util.*;
 
 @NoArgsConstructor
+@Slf4j
 public class HttpsSettings implements Cloneable {
 
     /**
      * Key Managers
-     *
+     * <p>
      * key manager for a https application.
      */
     @Getter
@@ -115,9 +117,10 @@ public class HttpsSettings implements Cloneable {
      * @param keypair key pair
      * @param caCerts ca certs
      */
+    @SneakyThrows({NoSuchAlgorithmException.class, CertificateException.class, IOException.class, ServiceResultException.class})
     public void setKeyPair(KeyPair keypair, Cert... caCerts) {
 
-        if (keypair != null)
+        if (keypair != null) {
             try {
                 KeyStore keystore = KeyStore.getInstance("jks");
                 Certificate[] certs = new Certificate[]{keypair.certificate.certificate};
@@ -133,20 +136,9 @@ public class HttpsSettings implements Cloneable {
                 setKeyStore(keystore, "");
             } catch (KeyStoreException e) {
                 // Expected if JKS is not available (e.g. in Android)
-
-            } catch (NoSuchAlgorithmException e) {
-                // Unexpected
-                throw new RuntimeException(e);
-            } catch (CertificateException e) {
-                // Unexpected
-                throw new RuntimeException(e);
-            } catch (IOException e) {
-                // Unexpected
-                throw new RuntimeException(e);
-            } catch (ServiceResultException e) {
-                // Unexpected
-                throw new RuntimeException(e);
+                log.error("set key pair exception", e);
             }
+        }
     }
 
     /**
@@ -268,6 +260,7 @@ public class HttpsSettings implements Cloneable {
     }
 
     public void setHttpsSecurityPolicies(HttpsSecurityPolicy... httpsSecurityPolicy) {
+
         this.httpsSecurityPolicies = httpsSecurityPolicy;
     }
 
