@@ -50,6 +50,7 @@ public final class KeyPair {
      */
     public static KeyPair load(URL certificateFile, URL privateKeyFile, String privateKeyPassword)
             throws IOException, UnrecoverableKeyException, NoSuchAlgorithmException, CertificateException, KeyStoreException {
+
         Cert cert = Cert.load(certificateFile);
         PrivKey privKey = PrivKey.loadFromKeyStore(privateKeyFile, privateKeyPassword);
         return new KeyPair(cert, privKey);
@@ -70,6 +71,7 @@ public final class KeyPair {
      */
     public static KeyPair load(File certificateFile, File privateKeyFile, String privateKeyPassword)
             throws IOException, UnrecoverableKeyException, NoSuchAlgorithmException, CertificateException, KeyStoreException {
+
         Cert cert = Cert.load(certificateFile);
         PrivKey privKey = PrivKey.loadFromKeyStore(privateKeyFile, privateKeyPassword);
         return new KeyPair(cert, privKey);
@@ -82,8 +84,8 @@ public final class KeyPair {
      * @param privateKeyFile  a {@link java.io.File} object.
      * @throws java.io.IOException if any.
      */
-    public void save(File certificateFile, File privateKeyFile)
-            throws IOException {
+    public void save(File certificateFile, File privateKeyFile) throws IOException {
+
         certificate.save(certificateFile);
         privateKey.save(privateKeyFile);
     }
@@ -96,8 +98,8 @@ public final class KeyPair {
      * @param privateKeyPassword a {@link java.lang.String} object.
      * @throws java.io.IOException if any.
      */
-    public void save(File certificateFile, File privateKeyFile, String privateKeyPassword)
-            throws IOException {
+    public void save(File certificateFile, File privateKeyFile, String privateKeyPassword) throws IOException {
+
         certificate.save(certificateFile);
         privateKey.save(privateKeyFile, privateKeyPassword);
     }
