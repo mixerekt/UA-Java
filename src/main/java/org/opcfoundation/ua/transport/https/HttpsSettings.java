@@ -120,24 +120,25 @@ public class HttpsSettings implements Cloneable {
     @SneakyThrows({NoSuchAlgorithmException.class, CertificateException.class, IOException.class, ServiceResultException.class})
     public void setKeyPair(KeyPair keypair, Cert... caCerts) {
 
-        if (keypair != null) {
-            try {
-                KeyStore keystore = KeyStore.getInstance("jks");
-                Certificate[] certs = new Certificate[]{keypair.certificate.certificate};
-                PrivateKeyEntry entry = new PrivateKeyEntry(keypair.privateKey.getPrivateKey(), certs);
-                String password = "";
-                keystore.load(null);
-                keystore.setEntry("myentry-" + keypair.hashCode(), entry, new PasswordProtection(password.toCharArray()));
-                int count = caCerts.length;
-                for (int i = 0; i < count; i++) {
-                    String id = "cacert-" + (i + 1);
-                    keystore.setEntry(id, new TrustedCertificateEntry(caCerts[i].certificate), null);
-                }
-                setKeyStore(keystore, "");
-            } catch (KeyStoreException e) {
-                // Expected if JKS is not available (e.g. in Android)
-                log.error("set key pair exception", e);
+        if (keypair == null) {
+            return;
+        }
+
+        try {
+            KeyStore keystore = KeyStore.getInstance("jks");
+            Certificate[] certs = new Certificate[]{keypair.certificate.certificate};
+            PrivateKeyEntry entry = new PrivateKeyEntry(keypair.privateKey.getPrivateKey(), certs);
+            keystore.load(null);
+            keystore.setEntry("myentry-" + keypair.hashCode(), entry, new PasswordProtection(new char[0]));
+
+            for (int i = 0; i < caCerts.length; i++) {
+                String id = "cacert-" + (i + 1);
+                keystore.setEntry(id, new TrustedCertificateEntry(caCerts[i].certificate), null);
             }
+            setKeyStore(keystore, "");
+        } catch (KeyStoreException e) {
+            // Expected if JKS is not available (e.g. in Android)
+            log.error("set key pair exception", e);
         }
     }
 
@@ -148,44 +149,30 @@ public class HttpsSettings implements Cloneable {
      * @param keypairs key paris
      * @param caCerts  ca certs
      */
+    @SneakyThrows({NoSuchAlgorithmException.class, CertificateException.class, IOException.class, ServiceResultException.class,
+            KeyStoreException.class})
     public void setKeyPairs(KeyPair[] keypairs, Cert... caCerts) {
 
-        try {
-            KeyStore keystore = KeyStore.getInstance("jks");
-            String password = "";
-            PasswordProtection prot = new PasswordProtection(password.toCharArray());
-            keystore.load(null);
-            for (int i = 0; i < keypairs.length; i++) {
-                Certificate[] certs = new Certificate[1 + caCerts.length];
-                certs[0] = keypairs[i].certificate.certificate;
-                for (int j = 0; j < caCerts.length; j++) {
-                    certs[j + 1] = caCerts[j].certificate;
-                }
-                PrivateKeyEntry entry = new PrivateKeyEntry(keypairs[i].privateKey.privateKey, certs);
-                keystore.setEntry("my-key-pair-entry-" + (i + 1), entry, prot);
+        KeyStore keystore = KeyStore.getInstance("jks");
+        PasswordProtection prot = new PasswordProtection(new char[0]);
+        keystore.load(null);
+
+        for (int i = 0; i < keypairs.length; i++) {
+            Certificate[] certs = new Certificate[1 + caCerts.length];
+            certs[0] = keypairs[i].certificate.certificate;
+            for (int j = 0; j < caCerts.length; j++) {
+                certs[j + 1] = caCerts[j].certificate;
             }
-            int count = caCerts.length;
-            for (int i = 0; i < count; i++) {
-                String id = "cacert-" + (i + 1);
-                keystore.setEntry(id, new TrustedCertificateEntry(caCerts[i].certificate), null);
-            }
-            setKeyStore(keystore, "");
-        } catch (KeyStoreException e) {
-            // Unexpected
-            throw new RuntimeException(e);
-        } catch (NoSuchAlgorithmException e) {
-            // Unexpected
-            throw new RuntimeException(e);
-        } catch (CertificateException e) {
-            // Unexpected
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            // Unexpected
-            throw new RuntimeException(e);
-        } catch (ServiceResultException e) {
-            // Unexpected
-            throw new RuntimeException(e);
+            PrivateKeyEntry entry = new PrivateKeyEntry(keypairs[i].privateKey.privateKey, certs);
+            keystore.setEntry("my-key-pair-entry-" + (i + 1), entry, prot);
         }
+        int count = caCerts.length;
+        for (int i = 0; i < count; i++) {
+            String id = "cacert-" + (i + 1);
+            keystore.setEntry(id, new TrustedCertificateEntry(caCerts[i].certificate), null);
+        }
+
+        setKeyStore(keystore, "");
     }
 
 
