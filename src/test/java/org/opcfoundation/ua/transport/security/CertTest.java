@@ -1,13 +1,11 @@
 package org.opcfoundation.ua.transport.security;
 
-import static org.junit.Assert.assertArrayEquals;
+import org.junit.*;
+import org.opcfoundation.ua.utils.*;
+import org.slf4j.*;
+import org.spongycastle.util.*;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.opcfoundation.ua.utils.CertificateUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.spongycastle.util.Arrays;
+import static org.junit.Assert.*;
 
 public class CertTest {
 
@@ -52,8 +50,8 @@ public class CertTest {
 		 * "Certificate Chains"
 		 */
 
-		byte[] data1 = cert.getEncoded();
-		byte[] data2 = cert2.getEncoded();
+		byte[] data1 = cert.getEncodedCertificate();
+		byte[] data2 = cert2.getEncodedCertificate();
 		
 		// Sidenote, the 2 certs are not a chain, but this works for the purpose of this test
 		byte[] dataCombined = Arrays.concatenate(data1, data2);
@@ -61,7 +59,7 @@ public class CertTest {
 		// if calculation is done correctly, the thumbprint of the combined
 		// should be the one of the first, i.e. data1
 		Cert combined = new Cert(dataCombined);
-		assertArrayEquals(cert.getEncodedThumbprint(), combined.getEncodedThumbprint());
+		assertArrayEquals(cert.getEncodedCertificateThumbprint(), combined.getEncodedCertificateThumbprint());
 
 	}
 

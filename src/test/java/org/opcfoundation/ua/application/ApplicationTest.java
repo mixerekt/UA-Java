@@ -66,7 +66,7 @@ public class ApplicationTest {
         target.addApplicationInstanceCertificate(expected);
         target.addApplicationInstanceCertificate(expected);
 
-        byte[] criteria = expected.getCertificate().getEncodedThumbprint();
+        byte[] criteria = expected.getCertificate().getEncodedCertificateThumbprint();
         KeyPair actual = target.getApplicationInstanceCertificate(criteria);
 
         assertEquals(expected, actual);

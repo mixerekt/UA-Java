@@ -207,7 +207,7 @@ public class Application {
         log.debug("getApplicationInstanceCertificate: expected={}", CryptoUtil.toHex(thumb));
 
         return applicationInstanceCertificates.stream()
-                .filter(cert -> Arrays.equals(cert.getCertificate().getEncodedThumbprint(), thumb))
+                .filter(cert -> Arrays.equals(cert.getCertificate().getEncodedCertificateThumbprint(), thumb))
                 .findFirst()
                 .orElse(null);
     }

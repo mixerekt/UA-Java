@@ -12,11 +12,11 @@
 
 package org.opcfoundation.ua.transport.security;
 
-import java.security.cert.Certificate;
-import java.security.interfaces.RSAPrivateKey;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.opcfoundation.ua.core.MessageSecurityMode;
+import org.opcfoundation.ua.core.*;
+import org.slf4j.*;
+
+import java.security.cert.*;
+import java.security.interfaces.*;
 
 /**
  * SecurityConfiguration is binding of local application instance certificate,
@@ -115,7 +115,7 @@ public class SecurityConfiguration {
 	 */
 	public byte[] getEncodedLocalCertificate() {
 		if (localCertificate==null) return null;
-		return localCertificate.getCertificate().getEncoded();
+		return localCertificate.getCertificate().getEncodedCertificate();
 	}
 
 	/**
@@ -125,7 +125,7 @@ public class SecurityConfiguration {
 	 */
 	public byte[] getEncodedRemoteCertificateThumbprint() {
 		if (remoteCertificate==null) return null;
-		return remoteCertificate.getEncodedThumbprint();
+		return remoteCertificate.getEncodedCertificateThumbprint();
 	}
 
 	/**
@@ -135,7 +135,7 @@ public class SecurityConfiguration {
 	 */
 	public byte[] getEncodedRemoteCertificate() {
 		if (remoteCertificate==null) return null;
-		return remoteCertificate.getEncoded();
+		return remoteCertificate.getEncodedCertificate();
 	}
 	
 	/**
@@ -145,7 +145,7 @@ public class SecurityConfiguration {
 	 */
 	public byte[] getEncodedLocalCertificateThumbprint() {
 		if (localCertificate==null) return null;
-		return localCertificate.getCertificate().getEncodedThumbprint();
+		return localCertificate.getCertificate().getEncodedCertificateThumbprint();
 	}
 
 	/**

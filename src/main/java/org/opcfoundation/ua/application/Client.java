@@ -193,7 +193,7 @@ public class Client {
         req.setClientNonce(session.clientNonce);
         req.setClientDescription(client.createApplicationDescription());
         if (session.clientCertificate != null)
-            req.setClientCertificate(ByteString.valueOf(session.getClientCertificate().getEncoded()));
+            req.setClientCertificate(ByteString.valueOf(session.getClientCertificate().getEncodedCertificate()));
         req.setEndpointUrl(endpoint.getEndpointUrl());
         req.setMaxResponseMessageSize(maxResponseMessageSize);
         if (endpoint.getServer() != null)
@@ -556,7 +556,7 @@ public class Client {
         Cert _remoteCertificate = mode.getMessageSecurityMode() == MessageSecurityMode.None ? null : remoteCertificate;
 
         if (_remoteCertificate != null)
-            ed.setServerCertificate(ByteString.valueOf(_remoteCertificate.getEncoded()));
+            ed.setServerCertificate(ByteString.valueOf(_remoteCertificate.getEncodedCertificate()));
 
         return createSecureChannel(connectUrl, ed);
     }

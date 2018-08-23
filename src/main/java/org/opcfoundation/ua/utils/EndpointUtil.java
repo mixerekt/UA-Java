@@ -12,56 +12,21 @@
 
 package org.opcfoundation.ua.utils;
 
-import java.lang.reflect.Array;
-import java.net.Inet4Address;
-import java.net.Inet6Address;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.NetworkInterface;
-import java.net.SocketAddress;
-import java.net.SocketException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.UnknownHostException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
-import java.security.Signature;
-import java.security.SignatureException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
+import org.opcfoundation.ua.builtintypes.*;
+import org.opcfoundation.ua.common.*;
+import org.opcfoundation.ua.core.*;
+import org.opcfoundation.ua.encoding.binary.*;
+import org.opcfoundation.ua.transport.*;
+import org.opcfoundation.ua.transport.security.*;
+import org.opcfoundation.ua.utils.bytebuffer.*;
+import org.slf4j.*;
+
+import javax.crypto.*;
+import java.lang.reflect.*;
+import java.net.*;
+import java.security.*;
+import java.util.*;
 import java.util.Enumeration;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.opcfoundation.ua.builtintypes.ByteString;
-import org.opcfoundation.ua.common.ServiceResultException;
-import org.opcfoundation.ua.core.AnonymousIdentityToken;
-import org.opcfoundation.ua.core.EndpointDescription;
-import org.opcfoundation.ua.core.IssuedIdentityToken;
-import org.opcfoundation.ua.core.MessageSecurityMode;
-import org.opcfoundation.ua.core.SignatureData;
-import org.opcfoundation.ua.core.StatusCodes;
-import org.opcfoundation.ua.core.UserIdentityToken;
-import org.opcfoundation.ua.core.UserNameIdentityToken;
-import org.opcfoundation.ua.core.UserTokenPolicy;
-import org.opcfoundation.ua.core.UserTokenType;
-import org.opcfoundation.ua.core.X509IdentityToken;
-import org.opcfoundation.ua.encoding.binary.BinaryEncoder;
-import org.opcfoundation.ua.transport.UriUtil;
-import org.opcfoundation.ua.transport.security.Cert;
-import org.opcfoundation.ua.transport.security.SecurityAlgorithm;
-import org.opcfoundation.ua.transport.security.SecurityPolicy;
-import org.opcfoundation.ua.utils.bytebuffer.ByteBufferUtils;
 
 
 /**
@@ -665,7 +630,7 @@ public class EndpointUtil {
 		if (policy==null) throw new ServiceResultException(StatusCodes.Bad_IdentityTokenRejected,
 				"Certificate UserTokenType is not supported");
 
-		X509IdentityToken token = new X509IdentityToken( policy.getPolicyId(), ByteString.valueOf(certificate.getEncoded()) );		
+		X509IdentityToken token = new X509IdentityToken( policy.getPolicyId(), ByteString.valueOf(certificate.getEncodedCertificate()) );
 		
 		String securityPolicyUri = policy.getSecurityPolicyUri();
 		if (securityPolicyUri==null) securityPolicyUri = ep.getSecurityPolicyUri();
@@ -679,7 +644,7 @@ public class EndpointUtil {
 						.getAsymmetricSignatureAlgorithm().getTransformation());
 				signature.initSign(key);
 
-				signature.update(serverCert.getEncoded());
+				signature.update(serverCert.getEncodedCertificate());
 				signature.update(serverNonce);
 
 				signatureData.setSignature(ByteString.valueOf(signature.sign()));

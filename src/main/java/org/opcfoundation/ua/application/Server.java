@@ -476,7 +476,7 @@ public class Server {
                     desc.setSecurityLevel(UnsignedByte.valueOf(securityLevel));
                     desc.setSecurityPolicyUri(securityPolicyUri);
                     desc.setServer(ap);
-                    desc.setServerCertificate(ByteString.valueOf(keypair.getCertificate().getEncoded()));
+                    desc.setServerCertificate(ByteString.valueOf(keypair.getCertificate().getEncodedCertificate()));
                     desc.setTransportProfileUri(transportProfileUri);
                     desc.setUserIdentityTokens(userTokenPolicies);
                     result.add(desc);

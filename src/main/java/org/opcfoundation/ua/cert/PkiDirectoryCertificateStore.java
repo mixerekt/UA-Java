@@ -12,26 +12,15 @@
 
 package org.opcfoundation.ua.cert;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.security.PublicKey;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
-import java.security.cert.X509CRL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArraySet;
+import org.opcfoundation.ua.transport.security.*;
+import org.slf4j.*;
 
-import org.opcfoundation.ua.transport.security.Cert;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.*;
+import java.security.*;
+import java.security.cert.*;
+import java.util.*;
+import java.util.Map.*;
+import java.util.concurrent.*;
 
 public class PkiDirectoryCertificateStore implements CertificateStore{
 
@@ -372,7 +361,7 @@ public class PkiDirectoryCertificateStore implements CertificateStore{
 			logger.info("CRL initialized from " + file + ": " + (crl.getRevokedCertificates() == null
 					? "no revoked certificates" : crl.getRevokedCertificates().size() + " certificates revoked"));
 		} catch (Exception e) {
-			logger.warn("Could not read CRL file {: {}", file, e.getMessage());
+			logger.warn("Could not read CRL file {}: {}", file, e.getMessage());
 		}
 	}
 	
@@ -392,7 +381,7 @@ public class PkiDirectoryCertificateStore implements CertificateStore{
 	}
 
 	private String getCertKey(Cert certificate) {
-		return getHex(certificate.getEncodedThumbprint());
+		return getHex(certificate.getEncodedCertificateThumbprint());
 	}
 	
 	private String getHex(byte[] raw) {
@@ -428,7 +417,7 @@ public class PkiDirectoryCertificateStore implements CertificateStore{
 		file.delete();
 		Cert c = certificates.remove(getCertKey(certificate));
 		if (logger.isDebugEnabled()) {
-			logger.debug("c=" + (c == null ? "null" : c.getEncodedThumbprint()));
+			logger.debug("c=" + (c == null ? "null" : c.getEncodedCertificateThumbprint()));
 			logger.debug("certificates.size()={}", certificates.size());
 		}
 	}

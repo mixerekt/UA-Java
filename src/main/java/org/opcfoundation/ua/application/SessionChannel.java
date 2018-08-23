@@ -12,40 +12,18 @@
 
 package org.opcfoundation.ua.application;
 
-import java.security.interfaces.RSAPrivateKey;
+import org.opcfoundation.ua.builtintypes.*;
+import org.opcfoundation.ua.common.*;
+import org.opcfoundation.ua.core.*;
+import org.opcfoundation.ua.encoding.*;
+import org.opcfoundation.ua.transport.*;
+import org.opcfoundation.ua.transport.impl.*;
+import org.opcfoundation.ua.transport.security.*;
+import org.opcfoundation.ua.utils.*;
+import org.opcfoundation.ua.utils.bytebuffer.*;
+import org.slf4j.*;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.opcfoundation.ua.builtintypes.ByteString;
-import org.opcfoundation.ua.builtintypes.DateTime;
-import org.opcfoundation.ua.builtintypes.ExtensionObject;
-import org.opcfoundation.ua.builtintypes.ServiceRequest;
-import org.opcfoundation.ua.builtintypes.ServiceResponse;
-import org.opcfoundation.ua.common.ServiceFaultException;
-import org.opcfoundation.ua.common.ServiceResultException;
-import org.opcfoundation.ua.core.ActivateSessionRequest;
-import org.opcfoundation.ua.core.ActivateSessionResponse;
-import org.opcfoundation.ua.core.EndpointDescription;
-import org.opcfoundation.ua.core.IssuedIdentityToken;
-import org.opcfoundation.ua.core.MessageSecurityMode;
-import org.opcfoundation.ua.core.RequestHeader;
-import org.opcfoundation.ua.core.SignatureData;
-import org.opcfoundation.ua.core.StatusCodes;
-import org.opcfoundation.ua.core.UserIdentityToken;
-import org.opcfoundation.ua.core.UserTokenPolicy;
-import org.opcfoundation.ua.core.X509IdentityToken;
-import org.opcfoundation.ua.encoding.IEncodeable;
-import org.opcfoundation.ua.transport.AsyncResult;
-import org.opcfoundation.ua.transport.ChannelService;
-import org.opcfoundation.ua.transport.RequestChannel;
-import org.opcfoundation.ua.transport.ResultListener;
-import org.opcfoundation.ua.transport.SecureChannel;
-import org.opcfoundation.ua.transport.impl.AsyncResultImpl;
-import org.opcfoundation.ua.transport.security.SecurityAlgorithm;
-import org.opcfoundation.ua.transport.security.SecurityPolicy;
-import org.opcfoundation.ua.utils.CryptoUtil;
-import org.opcfoundation.ua.utils.EndpointUtil;
-import org.opcfoundation.ua.utils.bytebuffer.ByteBufferUtils;
+import java.security.interfaces.*;
 
 
 /**
@@ -162,7 +140,7 @@ public class SessionChannel extends ChannelService implements RequestChannel {
 					.getPrivateKey();
 			SecurityAlgorithm algorithm = securityPolicy
 					.getAsymmetricSignatureAlgorithm();
-			byte[] dataToSign = session.getServerCertificate().getEncoded();
+			byte[] dataToSign = session.getServerCertificate().getEncodedCertificate();
 			if (session.getServerNonce() != null)
 				dataToSign = ByteBufferUtils.concatenate(dataToSign,
 						session.getServerNonce());

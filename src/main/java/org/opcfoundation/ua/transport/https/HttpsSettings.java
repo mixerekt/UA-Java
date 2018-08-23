@@ -126,14 +126,14 @@ public class HttpsSettings implements Cloneable {
 
         try {
             KeyStore keystore = KeyStore.getInstance("jks");
-            Certificate[] certs = new Certificate[]{keypair.getCertificate().certificate};
+            Certificate[] certs = new Certificate[]{keypair.getCertificate().getCertificate()};
             PrivateKeyEntry entry = new PrivateKeyEntry(keypair.getPrivateKey().getPrivateKey(), certs);
             keystore.load(null);
             keystore.setEntry("myentry-" + keypair.hashCode(), entry, new PasswordProtection(new char[0]));
 
             for (int i = 0; i < caCerts.length; i++) {
                 String id = "cacert-" + (i + 1);
-                keystore.setEntry(id, new TrustedCertificateEntry(caCerts[i].certificate), null);
+                keystore.setEntry(id, new TrustedCertificateEntry(caCerts[i].getCertificate()), null);
             }
             setKeyStore(keystore, "");
         } catch (KeyStoreException e) {
@@ -159,9 +159,9 @@ public class HttpsSettings implements Cloneable {
 
         for (int i = 0; i < keypairs.length; i++) {
             Certificate[] certs = new Certificate[1 + caCerts.length];
-            certs[0] = keypairs[i].getCertificate().certificate;
+            certs[0] = keypairs[i].getCertificate().getCertificate();
             for (int j = 0; j < caCerts.length; j++) {
-                certs[j + 1] = caCerts[j].certificate;
+                certs[j + 1] = caCerts[j].getCertificate();
             }
             PrivateKeyEntry entry = new PrivateKeyEntry(keypairs[i].getPrivateKey().privateKey, certs);
             keystore.setEntry("my-key-pair-entry-" + (i + 1), entry, prot);
@@ -169,7 +169,7 @@ public class HttpsSettings implements Cloneable {
         int count = caCerts.length;
         for (int i = 0; i < count; i++) {
             String id = "cacert-" + (i + 1);
-            keystore.setEntry(id, new TrustedCertificateEntry(caCerts[i].certificate), null);
+            keystore.setEntry(id, new TrustedCertificateEntry(caCerts[i].getCertificate()), null);
         }
 
         setKeyStore(keystore, "");

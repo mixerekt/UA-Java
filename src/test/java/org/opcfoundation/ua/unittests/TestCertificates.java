@@ -272,7 +272,7 @@ public class TestCertificates extends TestCase {
 		SignatureData signedData = CertificateUtils.sign(privkey, algorithm , dataToSign);
 		byte[] signature = ByteString.asByteArray(signedData.getSignature());
 		@SuppressWarnings("deprecation")
-		boolean isCorrect = CertificateUtils.verify(keys.getCertificate().certificate, algorithm, dataToSign, signature);
+		boolean isCorrect = CertificateUtils.verify(keys.getCertificate().getCertificate(), algorithm, dataToSign, signature);
 		tearDown();
 		
 		assertEquals(true, isCorrect);
@@ -292,7 +292,7 @@ public class TestCertificates extends TestCase {
 		SignatureData signedData = CertificateUtils.sign(privkey, algorithm , dataToSign);
 		byte[] signature = ByteString.asByteArray(signedData.getSignature());
 		@SuppressWarnings("deprecation")
-		boolean isCorrect = CertificateUtils.verify(keys.getCertificate().certificate, algorithm, dataToSign, signature);
+		boolean isCorrect = CertificateUtils.verify(keys.getCertificate().getCertificate(), algorithm, dataToSign, signature);
 		
 		CryptoUtil.setCryptoProvider(null);
 		tearDown();
@@ -316,7 +316,7 @@ public class TestCertificates extends TestCase {
 		//now signature should not be verified
 		try {
 			@SuppressWarnings("deprecation")
-			boolean isFalse = CertificateUtils.verify(keys.getCertificate().certificate, algorithm, dataToSign, signature);
+			boolean isFalse = CertificateUtils.verify(keys.getCertificate().getCertificate(), algorithm, dataToSign, signature);
 			assertEquals(false, isFalse);
 		} finally {
 			tearDown();
@@ -339,7 +339,7 @@ public class TestCertificates extends TestCase {
 		//now signature should not be verified
 		try {
 			@SuppressWarnings("deprecation")
-			boolean isFalse = CertificateUtils.verify(keys.getCertificate().certificate, algorithm, dataToSign, signature);
+			boolean isFalse = CertificateUtils.verify(keys.getCertificate().getCertificate(), algorithm, dataToSign, signature);
 			assertEquals(false, isFalse);
 		} finally {
 			CryptoUtil.setCryptoProvider(null);
@@ -359,7 +359,7 @@ public class TestCertificates extends TestCase {
 		byte[] dataToSign = new byte[100];
 		SignatureData signedData = new SignatureData(algorithm.getUri(), ByteString.valueOf(CryptoUtil.getCryptoProvider().signAsymm(privkey, algorithm, dataToSign)));
 		byte[] signature = ByteString.asByteArray(signedData.getSignature());
-		boolean isCorrect = CryptoUtil.getCryptoProvider().verifyAsymm(keys.getCertificate().certificate.getPublicKey(), algorithm, dataToSign, signature);
+		boolean isCorrect = CryptoUtil.getCryptoProvider().verifyAsymm(keys.getCertificate().getCertificate().getPublicKey(), algorithm, dataToSign, signature);
 		tearDown();
 		
 		assertEquals(true, isCorrect);
@@ -377,7 +377,7 @@ public class TestCertificates extends TestCase {
 		byte[] dataToSign = new byte[100];
 		SignatureData signedData = new SignatureData(algorithm.getUri(), ByteString.valueOf(CryptoUtil.getCryptoProvider().signAsymm(privkey, algorithm, dataToSign)));
 		byte[] signature = ByteString.asByteArray(signedData.getSignature());
-		boolean isCorrect = CryptoUtil.getCryptoProvider().verifyAsymm(keys.getCertificate().certificate.getPublicKey(), algorithm, dataToSign, signature);
+		boolean isCorrect = CryptoUtil.getCryptoProvider().verifyAsymm(keys.getCertificate().getCertificate().getPublicKey(), algorithm, dataToSign, signature);
 		
 		CryptoUtil.setCryptoProvider(null);
 		tearDown();
@@ -399,7 +399,7 @@ public class TestCertificates extends TestCase {
 		algorithm = SecurityAlgorithm.RsaSha256;
 		//now signature should not be verified
 		try {
-			boolean isFalse = CryptoUtil.getCryptoProvider().verifyAsymm(keys.getCertificate().certificate.getPublicKey(), algorithm, dataToSign, signature);
+			boolean isFalse = CryptoUtil.getCryptoProvider().verifyAsymm(keys.getCertificate().getCertificate().getPublicKey(), algorithm, dataToSign, signature);
 			assertEquals(false, isFalse);
 		} finally {
 			tearDown();
@@ -420,8 +420,8 @@ public class TestCertificates extends TestCase {
 		algorithm = SecurityAlgorithm.RsaSha256;
 		//now signature should not be verified
 		try {
-			boolean isFalse = CryptoUtil.getCryptoProvider().verifyAsymm(keys.getCertificate().certificate.getPublicKey(), algorithm, dataToSign, signature);
-			assertEquals(false, isFalse);
+			boolean isFalse = CryptoUtil.getCryptoProvider().verifyAsymm(keys.getCertificate().getCertificate().getPublicKey(), algorithm, dataToSign, signature);
+			assertFalse(isFalse);
 		} finally {
 			CryptoUtil.setCryptoProvider(null);
 			tearDown();
