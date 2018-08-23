@@ -24,9 +24,10 @@ import java.security.*;
 import java.security.KeyStore.*;
 import java.security.cert.Certificate;
 import java.security.cert.*;
+import java.util.*;
 
 @NoArgsConstructor
-public class HttpsSettings {
+public class HttpsSettings implements Cloneable {
 
     /**
      * Key Managers
@@ -76,6 +77,13 @@ public class HttpsSettings {
 
     @Getter
     private HttpsSecurityPolicy[] httpsSecurityPolicies;
+
+    @SneakyThrows
+    public static HttpsSettings newInstanceFrom(HttpsSettings source) {
+        Objects.requireNonNull(source);
+
+        return (HttpsSettings) source.clone();
+    }
 
     public HttpsSettings(KeyPair keypair, CertificateValidator certValidator, X509HostnameVerifier hostnameVerifier) {
 
@@ -257,22 +265,6 @@ public class HttpsSettings {
         }
         if (src.httpParams != null) this.httpParams = src.httpParams;
         if (src.httpsSecurityPolicies != null) this.httpsSecurityPolicies = src.httpsSecurityPolicies;
-    }
-
-    @Override
-    public HttpsSettings clone() {
-
-        HttpsSettings result = new HttpsSettings();
-
-        result.hostnameVerifier = hostnameVerifier;
-        result.trustManager = trustManager;
-        result.keyManager = keyManager;
-        result.username = username;
-        result.password = password;
-        result.httpParams = httpParams;
-        result.httpsSecurityPolicies = httpsSecurityPolicies;
-
-        return result;
     }
 
     public void setHttpsSecurityPolicies(HttpsSecurityPolicy... httpsSecurityPolicy) {
