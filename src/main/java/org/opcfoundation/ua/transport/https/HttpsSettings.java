@@ -30,12 +30,20 @@ public class HttpsSettings {
 
     /**
      * Key Managers
+     *
+     * key manager for a https application.
      */
+    @Getter
+    @Setter
     private X509KeyManager keyManager;
 
     /**
      * Trust managers
+     * Set the trust manager for a https application.
+     * Trust manager validates peer's certificates and certificate issuers.
      */
+    @Getter
+    @Setter
     private TrustManager trustManager;
 
     /**
@@ -51,13 +59,22 @@ public class HttpsSettings {
     /**
      * Authentication info
      */
+    @Setter
+    @Getter
     private String username;
+
+    @Setter
+    @Getter
     private String password;
 
     /**
      * http params
      */
+    @Getter
+    @Setter
     private HttpParams httpParams;
+
+    @Getter
     private HttpsSecurityPolicy[] httpsSecurityPolicies;
 
     public HttpsSettings(KeyPair keypair, CertificateValidator certValidator, X509HostnameVerifier hostnameVerifier) {
@@ -132,6 +149,7 @@ public class HttpsSettings {
      * @param caCerts  ca certs
      */
     public void setKeyPairs(KeyPair[] keypairs, Cert... caCerts) {
+
         try {
             KeyStore keystore = KeyStore.getInstance("jks");
             String password = "";
@@ -179,6 +197,7 @@ public class HttpsSettings {
      * @throws ServiceResultException if error
      */
     public void setKeyStore(KeyStore keystore, String password) throws ServiceResultException {
+
         try {
             KeyManagerFactory kmfactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
             kmfactory.init(keystore, password.toCharArray());
@@ -193,26 +212,6 @@ public class HttpsSettings {
         }
     }
 
-    /**
-     * Set keymanager for a https application.
-     *
-     * @param keyManager key manager
-     * @throws ServiceResultException if error
-     */
-    public void setKeyManager(X509KeyManager keyManager) throws ServiceResultException {
-        this.keyManager = keyManager;
-    }
-
-    /**
-     * Set the trust manager for a https application.
-     * Trust manager validates peer's certificates and certificate issuers.
-     *
-     * @param trustManager trustmanager
-     * @throws ServiceResultException if error
-     */
-    public void setTrustManager(TrustManager trustManager) throws ServiceResultException {
-        this.trustManager = trustManager;
-    }
 
     /**
      * Set an implementation of CertificateValidator as TrustManager.
@@ -221,6 +220,7 @@ public class HttpsSettings {
      * @param certValidator certificate validator
      */
     public void setCertificateValidator(CertificateValidator certValidator) {
+
         this.trustManager = new CertValidatorTrustManager(certValidator);
     }
 
@@ -231,52 +231,23 @@ public class HttpsSettings {
      * @param password password
      */
     public void setHttpsAuth(String username, String password) {
+
         this.username = username;
         this.password = password;
     }
 
     public TrustManager[] getTrustManagers() {
+
         return trustManager == null ? new TrustManager[0] : new TrustManager[]{trustManager};
     }
 
     public KeyManager[] getKeyManagers() {
+
         return keyManager == null ? new KeyManager[0] : new KeyManager[]{keyManager};
     }
 
-    public TrustManager getTrustManager() {
-        return trustManager;
-    }
-
-    public X509KeyManager getKeyManager() {
-        return keyManager;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-
-    public HttpParams getHttpParams() {
-        return httpParams;
-    }
-
-    public void setHttpParams(HttpParams httpParams) {
-        this.httpParams = httpParams;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public void readFrom(HttpsSettings src) {
+
         if (src.hostnameVerifier != null) hostnameVerifier = src.hostnameVerifier;
         if (src.trustManager != null) this.trustManager = src.trustManager;
         if (src.keyManager != null) this.keyManager = src.keyManager;
@@ -290,6 +261,7 @@ public class HttpsSettings {
 
     @Override
     public HttpsSettings clone() {
+
         HttpsSettings result = new HttpsSettings();
 
         result.hostnameVerifier = hostnameVerifier;
@@ -301,10 +273,6 @@ public class HttpsSettings {
         result.httpsSecurityPolicies = httpsSecurityPolicies;
 
         return result;
-    }
-
-    public HttpsSecurityPolicy[] getHttpsSecurityPolicies() {
-        return httpsSecurityPolicies;
     }
 
     public void setHttpsSecurityPolicies(HttpsSecurityPolicy... httpsSecurityPolicy) {
