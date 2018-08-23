@@ -466,7 +466,7 @@ public class Server {
 
                     // Ensure keysize matches security policy
                     if (msm.hasEncryption() || msm.hasSigning()) {
-                        if (!conf.getSecurityPolicy().isUsableWith(keypair.certificate))
+                        if (!conf.getSecurityPolicy().isUsableWith(keypair.getCertificate()))
                             continue;
                     }
 

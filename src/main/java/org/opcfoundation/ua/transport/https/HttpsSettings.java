@@ -126,8 +126,8 @@ public class HttpsSettings implements Cloneable {
 
         try {
             KeyStore keystore = KeyStore.getInstance("jks");
-            Certificate[] certs = new Certificate[]{keypair.certificate.certificate};
-            PrivateKeyEntry entry = new PrivateKeyEntry(keypair.privateKey.getPrivateKey(), certs);
+            Certificate[] certs = new Certificate[]{keypair.getCertificate().certificate};
+            PrivateKeyEntry entry = new PrivateKeyEntry(keypair.getPrivateKey().getPrivateKey(), certs);
             keystore.load(null);
             keystore.setEntry("myentry-" + keypair.hashCode(), entry, new PasswordProtection(new char[0]));
 
@@ -159,11 +159,11 @@ public class HttpsSettings implements Cloneable {
 
         for (int i = 0; i < keypairs.length; i++) {
             Certificate[] certs = new Certificate[1 + caCerts.length];
-            certs[0] = keypairs[i].certificate.certificate;
+            certs[0] = keypairs[i].getCertificate().certificate;
             for (int j = 0; j < caCerts.length; j++) {
                 certs[j + 1] = caCerts[j].certificate;
             }
-            PrivateKeyEntry entry = new PrivateKeyEntry(keypairs[i].privateKey.privateKey, certs);
+            PrivateKeyEntry entry = new PrivateKeyEntry(keypairs[i].getPrivateKey().privateKey, certs);
             keystore.setEntry("my-key-pair-entry-" + (i + 1), entry, prot);
         }
         int count = caCerts.length;

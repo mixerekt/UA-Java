@@ -14,13 +14,10 @@ package org.opcfoundation.ua.transport.security;
 
 import lombok.*;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableKeyException;
-import java.security.cert.CertificateException;
+import java.io.*;
+import java.net.*;
+import java.security.*;
+import java.security.cert.*;
 
 /**
  * Valid and encodeable certificate, including signed public key and private key
@@ -35,8 +32,8 @@ import java.security.cert.CertificateException;
 @Getter
 public final class KeyPair {
 
-    public final Cert certificate;
-    public final PrivKey privateKey;
+    private final Cert certificate;
+    private final PrivKey privateKey;
 
     /**
      * Load Certificate and Private key pair from X.509 and keystore file

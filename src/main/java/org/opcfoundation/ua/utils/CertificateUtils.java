@@ -12,57 +12,20 @@
 
 package org.opcfoundation.ua.utils;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigInteger;
-import java.net.URL;
-import java.net.URLConnection;
-import java.security.GeneralSecurityException;
-import java.security.InvalidKeyException;
-import java.security.Key;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.Security;
-import java.security.SignatureException;
-import java.security.UnrecoverableKeyException;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateEncodingException;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
-import java.security.cert.CertificateParsingException;
-import java.security.cert.X509Certificate;
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.List;
+import org.opcfoundation.ua.common.*;
+import org.opcfoundation.ua.core.*;
+import org.opcfoundation.ua.transport.security.*;
+import org.slf4j.*;
 
-import org.opcfoundation.ua.common.ServiceResultException;
-import org.opcfoundation.ua.core.SignatureData;
-import org.opcfoundation.ua.transport.security.BcCertificateProvider;
-import org.opcfoundation.ua.transport.security.Cert;
-import org.opcfoundation.ua.transport.security.CertificateProvider;
-import org.opcfoundation.ua.transport.security.PrivKey;
-import org.opcfoundation.ua.transport.security.ScCertificateProvider;
-import org.opcfoundation.ua.transport.security.SecurityAlgorithm;
-import org.opcfoundation.ua.transport.security.SunJceCertificateProvider;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.*;
+import java.math.*;
+import java.net.*;
+import java.security.*;
+import java.security.KeyPair;
+import java.security.cert.Certificate;
+import java.security.cert.*;
+import java.security.interfaces.*;
+import java.util.*;
 
 
 /**
@@ -290,8 +253,8 @@ public class CertificateUtils {
 
 		// create certificate chain containing only 1 certificate
 		Certificate[] chain = new Certificate[1];
-		chain[0] = keyPairToSave.certificate.getCertificate();
-		store.setKeyEntry(alias, keyPairToSave.privateKey.getPrivateKey(),
+		chain[0] = keyPairToSave.getCertificate().getCertificate();
+		store.setKeyEntry(alias, keyPairToSave.getPrivateKey().getPrivateKey(),
 				privatePW.toCharArray(), chain);
 
 		FileOutputStream fOut = new FileOutputStream(storeLocation);

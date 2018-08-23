@@ -28,41 +28,22 @@
  * ======================================================================*/
 package org.opcfoundation.ua.unittests;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.security.GeneralSecurityException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
-import java.security.cert.CertificateEncodingException;
-import java.security.cert.CertificateException;
-import java.security.interfaces.RSAPrivateKey;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.InvalidParameterSpecException;
-import java.util.Arrays;
+ import junit.framework.*;
+ import org.opcfoundation.ua.builtintypes.*;
+ import org.opcfoundation.ua.cert.*;
+ import org.opcfoundation.ua.core.*;
+ import org.opcfoundation.ua.transport.security.*;
+ import org.opcfoundation.ua.transport.security.KeyPair;
+ import org.opcfoundation.ua.utils.*;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-
-import junit.framework.TestCase;
-
-import org.opcfoundation.ua.builtintypes.ByteString;
-import org.opcfoundation.ua.builtintypes.StatusCode;
-import org.opcfoundation.ua.cert.DefaultCertificateValidator;
-import org.opcfoundation.ua.cert.PkiDirectoryCertificateStore;
-import org.opcfoundation.ua.core.SignatureData;
-import org.opcfoundation.ua.core.StatusCodes;
-import org.opcfoundation.ua.transport.security.BcCryptoProvider;
-import org.opcfoundation.ua.transport.security.Cert;
-import org.opcfoundation.ua.transport.security.CryptoProvider;
-import org.opcfoundation.ua.transport.security.KeyPair;
-import org.opcfoundation.ua.transport.security.PrivKey;
-import org.opcfoundation.ua.transport.security.SecurityAlgorithm;
-import org.opcfoundation.ua.utils.CertificateUtils;
-import org.opcfoundation.ua.utils.CryptoUtil;
+ import javax.crypto.*;
+ import java.io.*;
+ import java.net.*;
+ import java.security.*;
+ import java.security.cert.*;
+ import java.security.interfaces.*;
+ import java.security.spec.*;
+ import java.util.*;
 
 
 public class TestCertificates extends TestCase {
@@ -291,7 +272,7 @@ public class TestCertificates extends TestCase {
 		SignatureData signedData = CertificateUtils.sign(privkey, algorithm , dataToSign);
 		byte[] signature = ByteString.asByteArray(signedData.getSignature());
 		@SuppressWarnings("deprecation")
-		boolean isCorrect = CertificateUtils.verify(keys.certificate.certificate, algorithm, dataToSign, signature);
+		boolean isCorrect = CertificateUtils.verify(keys.getCertificate().certificate, algorithm, dataToSign, signature);
 		tearDown();
 		
 		assertEquals(true, isCorrect);
@@ -311,7 +292,7 @@ public class TestCertificates extends TestCase {
 		SignatureData signedData = CertificateUtils.sign(privkey, algorithm , dataToSign);
 		byte[] signature = ByteString.asByteArray(signedData.getSignature());
 		@SuppressWarnings("deprecation")
-		boolean isCorrect = CertificateUtils.verify(keys.certificate.certificate, algorithm, dataToSign, signature);
+		boolean isCorrect = CertificateUtils.verify(keys.getCertificate().certificate, algorithm, dataToSign, signature);
 		
 		CryptoUtil.setCryptoProvider(null);
 		tearDown();
@@ -335,7 +316,7 @@ public class TestCertificates extends TestCase {
 		//now signature should not be verified
 		try {
 			@SuppressWarnings("deprecation")
-			boolean isFalse = CertificateUtils.verify(keys.certificate.certificate, algorithm, dataToSign, signature);
+			boolean isFalse = CertificateUtils.verify(keys.getCertificate().certificate, algorithm, dataToSign, signature);
 			assertEquals(false, isFalse);
 		} finally {
 			tearDown();
@@ -358,7 +339,7 @@ public class TestCertificates extends TestCase {
 		//now signature should not be verified
 		try {
 			@SuppressWarnings("deprecation")
-			boolean isFalse = CertificateUtils.verify(keys.certificate.certificate, algorithm, dataToSign, signature);
+			boolean isFalse = CertificateUtils.verify(keys.getCertificate().certificate, algorithm, dataToSign, signature);
 			assertEquals(false, isFalse);
 		} finally {
 			CryptoUtil.setCryptoProvider(null);
@@ -378,7 +359,7 @@ public class TestCertificates extends TestCase {
 		byte[] dataToSign = new byte[100];
 		SignatureData signedData = new SignatureData(algorithm.getUri(), ByteString.valueOf(CryptoUtil.getCryptoProvider().signAsymm(privkey, algorithm, dataToSign)));
 		byte[] signature = ByteString.asByteArray(signedData.getSignature());
-		boolean isCorrect = CryptoUtil.getCryptoProvider().verifyAsymm(keys.certificate.certificate.getPublicKey(), algorithm, dataToSign, signature);
+		boolean isCorrect = CryptoUtil.getCryptoProvider().verifyAsymm(keys.getCertificate().certificate.getPublicKey(), algorithm, dataToSign, signature);
 		tearDown();
 		
 		assertEquals(true, isCorrect);
@@ -396,7 +377,7 @@ public class TestCertificates extends TestCase {
 		byte[] dataToSign = new byte[100];
 		SignatureData signedData = new SignatureData(algorithm.getUri(), ByteString.valueOf(CryptoUtil.getCryptoProvider().signAsymm(privkey, algorithm, dataToSign)));
 		byte[] signature = ByteString.asByteArray(signedData.getSignature());
-		boolean isCorrect = CryptoUtil.getCryptoProvider().verifyAsymm(keys.certificate.certificate.getPublicKey(), algorithm, dataToSign, signature);
+		boolean isCorrect = CryptoUtil.getCryptoProvider().verifyAsymm(keys.getCertificate().certificate.getPublicKey(), algorithm, dataToSign, signature);
 		
 		CryptoUtil.setCryptoProvider(null);
 		tearDown();
@@ -418,7 +399,7 @@ public class TestCertificates extends TestCase {
 		algorithm = SecurityAlgorithm.RsaSha256;
 		//now signature should not be verified
 		try {
-			boolean isFalse = CryptoUtil.getCryptoProvider().verifyAsymm(keys.certificate.certificate.getPublicKey(), algorithm, dataToSign, signature); 
+			boolean isFalse = CryptoUtil.getCryptoProvider().verifyAsymm(keys.getCertificate().certificate.getPublicKey(), algorithm, dataToSign, signature);
 			assertEquals(false, isFalse);
 		} finally {
 			tearDown();
@@ -439,7 +420,7 @@ public class TestCertificates extends TestCase {
 		algorithm = SecurityAlgorithm.RsaSha256;
 		//now signature should not be verified
 		try {
-			boolean isFalse = CryptoUtil.getCryptoProvider().verifyAsymm(keys.certificate.certificate.getPublicKey(), algorithm, dataToSign, signature); 
+			boolean isFalse = CryptoUtil.getCryptoProvider().verifyAsymm(keys.getCertificate().certificate.getPublicKey(), algorithm, dataToSign, signature);
 			assertEquals(false, isFalse);
 		} finally {
 			CryptoUtil.setCryptoProvider(null);

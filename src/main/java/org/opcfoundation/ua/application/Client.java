@@ -51,7 +51,7 @@ public class Client {
         Client client = new Client(application);
         if (cert != null) {
             try {
-                String certApplicationUri = CertificateUtils.getApplicationUriOfCertificate(cert.certificate);
+                String certApplicationUri = CertificateUtils.getApplicationUriOfCertificate(cert.getCertificate());
                 application.setApplicationUri(certApplicationUri);
             } catch (CertificateParsingException e) {
                 //ignore here
