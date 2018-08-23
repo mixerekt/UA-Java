@@ -38,6 +38,8 @@ import java.util.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
+@Data
 public class MdnsDiscoveryConfiguration extends DiscoveryConfiguration {
 
     public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.MdnsDiscoveryConfiguration);

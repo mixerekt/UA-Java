@@ -29,77 +29,48 @@
 
 package org.opcfoundation.ua.core;
 
-import org.opcfoundation.ua.builtintypes.Structure;
-import org.opcfoundation.ua.builtintypes.ExpandedNodeId;
-import org.opcfoundation.ua.core.Identifiers;
-import org.opcfoundation.ua.utils.ObjectUtils;
-import org.opcfoundation.ua.core.UserIdentityToken;
+import lombok.*;
+import org.opcfoundation.ua.builtintypes.*;
+import org.opcfoundation.ua.utils.*;
 
+import java.util.*;
 
-
+@NoArgsConstructor
+@EqualsAndHashCode
 public class AnonymousIdentityToken extends UserIdentityToken {
 	
 	public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.AnonymousIdentityToken);
 	public static final ExpandedNodeId BINARY = new ExpandedNodeId(Identifiers.AnonymousIdentityToken_Encoding_DefaultBinary);
 	public static final ExpandedNodeId XML = new ExpandedNodeId(Identifiers.AnonymousIdentityToken_Encoding_DefaultXml);
-	
     
-    public AnonymousIdentityToken() {}
-    
-    public AnonymousIdentityToken(String PolicyId)
+    public AnonymousIdentityToken(String policyId)
     {
-        super(PolicyId);
+        super(policyId);
     }
-    
-    /**
-      * Deep clone
-      *
-      * @return cloned AnonymousIdentityToken
-      */
-    public AnonymousIdentityToken clone()
-    {
-        AnonymousIdentityToken result = (AnonymousIdentityToken) super.clone();
-        result.PolicyId = PolicyId;
-        return result;
-    }
-    
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        AnonymousIdentityToken other = (AnonymousIdentityToken) obj;
-        if (PolicyId==null) {
-            if (other.PolicyId != null) return false;
-        } else if (!PolicyId.equals(other.PolicyId)) return false;
-        return true;
-    }
-    
-    @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((PolicyId == null) ? 0 : PolicyId.hashCode());
-        return result;
-    }
-    
 
+    @SneakyThrows
+    public static AnonymousIdentityToken newInstanceFrom(AnonymousIdentityToken source) {
+        Objects.requireNonNull(source);
 
+        return (AnonymousIdentityToken) source.clone();
+    }
+
+    @Override
 	public ExpandedNodeId getTypeId() {
 		return ID;
 	}
 
+	@Override
 	public ExpandedNodeId getXmlEncodeId() {
 		return XML;
 	}
 
+	@Override
 	public ExpandedNodeId getBinaryEncodeId() {
 		return BINARY;
 	}
-	
+
+	@Override
 	public String toString() {
 		return "AnonymousIdentityToken: "+ObjectUtils.printFieldsDeep(this);
 	}

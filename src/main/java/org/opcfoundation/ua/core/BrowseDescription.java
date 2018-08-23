@@ -38,7 +38,6 @@ import java.util.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-@Data
 public class BrowseDescription implements Structure {
 
     public static final ExpandedNodeId ID = new ExpandedNodeId(Identifiers.BrowseDescription);
@@ -52,8 +51,62 @@ public class BrowseDescription implements Structure {
     protected UnsignedInteger nodeClassMask;
     protected UnsignedInteger resultMask;
 
+    public NodeId getNodeId() {
+        return nodeId;
+    }
+
+    public void setNodeId(NodeId nodeId) {
+        this.nodeId = nodeId;
+    }
+
+    public BrowseDirection getBrowseDirection() {
+        return browseDirection;
+    }
+
+    public void setBrowseDirection(BrowseDirection browseDirection) {
+        this.browseDirection = browseDirection;
+    }
+
+    public NodeId getReferenceTypeId() {
+        return referenceTypeId;
+    }
+
+    public void setReferenceTypeId(NodeId referenceTypeId) {
+        this.referenceTypeId = referenceTypeId;
+    }
+
+    public Boolean getIncludeSubtypes() {
+        return includeSubtypes;
+    }
+
+    public void setIncludeSubtypes(Boolean includeSubtypes) {
+        this.includeSubtypes = includeSubtypes;
+    }
+
+    public UnsignedInteger getNodeClassMask() {
+        return nodeClassMask;
+    }
+
+    public void setNodeClassMask(UnsignedInteger nodeClassMask) {
+        this.nodeClassMask = nodeClassMask;
+    }
+
+    public UnsignedInteger getResultMask() {
+        return resultMask;
+    }
+
+    public void setResultMask(UnsignedInteger resultMask) {
+        this.resultMask = resultMask;
+    }
 
     public void setNodeClassMask(EnumSet<NodeClass> nodeClasses) {
+        int result = 0;
+        for (NodeClass c : nodeClasses)
+            result |= c.getValue();
+        nodeClassMask = UnsignedInteger.valueOf(result);
+    }
+
+    public void setNodeClassMask(NodeClass... nodeClasses) {
         int result = 0;
         for (NodeClass c : nodeClasses)
             result |= c.getValue();
@@ -65,13 +118,6 @@ public class BrowseDescription implements Structure {
         for (BrowseResultMask c : resultMask)
             result |= c.getValue();
         this.resultMask = UnsignedInteger.valueOf(result);
-    }
-
-    public void setNodeClassMask(NodeClass... nodeClasses) {
-        int result = 0;
-        for (NodeClass c : nodeClasses)
-            result |= c.getValue();
-        nodeClassMask = UnsignedInteger.valueOf(result);
     }
 
     public void setResultMask(BrowseResultMask... resultMask) {
