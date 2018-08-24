@@ -12,302 +12,185 @@
 
 package org.opcfoundation.ua.encoding;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
+import lombok.*;
+import org.opcfoundation.ua.builtintypes.*;
+import org.opcfoundation.ua.common.*;
+import org.opcfoundation.ua.encoding.binary.*;
+import org.opcfoundation.ua.utils.*;
 
-import org.opcfoundation.ua.builtintypes.ExpandedNodeId;
-import org.opcfoundation.ua.builtintypes.ExtensionObject;
-import org.opcfoundation.ua.builtintypes.NodeId;
-import org.opcfoundation.ua.builtintypes.Structure;
-import org.opcfoundation.ua.common.NamespaceTable;
-import org.opcfoundation.ua.common.ServerTable;
-import org.opcfoundation.ua.common.ServiceResultException;
-import org.opcfoundation.ua.encoding.binary.IEncodeableSerializer;
-import org.opcfoundation.ua.utils.StackUtils;
+import java.lang.reflect.*;
+import java.util.*;
 
 /**
  * <p>EncoderContext class.</p>
  */
+@ToString
+
 public class EncoderContext {
-	private static EncoderContext defaultInstance = new EncoderContext(NamespaceTable.getDefaultInstance(), null, StackUtils.getDefaultSerializer());
 
-	/**
-	 * <p>Getter for the field <code>defaultInstance</code>.</p>
-	 *
-	 * @return a {@link org.opcfoundation.ua.encoding.EncoderContext} object.
-	 */
-	public static EncoderContext getDefaultInstance() {
-		return defaultInstance ;
-	}
-	
-	/**
-	 * <p>decode.</p>
-	 *
-	 * @param values an array of {@link org.opcfoundation.ua.builtintypes.ExtensionObject} objects.
-	 * @return a {@link java.lang.Object} object.
-	 * @throws org.opcfoundation.ua.encoding.DecodingException if any.
-	 */
-	public Object decode(ExtensionObject[] values) throws DecodingException {
-		return decode(values, null);
-	}
-	
-	/**
-	 * <p>decode.</p>
-	 *
-	 * @param values an array of {@link org.opcfoundation.ua.builtintypes.ExtensionObject} objects.
-	 * @param namespaceTable a {@link org.opcfoundation.ua.common.NamespaceTable} object.
-	 * @return a {@link java.lang.Object} object.
-	 * @throws org.opcfoundation.ua.encoding.DecodingException if any.
-	 */
-	public Object decode(ExtensionObject[] values, NamespaceTable namespaceTable) throws DecodingException {
-		Object value;
-		int n = values.length;
-		Structure[] newValue = new Structure[n];
-		for (int i = 0; i < n; i++) {
-			ExtensionObject obj = values[i];
-			if (obj != null) newValue[i] = obj.decode(this, namespaceTable);
-		}
-		value = newValue;
-		if (n > 0) {
-			Class<? extends Structure> valueClass = null;
-			for (int i = 0; i < n; i++)
-				if (newValue[i] != null) {
-					Class<? extends Structure> newClass = newValue[i]
-							.getClass();
-					if (valueClass == null)
-						valueClass = newClass;
-					else if (!newClass.isAssignableFrom(valueClass))
-						if (valueClass.isAssignableFrom(newClass))
-							valueClass = newClass;
-						else {
-							valueClass = null;
-							break;
-						}
-				}
-			if (valueClass != null)
-				value = Arrays.copyOf(newValue, n, ((Structure[]) Array
-						.newInstance(valueClass, 0)).getClass());
-		}
-		return value;
-	}
+    private static final EncoderContext DEFAULT_INSTANCE = new EncoderContext(NamespaceTable.getDefaultInstance(), null, StackUtils.getDefaultSerializer());
 
-	public NamespaceTable namespaceTable;
-	public ServerTable serverTable;
-	public IEncodeableSerializer encodeableSerializer;	
+    @Getter
+    @Setter
+    private IEncodeableSerializer encodeableSerializer;
 
-	public int maxMessageSize = 4*1024*1024*1024;
-	
-	// 0 = norestriction
-    public int maxStringLength = 0; //UnsignedShort.MAX_VALUE.intValue();
-    public int maxByteStringLength = 0; //UnsignedShort.MAX_VALUE.intValue() * 16;
-    public int maxArrayLength = 0; //UnsignedShort.MAX_VALUE.intValue();
+    @Getter
+    @Setter
+    public int maxMessageSize = 4 * 1024 * 1024 * 1024;
 
-	/**
-	 * <p>Constructor for EncoderContext.</p>
-	 *
-	 * @param namespaceTable a {@link org.opcfoundation.ua.common.NamespaceTable} object.
-	 * @param serverTable a {@link org.opcfoundation.ua.common.ServerTable} object.
-	 * @param encodeableSerializer a {@link org.opcfoundation.ua.encoding.binary.IEncodeableSerializer} object.
-	 * @param maxMessageSize a int.
-	 */
-	public EncoderContext(NamespaceTable namespaceTable, 
-			ServerTable serverTable,
-			IEncodeableSerializer encodeableSerializer,
-			int maxMessageSize) {
-		this.encodeableSerializer = encodeableSerializer;
-		this.namespaceTable = namespaceTable;
-		this.serverTable = serverTable;
-		this.maxMessageSize = maxMessageSize;
-	}
+    @Getter
+    @Setter
+    private NamespaceTable namespaceTable;
 
-	/**
-	 * <p>Constructor for EncoderContext.</p>
-	 *
-	 * @param namespaceTable a {@link org.opcfoundation.ua.common.NamespaceTable} object.
-	 * @param serverTable a {@link org.opcfoundation.ua.common.ServerTable} object.
-	 * @param encodeableSerializer a {@link org.opcfoundation.ua.encoding.binary.IEncodeableSerializer} object.
-	 */
-	public EncoderContext(NamespaceTable namespaceTable,
-	                      ServerTable serverTable,
-	                      IEncodeableSerializer encodeableSerializer) {
-		this.encodeableSerializer = encodeableSerializer;
-		this.namespaceTable = namespaceTable;
-		this.serverTable = serverTable;
-	}
+    @Getter
+    @Setter
+    private ServerTable serverTable;
 
-	/**
-	 * <p>Getter for the field <code>maxMessageSize</code>.</p>
-	 *
-	 * @return a int.
-	 */
-	public int getMaxMessageSize() {
-		return maxMessageSize;
-	}
-	
-	/**
-	 * <p>Setter for the field <code>maxMessageSize</code>.</p>
-	 *
-	 * @param encodeMessageMaxSize a int.
-	 */
-	public void setMaxMessageSize(int encodeMessageMaxSize) {
-		this.maxMessageSize = encodeMessageMaxSize;
-	}
-	
-	/**
-	 * <p>Getter for the field <code>namespaceTable</code>.</p>
-	 *
-	 * @return a {@link org.opcfoundation.ua.common.NamespaceTable} object.
-	 */
-	public NamespaceTable getNamespaceTable() {
-		return namespaceTable;
-	}
+    @Getter
+    @Setter
+    private int maxStringLength = 0;
 
-	/**
-	 * <p>Setter for the field <code>namespaceTable</code>.</p>
-	 *
-	 * @param namespaceTable a {@link org.opcfoundation.ua.common.NamespaceTable} object.
-	 */
-	public void setNamespaceTable(NamespaceTable namespaceTable) {
-		this.namespaceTable = namespaceTable;
-	}
+    @Getter
+    @Setter
+    private int maxByteStringLength = 0;
 
-	/**
-	 * <p>getEncodeableNodeId.</p>
-	 *
-	 * @param clazz a {@link java.lang.Class} object.
-	 * @param type a {@link org.opcfoundation.ua.encoding.EncodeType} object.
-	 * @return a {@link org.opcfoundation.ua.builtintypes.NodeId} object.
-	 * @throws org.opcfoundation.ua.common.ServiceResultException if any.
-	 */
-	public NodeId getEncodeableNodeId(Class<? extends IEncodeable> clazz, EncodeType type) throws ServiceResultException {
-		return namespaceTable.toNodeId(encodeableSerializer.getNodeId(clazz, type));
-	}
+    @Getter
+    @Setter
+    private int maxArrayLength = 0;
 
-	/**
-	 * <p>Getter for the field <code>serverTable</code>.</p>
-	 *
-	 * @return a {@link org.opcfoundation.ua.common.ServerTable} object.
-	 */
-	public ServerTable getServerTable() {
-		return serverTable;
-	}
+    /**
+     * <p>Getter for the field <code>DEFAULT_INSTANCE</code>.</p>
+     *
+     * @return a {@link org.opcfoundation.ua.encoding.EncoderContext} object.
+     */
+    public static EncoderContext getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
 
-	/**
-	 * <p>Setter for the field <code>serverTable</code>.</p>
-	 *
-	 * @param serverTable a {@link org.opcfoundation.ua.common.ServerTable} object.
-	 */
-	public void setServerTable(ServerTable serverTable) {
-		this.serverTable = serverTable;
-	}
+    /**
+     * <p>Constructor for EncoderContext.</p>
+     *
+     * @param namespaceTable       a {@link org.opcfoundation.ua.common.NamespaceTable} object.
+     * @param serverTable          a {@link org.opcfoundation.ua.common.ServerTable} object.
+     * @param encodeableSerializer a {@link org.opcfoundation.ua.encoding.binary.IEncodeableSerializer} object.
+     * @param maxMessageSize       a int.
+     */
+    public EncoderContext(NamespaceTable namespaceTable,
+                          ServerTable serverTable,
+                          IEncodeableSerializer encodeableSerializer,
+                          int maxMessageSize) {
 
-	/**
-	 * <p>Getter for the field <code>encodeableSerializer</code>.</p>
-	 *
-	 * @return a {@link org.opcfoundation.ua.encoding.binary.IEncodeableSerializer} object.
-	 */
-	public IEncodeableSerializer getEncodeableSerializer() {
-		return encodeableSerializer;
-	}
+        this.encodeableSerializer = encodeableSerializer;
+        this.namespaceTable = namespaceTable;
+        this.serverTable = serverTable;
+        this.maxMessageSize = maxMessageSize;
+    }
 
-	/**
-	 * <p>getEncodeableClass.</p>
-	 *
-	 * @param id a {@link org.opcfoundation.ua.builtintypes.NodeId} object.
-	 * @return a {@link java.lang.Class} object.
-	 */
-	public Class<? extends IEncodeable> getEncodeableClass(NodeId id) {
-		return encodeableSerializer.getClass(namespaceTable.toExpandedNodeId(id));
-	}
+    /**
+     * <p>Constructor for EncoderContext.</p>
+     *
+     * @param namespaceTable       a {@link org.opcfoundation.ua.common.NamespaceTable} object.
+     * @param serverTable          a {@link org.opcfoundation.ua.common.ServerTable} object.
+     * @param encodeableSerializer a {@link org.opcfoundation.ua.encoding.binary.IEncodeableSerializer} object.
+     */
+    public EncoderContext(NamespaceTable namespaceTable,
+                          ServerTable serverTable,
+                          IEncodeableSerializer encodeableSerializer) {
 
-	/**
-	 * <p>Setter for the field <code>encodeableSerializer</code>.</p>
-	 *
-	 * @param encodeableSerializer a {@link org.opcfoundation.ua.encoding.binary.IEncodeableSerializer} object.
-	 */
-	public void setEncodeableSerializer(IEncodeableSerializer encodeableSerializer) {
-		this.encodeableSerializer = encodeableSerializer;
-	}
+        this.encodeableSerializer = encodeableSerializer;
+        this.namespaceTable = namespaceTable;
+        this.serverTable = serverTable;
+    }
 
-	/**
-	 * <p>toNodeId.</p>
-	 *
-	 * @param id a {@link org.opcfoundation.ua.builtintypes.ExpandedNodeId} object.
-	 * @return a {@link org.opcfoundation.ua.builtintypes.NodeId} object.
-	 * @throws org.opcfoundation.ua.encoding.EncodingException if any.
-	 */
-	public NodeId toNodeId(ExpandedNodeId id) throws EncodingException {
-		try {
-			return namespaceTable.toNodeId(id);
-		} catch (ServiceResultException e) {
-			throw new EncodingException("Could not get namespace index for given id");
-		}
-	}
-	
-	/**
-	 * <p>Getter for the field <code>maxStringLength</code>.</p>
-	 *
-	 * @return a int.
-	 */
-	public int getMaxStringLength() {
-		return maxStringLength;
-	}
+    /**
+     * <p>decode.</p>
+     *
+     * @param values an array of {@link org.opcfoundation.ua.builtintypes.ExtensionObject} objects.
+     * @return a {@link java.lang.Object} object.
+     * @throws org.opcfoundation.ua.encoding.DecodingException if any.
+     */
+    public Object decode(ExtensionObject[] values) throws DecodingException {
 
-	/**
-	 * <p>Setter for the field <code>maxStringLength</code>.</p>
-	 *
-	 * @param maxStringLength a int.
-	 */
-	public void setMaxStringLength(int maxStringLength) {
-		this.maxStringLength = maxStringLength;
-	}
+        return decode(values, null);
+    }
 
-	/**
-	 * <p>Getter for the field <code>maxByteStringLength</code>.</p>
-	 *
-	 * @return a int.
-	 */
-	public int getMaxByteStringLength() {
-		return maxByteStringLength;
-	}
+    /**
+     * <p>decode.</p>
+     *
+     * @param values         an array of {@link org.opcfoundation.ua.builtintypes.ExtensionObject} objects.
+     * @param namespaceTable a {@link org.opcfoundation.ua.common.NamespaceTable} object.
+     * @return a {@link java.lang.Object} object.
+     * @throws org.opcfoundation.ua.encoding.DecodingException if any.
+     */
+    public Object decode(ExtensionObject[] values, NamespaceTable namespaceTable) throws DecodingException {
 
-	/**
-	 * <p>Setter for the field <code>maxByteStringLength</code>.</p>
-	 *
-	 * @param maxByteStringLength a int.
-	 */
-	public void setMaxByteStringLength(int maxByteStringLength) {
-		this.maxByteStringLength = maxByteStringLength;
-	}
+        Object value;
+        int n = values.length;
+        Structure[] newValue = new Structure[n];
+        for (int i = 0; i < n; i++) {
+            ExtensionObject obj = values[i];
+            if (obj != null) newValue[i] = obj.decode(this, namespaceTable);
+        }
+        value = newValue;
+        if (n > 0) {
+            Class<? extends Structure> valueClass = null;
+            for (int i = 0; i < n; i++)
+                if (newValue[i] != null) {
+                    Class<? extends Structure> newClass = newValue[i]
+                            .getClass();
+                    if (valueClass == null)
+                        valueClass = newClass;
+                    else if (!newClass.isAssignableFrom(valueClass))
+                        if (valueClass.isAssignableFrom(newClass))
+                            valueClass = newClass;
+                        else {
+                            valueClass = null;
+                            break;
+                        }
+                }
+            if (valueClass != null)
+                value = Arrays.copyOf(newValue, n, ((Structure[]) Array
+                        .newInstance(valueClass, 0)).getClass());
+        }
+        return value;
+    }
 
-	/**
-	 * <p>Getter for the field <code>maxArrayLength</code>.</p>
-	 *
-	 * @return a int.
-	 */
-	public int getMaxArrayLength() {
-		return maxArrayLength;
-	}
+    /**
+     * <p>getEncodeableNodeId.</p>
+     *
+     * @param clazz a {@link java.lang.Class} object.
+     * @param type  a {@link org.opcfoundation.ua.encoding.EncodeType} object.
+     * @return a {@link org.opcfoundation.ua.builtintypes.NodeId} object.
+     * @throws org.opcfoundation.ua.common.ServiceResultException if any.
+     */
+    public NodeId getEncodeableNodeId(Class<? extends IEncodeable> clazz, EncodeType type) throws ServiceResultException {
 
-	/**
-	 * <p>Setter for the field <code>maxArrayLength</code>.</p>
-	 *
-	 * @param maxArrayLength a int.
-	 */
-	public void setMaxArrayLength(int maxArrayLength) {
-		this.maxArrayLength = maxArrayLength;
-	}
-	
-	/** {@inheritDoc} */
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("   namespaceTable = "+namespaceTable + "\n");		
-		sb.append("   serverTable = "+serverTable + "\n");
-		sb.append("   maxMessageSize = "+maxMessageSize + "\n");
-		sb.append("   maxStringLength = "+maxStringLength + "\n");
-		sb.append("   maxByteStringLength = "+maxByteStringLength + "\n");
-		sb.append("   maxArrayLength = "+maxArrayLength + "\n");
-		return sb.toString();
-	}
+        return namespaceTable.toNodeId(encodeableSerializer.getNodeId(clazz, type));
+    }
+
+    /**
+     * <p>getEncodeableClass.</p>
+     *
+     * @param id a {@link org.opcfoundation.ua.builtintypes.NodeId} object.
+     * @return a {@link java.lang.Class} object.
+     */
+    public Class<? extends IEncodeable> getEncodeableClass(NodeId id) {
+
+        return encodeableSerializer.getClass(namespaceTable.toExpandedNodeId(id));
+    }
+
+    /**
+     * <p>toNodeId.</p>
+     *
+     * @param id a {@link org.opcfoundation.ua.builtintypes.ExpandedNodeId} object.
+     * @return a {@link org.opcfoundation.ua.builtintypes.NodeId} object.
+     * @throws org.opcfoundation.ua.encoding.EncodingException if any.
+     */
+    public NodeId toNodeId(ExpandedNodeId id) throws EncodingException {
+        try {
+            return namespaceTable.toNodeId(id);
+        } catch (ServiceResultException e) {
+            throw new EncodingException("Could not get namespace index for given id");
+        }
+    }
 }
