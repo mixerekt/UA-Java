@@ -49,7 +49,7 @@ public class OpcTcpSettings implements Cloneable {
          * This allows higher throughput in secured data intensive applications with
          * large messages.
          */
-        MultiThread
+        MULTI_THREAD
     }
 
     @SneakyThrows

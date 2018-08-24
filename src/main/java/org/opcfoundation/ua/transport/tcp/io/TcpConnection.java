@@ -644,7 +644,7 @@ public class TcpConnection implements IConnection {
                 // total chunk count
 //				int chunkCount = 0;
                 // boolean multithread = flags.contains(
-                // TransportChannelSettings.Flag.MultiThread );
+                // TransportChannelSettings.Flag.MULTI_THREAD );
                 IBinaryReadable in = new InputStreamReadable(s.getInputStream(), Long.MAX_VALUE);
                 in.order(ByteOrder.LITTLE_ENDIAN);
                 ArrayList<ByteBuffer> chunks = new ArrayList<ByteBuffer>(256);
