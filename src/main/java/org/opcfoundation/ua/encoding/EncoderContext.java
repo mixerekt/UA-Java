@@ -136,8 +136,7 @@ public class EncoderContext {
             Class<? extends Structure> valueClass = null;
             for (int i = 0; i < n; i++)
                 if (newValue[i] != null) {
-                    Class<? extends Structure> newClass = newValue[i]
-                            .getClass();
+                    Class<? extends Structure> newClass = newValue[i].getClass();
                     if (valueClass == null)
                         valueClass = newClass;
                     else if (!newClass.isAssignableFrom(valueClass))
